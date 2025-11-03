@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # In che classe dovrei essere?
 
 ## Una web app per aiutare i docenti ad orientarsi durante le ore di lezione
@@ -8,6 +7,3 @@
 - [ ] Fase 3: Implementazione dell'ora successiva per il docente selezionato.
 - [ ] Fase 4: Implementazione del calendario giornaliero completo per il docente selezionato.
 - [ ] Fase 5: Implementazione del calendario settimanale completo per il docente selezionato.
-=======
-
->>>>>>> c4042bf9291ec53599b8873034de61f43c66eb64
