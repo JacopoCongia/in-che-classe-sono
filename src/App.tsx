@@ -107,22 +107,24 @@ function App() {
         <div>{/* ### IMPLEMENTARE CODICE PROSSIMA LEZIONE ### */}</div>
         <div
           id="schermata-calendario-giornaliero"
-          className="flex flex-col items-center justify-center py-[3em] text-center h-screen bg-sky-900 text-white gap-[1em] w-full"
+          className="flex flex-col items-center justify-center py-[3em] text-center min-h-screen bg-sky-900 text-white gap-[1em] w-full"
         >
           {/* Calendario Lezioni Giornaliere */}
-          <h1 className="text-[2.4rem] text-center uppercase leading-[1.1]">
+          <h1 className="text-[2.4rem] py-[1.5em] px-[1em] text-center uppercase leading-[1.1]">
             Le tue Lezioni di Oggi
           </h1>
           {lezioniDiOggiOrdinate?.map((lezione, index) => (
             <div
               key={index}
-              className="flex flex-col"
+              className={`flex flex-col items-center justify-center gap-[0.5em] ${
+                index % 2 === 0 ? "bg-sky-800/50" : "bg-emerald-700/50"
+              } py-[1em] rounded-[1em] w-[90%] max-w-[600px]`}
             >
-              <p className="text-[2rem]">{lezione.MATERIA}</p>
+              <p className="text-[1.5rem] px-[1em]">{lezione.MATERIA}</p>
               <p className="text-[1.5rem]">
                 {lezione.ORA_INIZIO} - {lezione.ORA_FINE}
               </p>
-              <p className="uppercase text-[2.5rem] bg-white text-sky-900 px-[1em] py-[0.2em] rounded-[0.5em]">
+              <p className="uppercase w-[200px] text-[2.5rem] bg-white text-sky-900 px-[1em] py-[0.2em] rounded-[0.5em]">
                 {lezione.CLASSE}
               </p>
             </div>
