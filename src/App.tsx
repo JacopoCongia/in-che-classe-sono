@@ -85,21 +85,32 @@ function App() {
               <p className="text-[3.75rem]">{oraFormattata}</p>
               <p className="text-[2.4rem]">di {giornoCorrente}</p>
             </div>
-            <p className="uppercase text-[1.3rem] mt-[1em]">
-              e dovresti essere in
-            </p>
-            <p className="uppercase text-[2.5rem] bg-white text-emerald-600 px-[1em] py-[0.2em] rounded-[0.5em]">
-              {classeCorrente ? classeCorrente : "Pausa"}
-            </p>
+            {docente ? (
+              <div>
+                <p className="uppercase text-[1.3rem] mt-[1em]">
+                  e dovresti essere in
+                </p>
+                <p className="uppercase text-[2.5rem] bg-white text-emerald-600 px-[1em] py-[0.2em] rounded-[0.5em]">
+                  {classeCorrente ? classeCorrente : "Pausa"}
+                </p>
+              </div>
+            ) : (
+              <button
+                className="px-5 py-3 bg-white rounded-[0.5em] uppercase text-emerald-600 hover:opacity-80 cursor-pointer max-w-[300px] text-[1.3rem]"
+                onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+              >
+                Seleziona il tuo nome per vedere la classe corrente
+              </button>
+            )}
           </div>
         </div>
         <div>{/* ### IMPLEMENTARE CODICE PROSSIMA LEZIONE ### */}</div>
         <div
           id="schermata-calendario-giornaliero"
-          className="flex flex-col items-center justify-center px-[2em] text-center h-screen bg-sky-900 text-white gap-[1em] w-full"
+          className="flex flex-col items-center justify-center py-[3em] text-center h-screen bg-sky-900 text-white gap-[1em] w-full"
         >
           {/* Calendario Lezioni Giornaliere */}
-          <h1 className="text-[2.4rem] text-center uppercase leading-[1.1] mb-[1em]">
+          <h1 className="text-[2.4rem] text-center uppercase leading-[1.1]">
             Le tue Lezioni di Oggi
           </h1>
           {lezioniDiOggiOrdinate?.map((lezione, index) => (
