@@ -26,6 +26,15 @@ function App() {
     return giorni[oraCorrente.getDay() as keyof typeof giorni];
   })();
 
+  // Definisci tutti gli slot orari possibili
+  const slotOrari = [
+    { ORA_INIZIO: "18:00", ORA_FINE: "18:50" },
+    { ORA_INIZIO: "18:50", ORA_FINE: "19:40" },
+    { ORA_INIZIO: "20:00", ORA_FINE: "20:50" },
+    { ORA_INIZIO: "20:50", ORA_FINE: "21:50" },
+    { ORA_INIZIO: "21:50", ORA_FINE: "22:40" },
+  ];
+
   // Trova la classe corrente in base all'insegnante, al giorno e all'ora
   const classeCorrente = dati_lezioni[docente]?.find((lezione) => {
     // Verifica se la lezione è nel giorno corrente
@@ -47,7 +56,7 @@ function App() {
 
   return (
     <>
-      <section className="flex flex-col items-center">
+      <section className="flex flex-col items-center bg-neutral-50">
         <div className="flex flex-col items-center justify-center px-[2em] py-[1em] gap-[2em] h-screen max-w-[380px]">
           {/* Header */}
           <h1 className="text-[2.2rem] text-center uppercase font-bold leading-[1.1]">
@@ -55,7 +64,7 @@ function App() {
           </h1>
           {/* Seleziona Insegnante */}
           <h2 className="text-[1.8rem]">CHI SEI?</h2>
-          <div className="flex flex-col gap-2 w-full">
+          <div className="flex flex-col gap-[1em] w-full">
             <SelezionaInsegnante
               onClick={setDocente}
               docente="Alemanno"
@@ -88,7 +97,7 @@ function App() {
             {docente ? (
               <div>
                 <p className="uppercase text-[1.3rem] mt-[1em]">
-                  e dovresti essere in
+                  {`e dovresti essere in`}
                 </p>
                 <p className="uppercase text-[2.5rem] bg-white text-emerald-600 px-[1em] py-[0.2em] rounded-[0.5em]">
                   {classeCorrente ? classeCorrente : "Pausa"}
@@ -96,10 +105,10 @@ function App() {
               </div>
             ) : (
               <button
-                className="px-5 py-3 bg-white rounded-[0.5em] uppercase text-emerald-600 hover:opacity-80 cursor-pointer max-w-[300px] text-[1.3rem]"
+                className="px-5 py-3 bg-[#C1292E] rounded-[0.5em] uppercase text-neutral-50 hover:opacity-80 cursor-pointer max-w-[300px] text-[1.3rem] shadow-[0_3px_0_0] shadow-[#4e191c]/70"
                 onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
               >
-                Seleziona il tuo nome per vedere la classe corrente
+                Scegli un docente
               </button>
             )}
           </div>
@@ -113,22 +122,44 @@ function App() {
           <h1 className="text-[2.4rem] py-[1.5em] px-[1em] text-center uppercase leading-[1.1]">
             Le tue Lezioni di Oggi
           </h1>
-          {lezioniDiOggiOrdinate?.map((lezione, index) => (
-            <div
-              key={index}
-              className={`flex flex-col items-center justify-center gap-[0.5em] ${
-                index % 2 === 0 ? "bg-sky-800/50" : "bg-emerald-700/50"
-              } py-[1em] rounded-[1em] w-[90%] max-w-[600px]`}
-            >
-              <p className="text-[1.5rem] px-[1em]">{lezione.MATERIA}</p>
-              <p className="text-[1.5rem]">
-                {lezione.ORA_INIZIO} - {lezione.ORA_FINE}
-              </p>
-              <p className="uppercase w-[200px] text-[2.5rem] bg-white text-sky-900 px-[1em] py-[0.2em] rounded-[0.5em]">
-                {lezione.CLASSE}
-              </p>
-            </div>
-          ))}
+          {/* Contenitore Orari */}
+          <div className="flex flex-col items-center justify-center gap-[1em] w-full pb-[3em]">
+            {slotOrari.map((slot, index) => {
+              const lezione = lezioniDiOggiOrdinate?.find(
+                (lez) =>
+                  lez.ORA_INIZIO === slot.ORA_INIZIO &&
+                  lez.ORA_FINE === slot.ORA_FINE
+              );
+              return lezione ? (
+                <div
+                  key={index}
+                  className={`flex flex-col items-center justify-center gap-[0.5em] ${
+                    index % 2 === 0 ? "bg-sky-800/50" : "bg-emerald-700/50"
+                  } py-[1em] rounded-[1em] w-[90%] max-w-[600px]`}
+                >
+                  <p className="text-[1.5rem] px-[1em]">{lezione.MATERIA}</p>
+                  <p className="text-[1.5rem]">
+                    {lezione.ORA_INIZIO} - {lezione.ORA_FINE}
+                  </p>
+                  <p className="uppercase w-[200px] text-[2.5rem] bg-white text-sky-900 px-[1em] py-[0.2em] rounded-[0.5em]">
+                    {lezione.CLASSE}
+                  </p>
+                </div>
+              ) : (
+                <div
+                  key={index}
+                  className={`flex flex-col items-center justify-center gap-[0.5em] border-2 border-dashed border-white/40 py-[1em] rounded-[1em] w-[90%] max-w-[600px] opacity-60`}
+                >
+                  <p className="text-[1.5rem] px-[1em] py-[1.2em] uppercase">
+                    Nessuna lezione
+                  </p>
+                  <p className="text-[1.5rem]">
+                    {slot.ORA_INIZIO} - {slot.ORA_FINE}
+                  </p>
+                </div>
+              );
+            })}
+          </div>
         </div>
       </section>
     </>

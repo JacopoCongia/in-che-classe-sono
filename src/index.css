@@ -4,3 +4,7 @@
 * {
   font-family: "Momo Trust Display", sans-serif;
 }
+
+html {
+  background: oklch(39.1% 0.09 240.876);
+}
