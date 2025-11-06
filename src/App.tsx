@@ -97,10 +97,18 @@ function App() {
             {docente ? (
               <div>
                 <p className="uppercase text-[1.3rem] mt-[1em]">
-                  {`e dovresti essere in`}
+                  {`e dovresti essere ${
+                    oraFormattata < "18:00" || oraFormattata > "22:40"
+                      ? "a"
+                      : "in"
+                  } `}
                 </p>
                 <p className="uppercase text-[2.5rem] bg-white text-emerald-600 px-[1em] py-[0.2em] rounded-[0.5em]">
-                  {classeCorrente ? classeCorrente : "Pausa"}
+                  {classeCorrente
+                    ? classeCorrente
+                    : oraFormattata < "18:00" || oraFormattata > "22:40"
+                    ? "Casa"
+                    : "Pausa"}
                 </p>
               </div>
             ) : (
