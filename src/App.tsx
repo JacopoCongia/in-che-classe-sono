@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import SelezionaInsegnante from "./components/SelezionaInsegnante";
 
 import { formatTime } from "../utils";
+import OrariGiornalieri from "./components/OrariGiornalieri.tsx";
 
 function App() {
   const [docente, setDocente] = useState("");
@@ -62,11 +63,12 @@ function App() {
   return (
     <>
       <section className="flex flex-col items-center bg-neutral-50">
-        <div className="flex flex-col items-center justify-center px-[2em] py-[4em] gap-[2em] min-h-screen max-w-[380px]">
+        <div className="flex items-center flex-col justify-center py-[4em] gap-[2em] min-h-screen max-w-[300px]">
           {/* Header */}
-          <h1 className="text-[2.2rem] text-center uppercase font-bold leading-[1.1]">
-            Benvenuto al <span className="text-[2.66rem]">tuo orario</span>{" "}
-          </h1>
+          <div className="text-center uppercase font-bold leading-[0.96]">
+            <h1 className="text-[2.2rem]">Benvenuto al</h1>
+            <h1 className="text-[2.71rem]">tuo orario</h1>
+          </div>
           {/* Seleziona Insegnante */}
           <h2 className="text-[1.8rem]">CHI SEI?</h2>
           <div className="flex flex-col gap-[1em] w-full">
@@ -124,8 +126,8 @@ function App() {
                   {classeCorrente
                     ? classeCorrente
                     : oraFormattata < "18:00" || oraFormattata > "22:40"
-                    ? "Casa"
-                    : "Pausa"}
+                      ? "Casa"
+                      : "Pausa"}
                 </p>
               </div>
             ) : (
@@ -139,53 +141,10 @@ function App() {
           </div>
         </div>
         <div>{/* ### IMPLEMENTARE CODICE PROSSIMA LEZIONE ### */}</div>
-        <div
-          id="schermata-calendario-giornaliero"
-          className="flex flex-col items-center justify-center py-[3em] text-center min-h-screen bg-sky-900 text-white gap-[1em] w-full"
-        >
-          {/* Calendario Lezioni Giornaliere */}
-          <h1 className="text-[2.4rem] py-[1.5em] px-[1em] text-center uppercase leading-[1.1]">
-            Le tue Lezioni di Oggi
-          </h1>
-          {/* Contenitore Orari */}
-          <div className="flex flex-col items-center justify-center gap-[1em] w-full pb-[3em]">
-            {slotOrari.map((slot, index) => {
-              const lezione = lezioniDiOggiOrdinate?.find(
-                (lez) =>
-                  lez.ORA_INIZIO === slot.ORA_INIZIO &&
-                  lez.ORA_FINE === slot.ORA_FINE
-              );
-              return lezione ? (
-                <div
-                  key={index}
-                  className={`flex flex-col items-center justify-center gap-[0.5em] ${
-                    index % 2 === 0 ? "bg-sky-800/50" : "bg-emerald-700/50"
-                  } py-[1em] rounded-[1em] w-[90%] max-w-[600px]`}
-                >
-                  <p className="text-[1.5rem] px-[1em]">{lezione.MATERIA}</p>
-                  <p className="text-[1.5rem]">
-                    {lezione.ORA_INIZIO} - {lezione.ORA_FINE}
-                  </p>
-                  <p className="uppercase w-[200px] text-[2.5rem] bg-white text-sky-900 px-[1em] py-[0.2em] rounded-[0.5em]">
-                    {lezione.CLASSE}
-                  </p>
-                </div>
-              ) : (
-                <div
-                  key={index}
-                  className={`flex flex-col items-center justify-center gap-[0.5em] border-2 border-dashed border-white/40 py-[1em] rounded-[1em] w-[90%] max-w-[600px] opacity-60`}
-                >
-                  <p className="text-[1.5rem] px-[1em] py-[1.2em] uppercase">
-                    Nessuna lezione
-                  </p>
-                  <p className="text-[1.5rem]">
-                    {slot.ORA_INIZIO} - {slot.ORA_FINE}
-                  </p>
-                </div>
-              );
-            })}
-          </div>
-        </div>
+        <OrariGiornalieri
+          lezioniDiOggiOrdinate={lezioniDiOggiOrdinate}
+          slotOrari={slotOrari}
+        />
       </section>
     </>
   );
