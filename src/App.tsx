@@ -1,15 +1,20 @@
-import { data as dati_lezioni } from "../data";
-import { useState } from "react";
+import { data as dati_lezioni } from "../data.ts";
+import { useState, useEffect } from "react";
 import SelezionaInsegnante from "./components/SelezionaInsegnante";
 
 import { formatTime } from "../utils";
 
 function App() {
   const [docente, setDocente] = useState("");
+  const [oraCorrente, setOraCorrente] = useState(new Date());
 
-  const oraCorrente = new Date();
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setOraCorrente(new Date());
+    }, 1000 * 60); // update every minute
+    return () => clearInterval(timer);
+  }, []);
 
-  // Trasforma la data in formato HH:MM (in modo da confrontarla con i dati, in formato stringa)
   const oraFormattata = formatTime(oraCorrente);
 
   // Ottieni il giorno corrente in formato stringa
@@ -57,7 +62,7 @@ function App() {
   return (
     <>
       <section className="flex flex-col items-center bg-neutral-50">
-        <div className="flex flex-col items-center justify-center px-[2em] py-[1em] gap-[2em] h-screen max-w-[380px]">
+        <div className="flex flex-col items-center justify-center px-[2em] py-[4em] gap-[2em] min-h-screen max-w-[380px]">
           {/* Header */}
           <h1 className="text-[2.2rem] text-center uppercase font-bold leading-[1.1]">
             Benvenuto al <span className="text-[2.66rem]">tuo orario</span>{" "}
@@ -75,6 +80,18 @@ function App() {
             />
             <SelezionaInsegnante
               onClick={setDocente}
+              docente="Fezza"
+            />
+            <SelezionaInsegnante
+              onClick={setDocente}
+              docente="Morossi"
+            />
+            <SelezionaInsegnante
+              onClick={setDocente}
+              docente="Prencipe"
+            />
+            <SelezionaInsegnante
+              onClick={setDocente}
               docente="Rossi"
             />
           </div>
@@ -82,7 +99,7 @@ function App() {
         {/* Schermata Orario */}
         <div
           id="schermata-orario"
-          className="flex flex-col items-center justify-center px-[2em] text-center h-screen bg-emerald-600 text-white gap-[1em] w-full"
+          className="flex flex-col items-center justify-center px-[2em] py-[4em] text-center min-h-screen bg-emerald-600 text-white gap-[1em] w-full"
         >
           <div className="text-[2.2rem] flex flex-col">
             <div className="flex flex-col">
@@ -113,7 +130,7 @@ function App() {
               </div>
             ) : (
               <button
-                className="px-5 py-3 bg-[#C1292E] rounded-[0.5em] uppercase text-neutral-50 hover:opacity-80 cursor-pointer max-w-[300px] text-[1.3rem] shadow-[0_3px_0_0] shadow-[#4e191c]/70"
+                className="px-5 py-3 bg-[#C1292E] rounded-[0.5em] uppercase text-neutral-50 hover:opacity-80 cursor-pointer max-w-[300px] text-[1.3rem] shadow-[0_3px_0_0] shadow-[#4e191c]/70 active:translate-y-0.5 active:shadow-none active:bg-[#9f1c1f] select-none"
                 onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
               >
                 Scegli un docente
