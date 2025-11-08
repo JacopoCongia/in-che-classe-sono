@@ -1,5 +1,6 @@
 import { data as dati_lezioni } from "../data.ts";
 import { useState, useEffect } from "react";
+
 import SelezionaInsegnante from "./components/SelezionaInsegnante";
 
 import { formatTime } from "../utils";
@@ -101,7 +102,7 @@ function App() {
         {/* Schermata Orario */}
         <div
           id="schermata-orario"
-          className="flex flex-col items-center justify-center px-[2em] py-[4em] text-center min-h-screen bg-emerald-600 text-white gap-[1em] w-full"
+          className="flex flex-col items-center justify-center relative px-[2em] py-[4em] text-center min-h-screen bg-emerald-600 text-white gap-[1em] w-full"
         >
           <div className="text-[2.2rem] flex flex-col">
             <div className="flex flex-col">
@@ -139,6 +140,26 @@ function App() {
               </button>
             )}
           </div>
+          {/* Arrow Down Icon */}
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            height="80px"
+            viewBox="0 0 24 24"
+            width="80px"
+            fill="currentColor"
+            className="absolute bottom-[1em] w-20 animate-bounce cursor-pointer hover:opacity-80"
+            onClick={() =>
+              document
+                .getElementById("schermata-calendario-giornaliero")
+                ?.scrollIntoView({ behavior: "smooth" })
+            }
+          >
+            <path
+              d="M0 0h24v24H0V0z"
+              fill="none"
+            />
+            <path d="M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z" />
+          </svg>
         </div>
         <div>{/* ### IMPLEMENTARE CODICE PROSSIMA LEZIONE ### */}</div>
         <OrariGiornalieri
