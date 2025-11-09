@@ -13,7 +13,7 @@ function App() {
   useEffect(() => {
     const timer = setInterval(() => {
       setOraCorrente(new Date());
-    }, 1000 * 60); // update every minute
+    }, 1000 * 60); // Aggiorna ogni minuto
     return () => clearInterval(timer);
   }, []);
 
@@ -102,28 +102,30 @@ function App() {
         {/* Schermata Orario */}
         <div
           id="schermata-orario"
-          className="flex flex-col items-center justify-center relative px-[2em] py-[4em] text-center min-h-screen bg-emerald-600 text-white gap-[1em] w-full"
+          className="flex flex-col items-center justify-center relative py-[4em] px-[2em] text-center min-h-screen bg-emerald-600 text-white gap-[1em] w-full"
         >
-          <div className="text-[2.2rem] flex flex-col">
+          <div className="flex flex-col gap-[3.5em]">
             <div className="flex flex-col">
-              <p className="text-[3rem] leading-[0.7]">CIAO</p>
-              {docente && <p className="text-[2.8rem]">{docente}!</p>}
+              <p className="text-[4rem] leading-[0.8]">CIAO</p>
+              {docente && <p className="text-[2.1rem] uppercase">{docente}!</p>}
             </div>
-            <div className="flex flex-col leading-[1.1] my-[1em]">
-              <p className="text-[2.9rem]">Sono le </p>
-              <p className="text-[3.75rem]">{oraFormattata}</p>
-              <p className="text-[2.4rem]">di {giornoCorrente}</p>
+            <div className="flex flex-col leading-[0.9]">
+              <p className="text-[3rem]">SONO LE</p>
+              <p className="text-[4.7rem]">{oraFormattata}</p>
+              <p className="text-[1.88rem] uppercase mt-[0.1em]">
+                di {giornoCorrente}
+              </p>
             </div>
             {docente ? (
-              <div>
-                <p className="uppercase text-[1.3rem] mt-[1em]">
+              <div className="flex flex-col items-center">
+                <p className="uppercase text-[1.3rem]">
                   {`e dovresti essere ${
                     oraFormattata < "18:00" || oraFormattata > "22:40"
                       ? "a"
                       : "in"
                   } `}
                 </p>
-                <p className="uppercase text-[2.5rem] bg-white text-emerald-600 px-[1em] py-[0.2em] rounded-[0.5em]">
+                <p className="uppercase text-[2.5rem] w-[250px] bg-white text-emerald-600 px-[1em] py-[0.2em] rounded-[0.5em]">
                   {classeCorrente
                     ? classeCorrente
                     : oraFormattata < "18:00" || oraFormattata > "22:40"

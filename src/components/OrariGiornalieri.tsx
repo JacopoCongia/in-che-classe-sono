@@ -14,11 +14,11 @@ function OrariGiornalieri({
     >
       {/* Calendario Lezioni Giornaliere */}
       <div className="leading-[0.96] pb-[2em]">
-        <h1 className="text-[2.92rem] text-center uppercase">Le tue</h1>
-        <h1 className="text-[2.47rem] text-center text-emerald-400 uppercase">
+        <h1 className="text-[3.50rem] text-center uppercase">Le tue</h1>
+        <h1 className="text-[2.97rem] text-center text-emerald-400 uppercase">
           Lezioni
         </h1>
-        <h1 className="text-[2.5rem] text-center uppercase">di Oggi</h1>
+        <h1 className="text-[3.04rem] text-center uppercase">di Oggi</h1>
       </div>
       {/* Contenitore Orari */}
       <div className="flex flex-col items-center justify-center gap-[1em] w-full pb-[3em]">
@@ -33,10 +33,12 @@ function OrariGiornalieri({
               key={index}
               className={`flex flex-col items-center justify-center gap-[0.5em] ${
                 index % 2 === 0 ? "bg-sky-800/50" : "bg-emerald-700/50"
-              } py-[1em] rounded-[1em] w-[90%] max-w-[600px]`}
+              } py-[1.6em] rounded-[1em] w-[80%] max-w-[600px]`}
             >
-              <p className="text-[1.5rem] px-[1em]">{lezione.MATERIA}</p>
-              <p className="text-[1.5rem]">
+              <p className="text-[1.5rem] px-[1em] uppercase">
+                {lezione.MATERIA}
+              </p>
+              <p className="text-[1.6rem]">
                 {lezione.ORA_INIZIO} - {lezione.ORA_FINE}
               </p>
               <p className="uppercase w-[200px] text-[2.5rem] bg-white text-sky-900 px-[1em] py-[0.2em] rounded-[0.5em]">
@@ -46,9 +48,9 @@ function OrariGiornalieri({
           ) : (
             <div
               key={index}
-              className={`flex flex-col items-center justify-center gap-[0.5em] border-2 border-dashed border-white/40 py-[1em] rounded-[1em] w-[90%] max-w-[600px] opacity-60`}
+              className={`flex flex-col items-center justify-center gap-[0.5em] py-[1.6em] border-2 border-dashed border-white/40 rounded-[1em] w-[80%] max-w-[600px] opacity-60`}
             >
-              <p className="text-[1.5rem] px-[1em] py-[1.2em] uppercase">
+              <p className="text-[1.5rem] px-[1em] uppercase">
                 Nessuna lezione
               </p>
               <p className="text-[1.5rem]">
