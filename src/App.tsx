@@ -2,6 +2,7 @@ import { data as dati_lezioni } from "../data.ts";
 import { useState, useEffect } from "react";
 
 import SelezionaInsegnante from "./components/SelezionaInsegnante";
+import OrarioCorrente from "./components/OrarioCorrente.tsx";
 
 import { formatTime } from "../utils";
 import OrariGiornalieri from "./components/OrariGiornalieri.tsx";
@@ -19,17 +20,28 @@ function App() {
 
   const oraFormattata = formatTime(oraCorrente);
 
+  const giorni = {
+    0: "Domenica",
+    1: "Lunedì",
+    2: "Martedì",
+    3: "Mercoledì",
+    4: "Giovedì",
+    5: "Venerdì",
+    6: "Sabato",
+  };
+
+  // Ottieni la lista degli insegnanti disponibili dai dati e crea i relativi elementi
+  // const insegnanti = Object.keys(dati_lezioni);
+  // const insegnantiEl = insegnanti.map((insegnante) => (
+  //   <SelezionaInsegnante
+  //     key={insegnante}
+  //     onClick={setDocente}
+  //     docente={insegnante}
+  //   />
+  // ));
+
   // Ottieni il giorno corrente in formato stringa
   const giornoCorrente = (() => {
-    const giorni = {
-      0: "Domenica",
-      1: "Lunedì",
-      2: "Martedì",
-      3: "Mercoledì",
-      4: "Giovedì",
-      5: "Venerdì",
-      6: "Sabato",
-    };
     return giorni[oraCorrente.getDay() as keyof typeof giorni];
   })();
 
@@ -42,6 +54,12 @@ function App() {
     { ORA_INIZIO: "21:50", ORA_FINE: "22:40" },
   ];
 
+  // Calcola ieri e domani
+  // const ieri =
+  //   giorni[((oraCorrente.getDay() - 1 + 7) % 7) as keyof typeof giorni];
+  // const domani =
+  //   giorni[((oraCorrente.getDay() + 1) % 7) as keyof typeof giorni];
+
   // Trova la classe corrente in base all'insegnante, al giorno e all'ora
   const classeCorrente = dati_lezioni[docente]?.find((lezione) => {
     // Verifica se la lezione è nel giorno corrente
@@ -53,13 +71,29 @@ function App() {
   })?.CLASSE;
 
   // Trova tutte le lezioni di oggi per l'insegnante selezionato
-  const lezioniDiOggi = dati_lezioni[docente]?.filter((lezione) => {
-    return lezione.GIORNO === giornoCorrente;
-  });
-
-  const lezioniDiOggiOrdinate = lezioniDiOggi?.sort((a, b) => {
-    return a.ORA_INIZIO.localeCompare(b.ORA_INIZIO);
-  });
+  const lezioniDiOggi = dati_lezioni[docente]
+    ?.filter((lezione) => {
+      return lezione.GIORNO === giornoCorrente;
+    })
+    ?.sort((a, b) => {
+      return a.ORA_INIZIO.localeCompare(b.ORA_INIZIO);
+    });
+  // Trova tutte le lezioni di domani per l'insegnante selezionato
+  // const lezioniDiDomani = dati_lezioni[docente]
+  //   ?.filter((lezione) => {
+  //     return lezione.GIORNO === domani;
+  //   })
+  //   ?.sort((a, b) => {
+  //     return a.ORA_INIZIO.localeCompare(b.ORA_INIZIO);
+  //   });
+  // Trova tutte le lezioni di ieri per l'insegnante selezionato
+  // const lezioniDiIeri = dati_lezioni[docente]
+  //   ?.filter((lezione) => {
+  //     return lezione.GIORNO === ieri;
+  //   })
+  //   ?.sort((a, b) => {
+  //     return a.ORA_INIZIO.localeCompare(b.ORA_INIZIO);
+  //   });
 
   return (
     <>
@@ -97,75 +131,24 @@ function App() {
               onClick={setDocente}
               docente="Rossi"
             />
-          </div>
-        </div>
-        {/* Schermata Orario */}
-        <div
-          id="schermata-orario"
-          className="flex flex-col items-center justify-center relative py-[4em] px-[2em] text-center min-h-screen bg-emerald-600 text-white gap-[1em] w-full"
-        >
-          <div className="flex flex-col gap-[3.5em]">
-            <div className="flex flex-col">
-              <p className="text-[4rem] leading-[0.8]">CIAO</p>
-              {docente && <p className="text-[2.1rem] uppercase">{docente}!</p>}
-            </div>
-            <div className="flex flex-col leading-[0.9]">
-              <p className="text-[3rem]">SONO LE</p>
-              <p className="text-[4.7rem]">{oraFormattata}</p>
-              <p className="text-[1.88rem] uppercase mt-[0.1em]">
-                di {giornoCorrente}
-              </p>
-            </div>
-            {docente ? (
-              <div className="flex flex-col items-center">
-                <p className="uppercase text-[1.3rem]">
-                  {`e dovresti essere ${
-                    oraFormattata < "18:00" || oraFormattata > "22:40"
-                      ? "a"
-                      : "in"
-                  } `}
-                </p>
-                <p className="uppercase text-[2.5rem] w-[250px] bg-white text-emerald-600 px-[1em] py-[0.2em] rounded-[0.5em]">
-                  {classeCorrente
-                    ? classeCorrente
-                    : oraFormattata < "18:00" || oraFormattata > "22:40"
-                      ? "Casa"
-                      : "Pausa"}
-                </p>
-              </div>
-            ) : (
-              <button
-                className="px-5 py-3 bg-[#C1292E] rounded-[0.5em] uppercase text-neutral-50 hover:opacity-80 cursor-pointer max-w-[300px] text-[1.3rem] shadow-[0_3px_0_0] shadow-[#4e191c]/70 active:translate-y-0.5 active:shadow-none active:bg-[#9f1c1f] select-none"
-                onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-              >
-                Scegli un docente
-              </button>
-            )}
-          </div>
-          {/* Arrow Down Icon */}
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            height="80px"
-            viewBox="0 0 24 24"
-            width="80px"
-            fill="currentColor"
-            className="absolute bottom-[1em] w-20 animate-bounce cursor-pointer hover:opacity-80"
-            onClick={() =>
-              document
-                .getElementById("schermata-calendario-giornaliero")
-                ?.scrollIntoView({ behavior: "smooth" })
-            }
-          >
-            <path
-              d="M0 0h24v24H0V0z"
-              fill="none"
+            <SelezionaInsegnante
+              onClick={setDocente}
+              docente="Saracino"
             />
-            <path d="M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z" />
-          </svg>
+          </div>
         </div>
+        {/* Schermata Orario Corrente */}
+        <OrarioCorrente
+          docente={docente}
+          oraFormattata={oraFormattata}
+          giornoCorrente={giornoCorrente}
+          classeCorrente={classeCorrente}
+        />
         <div>{/* ### IMPLEMENTARE CODICE PROSSIMA LEZIONE ### */}</div>
+        {/* Schermata Orari Giornate */}
         <OrariGiornalieri
-          lezioniDiOggiOrdinate={lezioniDiOggiOrdinate}
+          oraFormattata={oraFormattata}
+          lezioniDiOggi={lezioniDiOggi}
           slotOrari={slotOrari}
         />
       </section>

@@ -1,12 +1,15 @@
 import type { Lesson } from "../types";
 
 function OrariGiornalieri({
-  lezioniDiOggiOrdinate,
+  oraFormattata,
+  lezioniDiOggi,
   slotOrari,
 }: {
-  lezioniDiOggiOrdinate: Lesson[] | undefined;
+  oraFormattata: string;
+  lezioniDiOggi: Lesson[] | undefined;
   slotOrari: { ORA_INIZIO: string; ORA_FINE: string }[];
 }) {
+  console.log(slotOrari);
   return (
     <div
       id="schermata-calendario-giornaliero"
@@ -23,7 +26,7 @@ function OrariGiornalieri({
       {/* Contenitore Orari */}
       <div className="flex flex-col items-center justify-center gap-[1em] w-full pb-[3em]">
         {slotOrari.map((slot, index) => {
-          const lezione = lezioniDiOggiOrdinate?.find(
+          const lezione = lezioniDiOggi?.find(
             (lez) =>
               lez.ORA_INIZIO === slot.ORA_INIZIO &&
               lez.ORA_FINE === slot.ORA_FINE
@@ -31,17 +34,20 @@ function OrariGiornalieri({
           return lezione ? (
             <div
               key={index}
-              className={`flex flex-col items-center justify-center gap-[0.5em] ${
-                index % 2 === 0 ? "bg-sky-800/50" : "bg-emerald-700/50"
-              } py-[1.6em] rounded-[1em] w-[80%] max-w-[600px]`}
+              className={`flex flex-col items-center justify-center gap-[0.5em] ${oraFormattata >= slot.ORA_INIZIO && oraFormattata <= slot.ORA_FINE ? "bg-emerald-700" : "bg-sky-800/50"} py-[1.6em] rounded-[1em] w-[80%] max-w-[600px]`}
             >
-              <p className="text-[1.5rem] px-[1em] uppercase">
+              {/* Materia */}
+              <p className="text-[1.2rem] px-[1em] uppercase">
                 {lezione.MATERIA}
               </p>
-              <p className="text-[1.6rem]">
+              {/* Orario */}
+              <p className="text-[1.5rem]">
                 {lezione.ORA_INIZIO} - {lezione.ORA_FINE}
               </p>
-              <p className="uppercase w-[200px] text-[2.5rem] bg-white text-sky-900 px-[1em] py-[0.2em] rounded-[0.5em]">
+              {/* Classe */}
+              <p
+                className={`uppercase w-[200px] text-[2.1rem] mt-[0.2em] text-sky-900 bg-white 0 px-[1em] py-[0.2em] rounded-[0.5em] shadow-[0_4px_0_0] ${oraFormattata >= slot.ORA_INIZIO && oraFormattata <= slot.ORA_FINE ? "shadow-sky-900" : "shadow-emerald-500/80"}`}
+              >
                 {lezione.CLASSE}
               </p>
             </div>
@@ -50,9 +56,11 @@ function OrariGiornalieri({
               key={index}
               className={`flex flex-col items-center justify-center gap-[0.5em] py-[1.6em] border-2 border-dashed border-white/40 rounded-[1em] w-[80%] max-w-[600px] opacity-60`}
             >
-              <p className="text-[1.5rem] px-[1em] uppercase">
+              {/* Nessuna Lezione */}
+              <p className="text-[1.2rem] px-[1em] uppercase">
                 Nessuna lezione
               </p>
+              {/* Orario */}
               <p className="text-[1.5rem]">
                 {slot.ORA_INIZIO} - {slot.ORA_FINE}
               </p>
