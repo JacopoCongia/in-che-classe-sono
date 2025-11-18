@@ -1,6 +1,6 @@
 import { data as dati_lezioni } from "../data.ts";
 import { useState, useEffect } from "react";
-import { AutoTextSize } from "auto-text-size";
+import BoxOfText from "./components/BoxOfText.tsx";
 
 import SelezionaInsegnante from "./components/SelezionaInsegnante";
 import OrarioCorrente from "./components/OrarioCorrente.tsx";
@@ -101,64 +101,55 @@ function App() {
       <section className="flex flex-col items-center bg-[#FDF8E1]">
         <div className="flex items-center flex-col justify-center py-[4em] gap-[2em] min-h-screen max-w-[300px]">
           {/* Header */}
-          <div className="text-center uppercase text-[#3D2B1F] font-bold leading-[0.96] w-[300px]">
-            <div>
-              <AutoTextSize
-                mode="oneline"
-                minFontSizePx={10}
-                maxFontSizePx={120}
-              >
-                <h1>Benvenuto al</h1>
-              </AutoTextSize>
-            </div>
-            <div>
-              <AutoTextSize
-                mode="oneline"
-                minFontSizePx={10}
-                maxFontSizePx={120}
-              >
-                <h1 className="text-[#C65D1E]">tuo orario</h1>
-              </AutoTextSize>
-            </div>
-            <div className="mt-[2em]">
-              <AutoTextSize
-                mode="oneline"
-                minFontSizePx={10}
-                maxFontSizePx={120}
-              >
-                <h1>chi sei?</h1>
-              </AutoTextSize>
-            </div>
+          <div className="text-[#3D2B1F]">
+            <BoxOfText
+              texts={[
+                {
+                  line: "benvenuto al",
+                },
+                {
+                  line: "tuo orario",
+                  color: "#C65D1E",
+                },
+              ]}
+              boxWidth={300}
+              bold
+            />
+            <BoxOfText
+              texts={[{ line: "chi sei?", marginTop: "2em" }]}
+              boxWidth={300}
+              bold
+            />
           </div>
           {/* Seleziona Insegnante */}
           <div className="flex flex-col gap-[1em] w-full">
             <SelezionaInsegnante
               onClick={setDocente}
-              docente="Alemanno"
+              docente="alemanno_giancarlo"
             />
             <SelezionaInsegnante
               onClick={setDocente}
-              docente="Chiocchetti"
+              docente="chiocchetti_gudrun"
             />
             <SelezionaInsegnante
               onClick={setDocente}
-              docente="Fezza"
+              docente="fezza_antonio"
             />
             <SelezionaInsegnante
               onClick={setDocente}
-              docente="Morossi"
+              docente="morossi_paola"
             />
             <SelezionaInsegnante
               onClick={setDocente}
-              docente="Prencipe"
+              docente="prencipe_francesco"
             />
             <SelezionaInsegnante
               onClick={setDocente}
-              docente="Rossi"
+              docente="rossi_alessandro"
             />
             <SelezionaInsegnante
               onClick={setDocente}
-              docente="Saracino"
+              docente="saracino_luigi"
             />
           </div>
         </div>
