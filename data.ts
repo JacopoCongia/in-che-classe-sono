@@ -1,7 +1,7 @@
 import type { TeacherSchedule } from "./src/types";
 
 export const data: TeacherSchedule = {
-  Alemanno: [
+  alemanno_giancarlo: [
     {
       MATERIA: "Informatica",
       CLASSE: "3AIS",
@@ -108,30 +108,30 @@ export const data: TeacherSchedule = {
       ORA_FINE: "19:40",
     },
   ],
-  Cammarota: [
-    {
-      MATERIA: "Scienze della Terra e Biologia",
-      CLASSE: "1AS",
-      GIORNO: "Mercoledì",
-      ORA_INIZIO: "18:00",
-      ORA_FINE: "18:50",
-    },
-    {
-      MATERIA: "Scienze della Terra e Biologia",
-      CLASSE: "1AS",
-      GIORNO: "Giovedì",
-      ORA_INIZIO: "18:00",
-      ORA_FINE: "18:50",
-    },
-    {
-      MATERIA: "Scienze della Terra e Biologia",
-      CLASSE: "1AS",
-      GIORNO: "Giovedì",
-      ORA_INIZIO: "18:50",
-      ORA_FINE: "19:40",
-    },
-  ],
-  Canino: [
+  // Cammarota: [
+  //   {
+  //     MATERIA: "Scienze della Terra e Biologia",
+  //     CLASSE: "1AS",
+  //     GIORNO: "Mercoledì",
+  //     ORA_INIZIO: "18:00",
+  //     ORA_FINE: "18:50",
+  //   },
+  //   {
+  //     MATERIA: "Scienze della Terra e Biologia",
+  //     CLASSE: "1AS",
+  //     GIORNO: "Giovedì",
+  //     ORA_INIZIO: "18:00",
+  //     ORA_FINE: "18:50",
+  //   },
+  //   {
+  //     MATERIA: "Scienze della Terra e Biologia",
+  //     CLASSE: "1AS",
+  //     GIORNO: "Giovedì",
+  //     ORA_INIZIO: "18:50",
+  //     ORA_FINE: "19:40",
+  //   },
+  // ],
+  canino_massimo: [
     {
       MATERIA: "Matematica",
       CLASSE: "1AS",
@@ -259,86 +259,86 @@ export const data: TeacherSchedule = {
       ORA_FINE: "19:40",
     },
   ],
-  Casillo: [
-    {
-      MATERIA: "Scienze Integrate - Chimica",
-      CLASSE: "1AS",
-      GIORNO: "Mercoledì",
-      ORA_INIZIO: "18:50",
-      ORA_FINE: "19:40",
-    },
-    {
-      MATERIA: "Chimica Analitica e Strumentale",
-      CLASSE: "4ACS",
-      GIORNO: "Lunedì",
-      ORA_INIZIO: "20:00",
-      ORA_FINE: "20:50",
-    },
-    {
-      MATERIA: "Chimica Analitica e Strumentale",
-      CLASSE: "4ACS",
-      GIORNO: "Martedì",
-      ORA_INIZIO: "20:50",
-      ORA_FINE: "21:50",
-    },
-    {
-      MATERIA: "Chimica Analitica e Strumentale",
-      CLASSE: "4ACS",
-      GIORNO: "Martedì",
-      ORA_INIZIO: "21:50",
-      ORA_FINE: "22:40",
-    },
-    {
-      MATERIA: "Chimica Organica e Biochimica",
-      CLASSE: "4ACS",
-      GIORNO: "Mercoledì",
-      ORA_INIZIO: "20:50",
-      ORA_FINE: "21:50",
-    },
-    {
-      MATERIA: "Chimica Organica e Biochimica",
-      CLASSE: "4ACS",
-      GIORNO: "Mercoledì",
-      ORA_INIZIO: "21:50",
-      ORA_FINE: "22:40",
-    },
-    {
-      MATERIA: "Chimica Analitica e Strumentale",
-      CLASSE: "5ACS",
-      GIORNO: "Lunedì",
-      ORA_INIZIO: "20:50",
-      ORA_FINE: "21:50",
-    },
-    {
-      MATERIA: "Chimica Analitica e Strumentale",
-      CLASSE: "5ACS",
-      GIORNO: "Lunedì",
-      ORA_INIZIO: "21:50",
-      ORA_FINE: "22:40",
-    },
-    {
-      MATERIA: "Chimica Analitica e Strumentale",
-      CLASSE: "5ACS",
-      GIORNO: "Martedì",
-      ORA_INIZIO: "20:00",
-      ORA_FINE: "20:50",
-    },
-    {
-      MATERIA: "Chimica Analitica e Strumentale",
-      CLASSE: "5ACS",
-      GIORNO: "Mercoledì",
-      ORA_INIZIO: "20:00",
-      ORA_FINE: "20:50",
-    },
-    {
-      MATERIA: "Chimica Organica e Biochimica",
-      CLASSE: "5ACS",
-      GIORNO: "Venerdì",
-      ORA_INIZIO: "18:00",
-      ORA_FINE: "18:50",
-    },
-  ],
-  Chiocchetti: [
+  // Casillo: [
+  //   {
+  //     MATERIA: "Scienze Integrate - Chimica",
+  //     CLASSE: "1AS",
+  //     GIORNO: "Mercoledì",
+  //     ORA_INIZIO: "18:50",
+  //     ORA_FINE: "19:40",
+  //   },
+  //   {
+  //     MATERIA: "Chimica Analitica e Strumentale",
+  //     CLASSE: "4ACS",
+  //     GIORNO: "Lunedì",
+  //     ORA_INIZIO: "20:00",
+  //     ORA_FINE: "20:50",
+  //   },
+  //   {
+  //     MATERIA: "Chimica Analitica e Strumentale",
+  //     CLASSE: "4ACS",
+  //     GIORNO: "Martedì",
+  //     ORA_INIZIO: "20:50",
+  //     ORA_FINE: "21:50",
+  //   },
+  //   {
+  //     MATERIA: "Chimica Analitica e Strumentale",
+  //     CLASSE: "4ACS",
+  //     GIORNO: "Martedì",
+  //     ORA_INIZIO: "21:50",
+  //     ORA_FINE: "22:40",
+  //   },
+  //   {
+  //     MATERIA: "Chimica Organica e Biochimica",
+  //     CLASSE: "4ACS",
+  //     GIORNO: "Mercoledì",
+  //     ORA_INIZIO: "20:50",
+  //     ORA_FINE: "21:50",
+  //   },
+  //   {
+  //     MATERIA: "Chimica Organica e Biochimica",
+  //     CLASSE: "4ACS",
+  //     GIORNO: "Mercoledì",
+  //     ORA_INIZIO: "21:50",
+  //     ORA_FINE: "22:40",
+  //   },
+  //   {
+  //     MATERIA: "Chimica Analitica e Strumentale",
+  //     CLASSE: "5ACS",
+  //     GIORNO: "Lunedì",
+  //     ORA_INIZIO: "20:50",
+  //     ORA_FINE: "21:50",
+  //   },
+  //   {
+  //     MATERIA: "Chimica Analitica e Strumentale",
+  //     CLASSE: "5ACS",
+  //     GIORNO: "Lunedì",
+  //     ORA_INIZIO: "21:50",
+  //     ORA_FINE: "22:40",
+  //   },
+  //   {
+  //     MATERIA: "Chimica Analitica e Strumentale",
+  //     CLASSE: "5ACS",
+  //     GIORNO: "Martedì",
+  //     ORA_INIZIO: "20:00",
+  //     ORA_FINE: "20:50",
+  //   },
+  //   {
+  //     MATERIA: "Chimica Analitica e Strumentale",
+  //     CLASSE: "5ACS",
+  //     GIORNO: "Mercoledì",
+  //     ORA_INIZIO: "20:00",
+  //     ORA_FINE: "20:50",
+  //   },
+  //   {
+  //     MATERIA: "Chimica Organica e Biochimica",
+  //     CLASSE: "5ACS",
+  //     GIORNO: "Venerdì",
+  //     ORA_INIZIO: "18:00",
+  //     ORA_FINE: "18:50",
+  //   },
+  // ],
+  chiocchetti_gudrun: [
     {
       MATERIA: "Inglese",
       CLASSE: "1AS",
@@ -452,106 +452,106 @@ export const data: TeacherSchedule = {
       ORA_FINE: "20:50",
     },
   ],
-  Cimini: [
-    {
-      MATERIA: "Telecomunicazioni",
-      CLASSE: "3AIS",
-      GIORNO: "Martedì",
-      ORA_INIZIO: "18:00",
-      ORA_FINE: "18:50",
-    },
-    {
-      MATERIA: "Telecomunicazioni",
-      CLASSE: "3AIS",
-      GIORNO: "Martedì",
-      ORA_INIZIO: "18:50",
-      ORA_FINE: "19:40",
-    },
-  ],
-  Colavitto: [
-    {
-      MATERIA: "Scienze Integrate - Fisica",
-      CLASSE: "1AS",
-      GIORNO: "Martedì",
-      ORA_INIZIO: "18:00",
-      ORA_FINE: "18:50",
-    },
-    {
-      MATERIA: "Scienze Integrate - Fisica",
-      CLASSE: "1AS",
-      GIORNO: "Martedì",
-      ORA_INIZIO: "18:50",
-      ORA_FINE: "19:40",
-    },
-    {
-      MATERIA: "Scienze Integrate - Fisica",
-      CLASSE: "2AS",
-      GIORNO: "Giovedì",
-      ORA_INIZIO: "18:00",
-      ORA_FINE: "18:50",
-    },
-    {
-      MATERIA: "Scienze Integrate - Fisica",
-      CLASSE: "2AS",
-      GIORNO: "Giovedì",
-      ORA_INIZIO: "18:50",
-      ORA_FINE: "19:40",
-    },
-  ],
-  Cupo: [
-    {
-      MATERIA: "Tecnologia e Tecniche di Rappresentazione Grafica",
-      CLASSE: "1AS",
-      GIORNO: "Lunedì",
-      ORA_INIZIO: "18:50",
-      ORA_FINE: "19:40",
-    },
-  ],
-  Fascetto: [
-    {
-      MATERIA: "Tecnologia e Tecniche di Rappresentazione Grafica",
-      CLASSE: "1AS",
-      GIORNO: "Lunedì",
-      ORA_INIZIO: "18:00",
-      ORA_FINE: "18:50",
-    },
-    {
-      MATERIA: "Tecnologia e Tecniche di Rappresentazione Grafica",
-      CLASSE: "1AS",
-      GIORNO: "Lunedì",
-      ORA_INIZIO: "18:50",
-      ORA_FINE: "19:40",
-    },
-    {
-      MATERIA: "Tecnologia e Tecniche di Rappresentazione Grafica",
-      CLASSE: "1AS",
-      GIORNO: "Venerdì",
-      ORA_INIZIO: "20:00",
-      ORA_FINE: "20:50",
-    },
-    {
-      MATERIA: "Tecnologia e Tecniche di Rappresentazione Grafica",
-      CLASSE: "2AS",
-      GIORNO: "Lunedì",
-      ORA_INIZIO: "20:00",
-      ORA_FINE: "20:50",
-    },
-    {
-      MATERIA: "Tecnologia e Tecniche di Rappresentazione Grafica",
-      CLASSE: "2AS",
-      GIORNO: "Venerdì",
-      ORA_INIZIO: "20:50",
-      ORA_FINE: "21:50",
-    },
-    {
-      MATERIA: "Tecnologia e Tecniche di Rappresentazione Grafica",
-      CLASSE: "2AS",
-      GIORNO: "Venerdì",
-      ORA_INIZIO: "21:50",
-      ORA_FINE: "22:40",
-    },
-  ],
-  Fezza: [
+  // Cimini: [
+  //   {
+  //     MATERIA: "Telecomunicazioni",
+  //     CLASSE: "3AIS",
+  //     GIORNO: "Martedì",
+  //     ORA_INIZIO: "18:00",
+  //     ORA_FINE: "18:50",
+  //   },
+  //   {
+  //     MATERIA: "Telecomunicazioni",
+  //     CLASSE: "3AIS",
+  //     GIORNO: "Martedì",
+  //     ORA_INIZIO: "18:50",
+  //     ORA_FINE: "19:40",
+  //   },
+  // ],
+  // Colavitto: [
+  //   {
+  //     MATERIA: "Scienze Integrate - Fisica",
+  //     CLASSE: "1AS",
+  //     GIORNO: "Martedì",
+  //     ORA_INIZIO: "18:00",
+  //     ORA_FINE: "18:50",
+  //   },
+  //   {
+  //     MATERIA: "Scienze Integrate - Fisica",
+  //     CLASSE: "1AS",
+  //     GIORNO: "Martedì",
+  //     ORA_INIZIO: "18:50",
+  //     ORA_FINE: "19:40",
+  //   },
+  //   {
+  //     MATERIA: "Scienze Integrate - Fisica",
+  //     CLASSE: "2AS",
+  //     GIORNO: "Giovedì",
+  //     ORA_INIZIO: "18:00",
+  //     ORA_FINE: "18:50",
+  //   },
+  //   {
+  //     MATERIA: "Scienze Integrate - Fisica",
+  //     CLASSE: "2AS",
+  //     GIORNO: "Giovedì",
+  //     ORA_INIZIO: "18:50",
+  //     ORA_FINE: "19:40",
+  //   },
+  // ],
+  // Cupo: [
+  //   {
+  //     MATERIA: "Tecnologia e Tecniche di Rappresentazione Grafica",
+  //     CLASSE: "1AS",
+  //     GIORNO: "Lunedì",
+  //     ORA_INIZIO: "18:50",
+  //     ORA_FINE: "19:40",
+  //   },
+  // ],
+  // Fascetto: [
+  //   {
+  //     MATERIA: "Tecnologia e Tecniche di Rappresentazione Grafica",
+  //     CLASSE: "1AS",
+  //     GIORNO: "Lunedì",
+  //     ORA_INIZIO: "18:00",
+  //     ORA_FINE: "18:50",
+  //   },
+  //   {
+  //     MATERIA: "Tecnologia e Tecniche di Rappresentazione Grafica",
+  //     CLASSE: "1AS",
+  //     GIORNO: "Lunedì",
+  //     ORA_INIZIO: "18:50",
+  //     ORA_FINE: "19:40",
+  //   },
+  //   {
+  //     MATERIA: "Tecnologia e Tecniche di Rappresentazione Grafica",
+  //     CLASSE: "1AS",
+  //     GIORNO: "Venerdì",
+  //     ORA_INIZIO: "20:00",
+  //     ORA_FINE: "20:50",
+  //   },
+  //   {
+  //     MATERIA: "Tecnologia e Tecniche di Rappresentazione Grafica",
+  //     CLASSE: "2AS",
+  //     GIORNO: "Lunedì",
+  //     ORA_INIZIO: "20:00",
+  //     ORA_FINE: "20:50",
+  //   },
+  //   {
+  //     MATERIA: "Tecnologia e Tecniche di Rappresentazione Grafica",
+  //     CLASSE: "2AS",
+  //     GIORNO: "Venerdì",
+  //     ORA_INIZIO: "20:50",
+  //     ORA_FINE: "21:50",
+  //   },
+  //   {
+  //     MATERIA: "Tecnologia e Tecniche di Rappresentazione Grafica",
+  //     CLASSE: "2AS",
+  //     GIORNO: "Venerdì",
+  //     ORA_INIZIO: "21:50",
+  //     ORA_FINE: "22:40",
+  //   },
+  // ],
+  fezza_antonio: [
     {
       MATERIA: "Sistemi e Reti",
       CLASSE: "3AIS",
@@ -644,23 +644,23 @@ export const data: TeacherSchedule = {
       ORA_FINE: "21:50",
     },
   ],
-  Giannini: [
-    {
-      MATERIA: "Telecomunicazioni",
-      CLASSE: "4AIS",
-      GIORNO: "Lunedì",
-      ORA_INIZIO: "18:00",
-      ORA_FINE: "18:50",
-    },
-    {
-      MATERIA: "Telecomunicazioni",
-      CLASSE: "4AIS",
-      GIORNO: "Lunedì",
-      ORA_INIZIO: "18:50",
-      ORA_FINE: "19:40",
-    },
-  ],
-  Maggi: [
+  // Giannini: [
+  //   {
+  //     MATERIA: "Telecomunicazioni",
+  //     CLASSE: "4AIS",
+  //     GIORNO: "Lunedì",
+  //     ORA_INIZIO: "18:00",
+  //     ORA_FINE: "18:50",
+  //   },
+  //   {
+  //     MATERIA: "Telecomunicazioni",
+  //     CLASSE: "4AIS",
+  //     GIORNO: "Lunedì",
+  //     ORA_INIZIO: "18:50",
+  //     ORA_FINE: "19:40",
+  //   },
+  // ],
+  maggi_stefano: [
     {
       MATERIA: "Matematica",
       CLASSE: "3AIS",
@@ -704,44 +704,44 @@ export const data: TeacherSchedule = {
       ORA_FINE: "19:40",
     },
   ],
-  Malberti: [
-    {
-      MATERIA: "Scienze Integrate - Fisica",
-      CLASSE: "1AS",
-      GIORNO: "Martedì",
-      ORA_INIZIO: "18:00",
-      ORA_FINE: "18:50",
-    },
-    {
-      MATERIA: "Scienze Integrate - Fisica",
-      CLASSE: "1AS",
-      GIORNO: "Martedì",
-      ORA_INIZIO: "18:50",
-      ORA_FINE: "19:40",
-    },
-    {
-      MATERIA: "Scienze Integrate - Fisica",
-      CLASSE: "1AS",
-      GIORNO: "Giovedì",
-      ORA_INIZIO: "20:00",
-      ORA_FINE: "20:50",
-    },
-    {
-      MATERIA: "Scienze Integrate - Fisica",
-      CLASSE: "2AS",
-      GIORNO: "Giovedì",
-      ORA_INIZIO: "18:00",
-      ORA_FINE: "18:50",
-    },
-    {
-      MATERIA: "Scienze Integrate - Fisica",
-      CLASSE: "2AS",
-      GIORNO: "Giovedì",
-      ORA_INIZIO: "18:50",
-      ORA_FINE: "19:40",
-    },
-  ],
-  Martino: [
+  // Malberti: [
+  //   {
+  //     MATERIA: "Scienze Integrate - Fisica",
+  //     CLASSE: "1AS",
+  //     GIORNO: "Martedì",
+  //     ORA_INIZIO: "18:00",
+  //     ORA_FINE: "18:50",
+  //   },
+  //   {
+  //     MATERIA: "Scienze Integrate - Fisica",
+  //     CLASSE: "1AS",
+  //     GIORNO: "Martedì",
+  //     ORA_INIZIO: "18:50",
+  //     ORA_FINE: "19:40",
+  //   },
+  //   {
+  //     MATERIA: "Scienze Integrate - Fisica",
+  //     CLASSE: "1AS",
+  //     GIORNO: "Giovedì",
+  //     ORA_INIZIO: "20:00",
+  //     ORA_FINE: "20:50",
+  //   },
+  //   {
+  //     MATERIA: "Scienze Integrate - Fisica",
+  //     CLASSE: "2AS",
+  //     GIORNO: "Giovedì",
+  //     ORA_INIZIO: "18:00",
+  //     ORA_FINE: "18:50",
+  //   },
+  //   {
+  //     MATERIA: "Scienze Integrate - Fisica",
+  //     CLASSE: "2AS",
+  //     GIORNO: "Giovedì",
+  //     ORA_INIZIO: "18:50",
+  //     ORA_FINE: "19:40",
+  //   },
+  // ],
+  martino_tonino: [
     {
       MATERIA: "Scienze Integrate - Chimica",
       CLASSE: "1AS",
@@ -848,7 +848,7 @@ export const data: TeacherSchedule = {
       ORA_FINE: "18:50",
     },
   ],
-  Morossi: [
+  morossi_paola: [
     {
       MATERIA: "Lingua e Letteratura Italiana",
       CLASSE: "1AS",
@@ -997,7 +997,7 @@ export const data: TeacherSchedule = {
       ORA_FINE: "20:50",
     },
   ],
-  Nuzzo: [
+  nuzzo_francesco: [
     {
       MATERIA: "Tecnologia Informatica",
       CLASSE: "1AS",
@@ -1055,114 +1055,114 @@ export const data: TeacherSchedule = {
       ORA_FINE: "22:40",
     },
   ],
-  Pappalardo: [
-    {
-      MATERIA: "Chimica Analitica e Strumentale",
-      CLASSE: "3ACS",
-      GIORNO: "Mercoledì",
-      ORA_INIZIO: "20:50",
-      ORA_FINE: "21:50",
-    },
-    {
-      MATERIA: "Chimica Analitica e Strumentale",
-      CLASSE: "3ACS",
-      GIORNO: "Mercoledì",
-      ORA_INIZIO: "21:50",
-      ORA_FINE: "22:40",
-    },
-    {
-      MATERIA: "Chimica Analitica e Strumentale",
-      CLASSE: "3ACS",
-      GIORNO: "Giovedì",
-      ORA_INIZIO: "20:50",
-      ORA_FINE: "21:50",
-    },
-    {
-      MATERIA: "Chimica Analitica e Strumentale",
-      CLASSE: "3ACS",
-      GIORNO: "Giovedì",
-      ORA_INIZIO: "21:50",
-      ORA_FINE: "22:40",
-    },
-    {
-      MATERIA: "Chimica Analitica e Strumentale",
-      CLASSE: "3ACS",
-      GIORNO: "Venerdì",
-      ORA_INIZIO: "20:50",
-      ORA_FINE: "21:50",
-    },
-    {
-      MATERIA: "Chimica Analitica e Strumentale",
-      CLASSE: "4ACS",
-      GIORNO: "Lunedì",
-      ORA_INIZIO: "20:00",
-      ORA_FINE: "20:50",
-    },
-    {
-      MATERIA: "Chimica Analitica e Strumentale",
-      CLASSE: "4ACS",
-      GIORNO: "Martedì",
-      ORA_INIZIO: "20:50",
-      ORA_FINE: "21:50",
-    },
-    {
-      MATERIA: "Chimica Analitica e Strumentale",
-      CLASSE: "4ACS",
-      GIORNO: "Martedì",
-      ORA_INIZIO: "21:50",
-      ORA_FINE: "22:40",
-    },
-    {
-      MATERIA: "Chimica Analitica e Strumentale",
-      CLASSE: "4ACS",
-      GIORNO: "Giovedì",
-      ORA_INIZIO: "21:50",
-      ORA_FINE: "22:40",
-    },
-    {
-      MATERIA: "Chimica Analitica e Strumentale",
-      CLASSE: "4ACS",
-      GIORNO: "Venerdì",
-      ORA_INIZIO: "20:00",
-      ORA_FINE: "20:50",
-    },
-    {
-      MATERIA: "Chimica Analitica e Strumentale",
-      CLASSE: "5ACS",
-      GIORNO: "Lunedì",
-      ORA_INIZIO: "20:50",
-      ORA_FINE: "21:50",
-    },
-    {
-      MATERIA: "Chimica Analitica e Strumentale",
-      CLASSE: "5ACS",
-      GIORNO: "Lunedì",
-      ORA_INIZIO: "21:50",
-      ORA_FINE: "22:40",
-    },
-    {
-      MATERIA: "Chimica Analitica e Strumentale",
-      CLASSE: "5ACS",
-      GIORNO: "Martedì",
-      ORA_INIZIO: "20:00",
-      ORA_FINE: "20:50",
-    },
-    {
-      MATERIA: "Chimica Analitica e Strumentale",
-      CLASSE: "5ACS",
-      GIORNO: "Mercoledì",
-      ORA_INIZIO: "20:00",
-      ORA_FINE: "20:50",
-    },
-    {
-      MATERIA: "Chimica Analitica e Strumentale",
-      CLASSE: "5ACS",
-      GIORNO: "Venerdì",
-      ORA_INIZIO: "21:50",
-      ORA_FINE: "22:40",
-    },
-  ],
-  Prencipe: [
+  // Pappalardo: [
+  //   {
+  //     MATERIA: "Chimica Analitica e Strumentale",
+  //     CLASSE: "3ACS",
+  //     GIORNO: "Mercoledì",
+  //     ORA_INIZIO: "20:50",
+  //     ORA_FINE: "21:50",
+  //   },
+  //   {
+  //     MATERIA: "Chimica Analitica e Strumentale",
+  //     CLASSE: "3ACS",
+  //     GIORNO: "Mercoledì",
+  //     ORA_INIZIO: "21:50",
+  //     ORA_FINE: "22:40",
+  //   },
+  //   {
+  //     MATERIA: "Chimica Analitica e Strumentale",
+  //     CLASSE: "3ACS",
+  //     GIORNO: "Giovedì",
+  //     ORA_INIZIO: "20:50",
+  //     ORA_FINE: "21:50",
+  //   },
+  //   {
+  //     MATERIA: "Chimica Analitica e Strumentale",
+  //     CLASSE: "3ACS",
+  //     GIORNO: "Giovedì",
+  //     ORA_INIZIO: "21:50",
+  //     ORA_FINE: "22:40",
+  //   },
+  //   {
+  //     MATERIA: "Chimica Analitica e Strumentale",
+  //     CLASSE: "3ACS",
+  //     GIORNO: "Venerdì",
+  //     ORA_INIZIO: "20:50",
+  //     ORA_FINE: "21:50",
+  //   },
+  //   {
+  //     MATERIA: "Chimica Analitica e Strumentale",
+  //     CLASSE: "4ACS",
+  //     GIORNO: "Lunedì",
+  //     ORA_INIZIO: "20:00",
+  //     ORA_FINE: "20:50",
+  //   },
+  //   {
+  //     MATERIA: "Chimica Analitica e Strumentale",
+  //     CLASSE: "4ACS",
+  //     GIORNO: "Martedì",
+  //     ORA_INIZIO: "20:50",
+  //     ORA_FINE: "21:50",
+  //   },
+  //   {
+  //     MATERIA: "Chimica Analitica e Strumentale",
+  //     CLASSE: "4ACS",
+  //     GIORNO: "Martedì",
+  //     ORA_INIZIO: "21:50",
+  //     ORA_FINE: "22:40",
+  //   },
+  //   {
+  //     MATERIA: "Chimica Analitica e Strumentale",
+  //     CLASSE: "4ACS",
+  //     GIORNO: "Giovedì",
+  //     ORA_INIZIO: "21:50",
+  //     ORA_FINE: "22:40",
+  //   },
+  //   {
+  //     MATERIA: "Chimica Analitica e Strumentale",
+  //     CLASSE: "4ACS",
+  //     GIORNO: "Venerdì",
+  //     ORA_INIZIO: "20:00",
+  //     ORA_FINE: "20:50",
+  //   },
+  //   {
+  //     MATERIA: "Chimica Analitica e Strumentale",
+  //     CLASSE: "5ACS",
+  //     GIORNO: "Lunedì",
+  //     ORA_INIZIO: "20:50",
+  //     ORA_FINE: "21:50",
+  //   },
+  //   {
+  //     MATERIA: "Chimica Analitica e Strumentale",
+  //     CLASSE: "5ACS",
+  //     GIORNO: "Lunedì",
+  //     ORA_INIZIO: "21:50",
+  //     ORA_FINE: "22:40",
+  //   },
+  //   {
+  //     MATERIA: "Chimica Analitica e Strumentale",
+  //     CLASSE: "5ACS",
+  //     GIORNO: "Martedì",
+  //     ORA_INIZIO: "20:00",
+  //     ORA_FINE: "20:50",
+  //   },
+  //   {
+  //     MATERIA: "Chimica Analitica e Strumentale",
+  //     CLASSE: "5ACS",
+  //     GIORNO: "Mercoledì",
+  //     ORA_INIZIO: "20:00",
+  //     ORA_FINE: "20:50",
+  //   },
+  //   {
+  //     MATERIA: "Chimica Analitica e Strumentale",
+  //     CLASSE: "5ACS",
+  //     GIORNO: "Venerdì",
+  //     ORA_INIZIO: "21:50",
+  //     ORA_FINE: "22:40",
+  //   },
+  // ],
+  prencipe_francesco: [
     {
       MATERIA: "Tecnologia Informatica",
       CLASSE: "1AS",
@@ -1227,7 +1227,7 @@ export const data: TeacherSchedule = {
       ORA_FINE: "21:50",
     },
   ],
-  Romano: [
+  romano_francesco: [
     {
       MATERIA: "Scienze Integrate - Chimica",
       CLASSE: "2AS",
@@ -1299,7 +1299,7 @@ export const data: TeacherSchedule = {
       ORA_FINE: "20:50",
     },
   ],
-  Rossi: [
+  rossi_alessandro: [
     {
       MATERIA: "Storia, Cittadinanza e Costituzione",
       CLASSE: "2AS",
@@ -1427,7 +1427,7 @@ export const data: TeacherSchedule = {
       ORA_FINE: "20:50",
     },
   ],
-  Saracino: [
+  saracino_luigi: [
     {
       MATERIA: "Scienze Integrate - Chimica",
       CLASSE: "2AS",
@@ -1527,50 +1527,50 @@ export const data: TeacherSchedule = {
       ORA_FINE: "19:40",
     },
   ],
-  Timpano: [
-    {
-      MATERIA: "Telecomunicazioni",
-      CLASSE: "3AIS",
-      GIORNO: "Martedì",
-      ORA_INIZIO: "18:00",
-      ORA_FINE: "18:50",
-    },
-    {
-      MATERIA: "Telecomunicazioni",
-      CLASSE: "3AIS",
-      GIORNO: "Martedì",
-      ORA_INIZIO: "18:50",
-      ORA_FINE: "19:40",
-    },
-    {
-      MATERIA: "Telecomunicazioni",
-      CLASSE: "4AIS",
-      GIORNO: "Lunedì",
-      ORA_INIZIO: "18:00",
-      ORA_FINE: "18:50",
-    },
-    {
-      MATERIA: "Telecomunicazioni",
-      CLASSE: "4AIS",
-      GIORNO: "Lunedì",
-      ORA_INIZIO: "18:50",
-      ORA_FINE: "19:40",
-    },
-  ],
-  Ussia: [
-    {
-      MATERIA: "Diritto ed Economia",
-      CLASSE: "2AS",
-      GIORNO: "Mercoledì",
-      ORA_INIZIO: "18:00",
-      ORA_FINE: "18:50",
-    },
-    {
-      MATERIA: "Diritto ed Economia",
-      CLASSE: "2AS",
-      GIORNO: "Mercoledì",
-      ORA_INIZIO: "18:50",
-      ORA_FINE: "19:40",
-    },
-  ],
+  // Timpano: [
+  //   {
+  //     MATERIA: "Telecomunicazioni",
+  //     CLASSE: "3AIS",
+  //     GIORNO: "Martedì",
+  //     ORA_INIZIO: "18:00",
+  //     ORA_FINE: "18:50",
+  //   },
+  //   {
+  //     MATERIA: "Telecomunicazioni",
+  //     CLASSE: "3AIS",
+  //     GIORNO: "Martedì",
+  //     ORA_INIZIO: "18:50",
+  //     ORA_FINE: "19:40",
+  //   },
+  //   {
+  //     MATERIA: "Telecomunicazioni",
+  //     CLASSE: "4AIS",
+  //     GIORNO: "Lunedì",
+  //     ORA_INIZIO: "18:00",
+  //     ORA_FINE: "18:50",
+  //   },
+  //   {
+  //     MATERIA: "Telecomunicazioni",
+  //     CLASSE: "4AIS",
+  //     GIORNO: "Lunedì",
+  //     ORA_INIZIO: "18:50",
+  //     ORA_FINE: "19:40",
+  //   },
+  // ],
+  // Ussia: [
+  //   {
+  //     MATERIA: "Diritto ed Economia",
+  //     CLASSE: "2AS",
+  //     GIORNO: "Mercoledì",
+  //     ORA_INIZIO: "18:00",
+  //     ORA_FINE: "18:50",
+  //   },
+  //   {
+  //     MATERIA: "Diritto ed Economia",
+  //     CLASSE: "2AS",
+  //     GIORNO: "Mercoledì",
+  //     ORA_INIZIO: "18:50",
+  //     ORA_FINE: "19:40",
+  //   },
+  // ],
 };

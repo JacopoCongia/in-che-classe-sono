@@ -1,4 +1,4 @@
-import { AutoTextSize } from "auto-text-size";
+import BoxOfText from "./BoxOfText";
 
 function OrarioCorrente({
   docente,
@@ -11,67 +11,38 @@ function OrarioCorrente({
   giornoCorrente: string;
   classeCorrente: string | undefined;
 }) {
+  let nomeDocente = "";
+  if (docente) {
+    const nomeECognome = docente.split("_");
+    const nomeGrezzo =
+      nomeECognome.length > 1 ? nomeECognome[1] : nomeECognome[0];
+    nomeDocente = nomeGrezzo.charAt(0).toUpperCase() + nomeGrezzo.slice(1);
+  }
+
   return (
     <div
       id="schermata-orario"
       className="flex flex-col items-center justify-center relative py-[8em] px-[2em] text-center min-h-screen bg-[#3D2B1F] text-[#FDF8E1] gap-[1em] w-full"
     >
       <div className="flex flex-col items-center gap-[3.5em]">
-        <div>
-          <div className="flex flex-col leading-none w-[250px]">
-            <div className="w-full">
-              <AutoTextSize
-                mode="oneline"
-                minFontSizePx={10}
-                maxFontSizePx={120}
-              >
-                <p>CIAO</p>
-              </AutoTextSize>
-            </div>
-            <div className="w-full text-[#C65D1E]">
-              <AutoTextSize
-                mode="oneline"
-                minFontSizePx={10}
-                maxFontSizePx={120}
-              >
-                {docente && <p className="uppercase">{docente}!</p>}
-              </AutoTextSize>
-            </div>
-          </div>
-        </div>
-        <div className="flex flex-col leading-none w-[250px]">
-          <div className="w-full">
-            <AutoTextSize
-              mode="oneline"
-              minFontSizePx={10}
-              maxFontSizePx={120}
-            >
-              <p>SONO LE</p>
-            </AutoTextSize>
-          </div>
-          <div className="w-full text-[#C65D1E]">
-            <AutoTextSize
-              mode="oneline"
-              minFontSizePx={10}
-              maxFontSizePx={120}
-            >
-              <p>{oraFormattata}</p>
-            </AutoTextSize>
-          </div>
-          <div className="w-full">
-            <AutoTextSize
-              mode="oneline"
-              minFontSizePx={10}
-              maxFontSizePx={120}
-            >
-              <p className="uppercase">di {giornoCorrente}</p>
-            </AutoTextSize>
-          </div>
-        </div>
-
+        <BoxOfText
+          texts={[
+            { line: "ciao", color: "#FDF8E1" },
+            { line: nomeDocente, color: "#C65D1E" },
+          ]}
+          boxWidth={250}
+        />
+        <BoxOfText
+          texts={[
+            { line: "sono le", color: "#FDF8E1" },
+            { line: oraFormattata, color: "#C65D1E" },
+            { line: `di ${giornoCorrente}`, color: "#FDF8E1" },
+          ]}
+          boxWidth={250}
+        />
         {docente ? (
-          <div className="flex flex-col items-center text-center">
-            <p className="uppercase text-[1.3rem]">
+          <div className="flex flex-col items-center text-center gap-[0.3em]">
+            <p className="uppercase text-[1.35rem]">
               {`e dovresti essere ${
                 oraFormattata < "18:00" || oraFormattata > "22:40" ? "a" : "in"
               } `}
