@@ -14,7 +14,7 @@ function OrarioCorrente({
   return (
     <div
       id="schermata-orario"
-      className="flex flex-col items-center justify-center relative py-[8em] px-[2em] text-center min-h-screen bg-emerald-600 text-white gap-[1em] w-full"
+      className="flex flex-col items-center justify-center relative py-[8em] px-[2em] text-center min-h-screen bg-[#3D2B1F] text-[#FDF8E1] gap-[1em] w-full"
     >
       <div className="flex flex-col items-center gap-[3.5em]">
         <div>
@@ -28,7 +28,7 @@ function OrarioCorrente({
                 <p>CIAO</p>
               </AutoTextSize>
             </div>
-            <div className="w-full">
+            <div className="w-full text-[#C65D1E]">
               <AutoTextSize
                 mode="oneline"
                 minFontSizePx={10}
@@ -49,7 +49,7 @@ function OrarioCorrente({
               <p>SONO LE</p>
             </AutoTextSize>
           </div>
-          <div className="w-full">
+          <div className="w-full text-[#C65D1E]">
             <AutoTextSize
               mode="oneline"
               minFontSizePx={10}
@@ -76,7 +76,7 @@ function OrarioCorrente({
                 oraFormattata < "18:00" || oraFormattata > "22:40" ? "a" : "in"
               } `}
             </p>
-            <p className="uppercase text-[2.5rem] w-[250px] bg-white text-emerald-600 px-[1em] py-[0.2em] rounded-[0.5em]">
+            <p className="uppercase text-[2.5rem] w-[250px] bg-[#FDF8E1] text-[#C65D1E] shadow-[0_4px_0_0] shadow-[#C65D1E] px-[1em] py-[0.2em] rounded-[0.5em]">
               {classeCorrente
                 ? classeCorrente
                 : oraFormattata < "18:00" || oraFormattata > "22:40"
@@ -86,7 +86,7 @@ function OrarioCorrente({
           </div>
         ) : (
           <button
-            className="px-5 py-3 bg-[#C1292E] rounded-[0.5em] uppercase text-neutral-50 hover:opacity-80 cursor-pointer max-w-[300px] text-[1.3rem] shadow-[0_3px_0_0] shadow-[#4e191c]/70 active:translate-y-0.5 active:shadow-none active:bg-[#9f1c1f] select-none"
+            className="px-5 py-3 bg-[#A42A28] rounded-[0.5em] uppercase text-[#FDF8E1] hover:bg-[#A42A28]/80 cursor-pointer max-w-[300px] text-[1.3rem] shadow-[0_3px_0_0] shadow-[#FDF8E1] active:translate-y-0.5 active:shadow-none active:bg-[#A42A28]/80 select-none"
             onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           >
             Scegli un docente

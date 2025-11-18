@@ -14,7 +14,7 @@ function SelezionaInsegnante({
 
   return (
     <button
-      className={`px-3 py-3 bg-emerald-600 rounded-[0.5em] text-white select-none cursor-pointer shadow-[0_3px_0_0] shadow-emerald-900 hover:bg-emerald-500 active:shadow-none active:translate-y-0.5 active:bg-emerald-700`}
+      className={`px-3 py-3 bg-[#C65D1E] rounded-[0.5em] text-[#FDF8E1] select-none cursor-pointer shadow-[0_3px_0_0] shadow-[#663110] hover:bg-[#C65D1E]/80 active:shadow-none active:translate-y-0.5 active:bg-[#663110]`}
       onClick={() => handleClick(docente)}
     >
       {docente}

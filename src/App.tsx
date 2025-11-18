@@ -1,5 +1,6 @@
 import { data as dati_lezioni } from "../data.ts";
 import { useState, useEffect } from "react";
+import { AutoTextSize } from "auto-text-size";
 
 import SelezionaInsegnante from "./components/SelezionaInsegnante";
 import OrarioCorrente from "./components/OrarioCorrente.tsx";
@@ -97,15 +98,39 @@ function App() {
 
   return (
     <>
-      <section className="flex flex-col items-center bg-neutral-50">
+      <section className="flex flex-col items-center bg-[#FDF8E1]">
         <div className="flex items-center flex-col justify-center py-[4em] gap-[2em] min-h-screen max-w-[300px]">
           {/* Header */}
-          <div className="text-center uppercase font-bold leading-[0.96]">
-            <h1 className="text-[2.2rem]">Benvenuto al</h1>
-            <h1 className="text-[2.71rem]">tuo orario</h1>
+          <div className="text-center uppercase text-[#3D2B1F] font-bold leading-[0.96] w-[300px]">
+            <div>
+              <AutoTextSize
+                mode="oneline"
+                minFontSizePx={10}
+                maxFontSizePx={120}
+              >
+                <h1>Benvenuto al</h1>
+              </AutoTextSize>
+            </div>
+            <div>
+              <AutoTextSize
+                mode="oneline"
+                minFontSizePx={10}
+                maxFontSizePx={120}
+              >
+                <h1 className="text-[#C65D1E]">tuo orario</h1>
+              </AutoTextSize>
+            </div>
+            <div className="mt-[2em]">
+              <AutoTextSize
+                mode="oneline"
+                minFontSizePx={10}
+                maxFontSizePx={120}
+              >
+                <h1>chi sei?</h1>
+              </AutoTextSize>
+            </div>
           </div>
           {/* Seleziona Insegnante */}
-          <h2 className="text-[1.8rem]">CHI SEI?</h2>
           <div className="flex flex-col gap-[1em] w-full">
             <SelezionaInsegnante
               onClick={setDocente}
