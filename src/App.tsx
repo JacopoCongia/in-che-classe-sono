@@ -10,7 +10,7 @@ import OrariGiornalieri from "./components/OrariGiornalieri.tsx";
 
 function App() {
   const [docente, setDocente] = useState("");
-  const [oraCorrente, setOraCorrente] = useState(new Date("2025 11 19 18:30"));
+  const [oraCorrente, setOraCorrente] = useState(new Date());
 
   useEffect(() => {
     const timer = setInterval(() => {
