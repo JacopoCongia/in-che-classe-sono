@@ -54,7 +54,9 @@ function OrariGiornalieri({
               className={`flex flex-col items-center justify-center gap-[0.5em] ${oraFormattata >= slot.ORA_INIZIO && oraFormattata <= slot.ORA_FINE ? "bg-[#C65D1E] text-[#FDF8E1]" : "bg-[#c2a490]/30"} pt-[2em] pb-[3em] rounded-[1em] w-[80%] max-w-[600px]`}
             >
               {/* Materia */}
-              <p className="text-[1.3rem] px-[2em] uppercase text-[#C65D1E]">
+              <p
+                className={`text-[1.3rem] px-[2em] uppercase ${oraFormattata >= slot.ORA_INIZIO && oraFormattata <= slot.ORA_FINE ? "text-[#3D2B1F]" : "text-[#C65D1E]"}`}
+              >
                 {lezione.MATERIA}
               </p>
               {/* Orario */}
