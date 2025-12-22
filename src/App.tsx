@@ -10,8 +10,9 @@ import OrariGiornalieri from "./components/OrariGiornalieri.tsx";
 
 function App() {
   const [docente, setDocente] = useState("");
-  const [oraCorrente, setOraCorrente] = useState(new Date());
-
+  const [oraCorrente, setOraCorrente] = useState(new Date()); // Impostazione iniziale fissa per test
+  const [dayOffset, setDayOffset] = useState(0);
+ 
   useEffect(() => {
     const timer = setInterval(() => {
       setOraCorrente(new Date());
@@ -31,20 +32,16 @@ function App() {
     6: "Sabato",
   };
 
-  // Ottieni la lista degli insegnanti disponibili dai dati e crea i relativi elementi
-  // const insegnanti = Object.keys(dati_lezioni);
-  // const insegnantiEl = insegnanti.map((insegnante) => (
-  //   <SelezionaInsegnante
-  //     key={insegnante}
-  //     onClick={setDocente}
-  //     docente={insegnante}
-  //   />
-  // ));
-
   // Ottieni il giorno corrente in formato stringa
   const giornoCorrente = (() => {
     return giorni[oraCorrente.getDay() as keyof typeof giorni];
   })();
+
+  // Giorno da visualizzare nella lista giornaliera (può essere modificato con le frecce)
+  const giornoVisualizzato = giorni[
+    ((oraCorrente.getDay() + dayOffset + 7) % 7) as keyof typeof giorni
+  ];
+
 
   // Definisci tutti gli slot orari possibili
   const slotOrari = [
@@ -54,12 +51,6 @@ function App() {
     { ORA_INIZIO: "20:50", ORA_FINE: "21:50" },
     { ORA_INIZIO: "21:50", ORA_FINE: "22:40" },
   ];
-
-  // Calcola ieri e domani
-  // const ieri =
-  //   giorni[((oraCorrente.getDay() - 1 + 7) % 7) as keyof typeof giorni];
-  // const domani =
-  //   giorni[((oraCorrente.getDay() + 1) % 7) as keyof typeof giorni];
 
   // Trova la classe corrente in base all'insegnante, al giorno e all'ora
   const classeCorrente = dati_lezioni[docente]?.find((lezione) => {
@@ -72,29 +63,9 @@ function App() {
   })?.CLASSE;
 
   // Trova tutte le lezioni di oggi per l'insegnante selezionato
-  const lezioniDiOggi = dati_lezioni[docente]
-    ?.filter((lezione) => {
-      return lezione.GIORNO === giornoCorrente;
-    })
-    ?.sort((a, b) => {
-      return a.ORA_INIZIO.localeCompare(b.ORA_INIZIO);
-    });
-  // Trova tutte le lezioni di domani per l'insegnante selezionato
-  // const lezioniDiDomani = dati_lezioni[docente]
-  //   ?.filter((lezione) => {
-  //     return lezione.GIORNO === domani;
-  //   })
-  //   ?.sort((a, b) => {
-  //     return a.ORA_INIZIO.localeCompare(b.ORA_INIZIO);
-  //   });
-  // Trova tutte le lezioni di ieri per l'insegnante selezionato
-  // const lezioniDiIeri = dati_lezioni[docente]
-  //   ?.filter((lezione) => {
-  //     return lezione.GIORNO === ieri;
-  //   })
-  //   ?.sort((a, b) => {
-  //     return a.ORA_INIZIO.localeCompare(b.ORA_INIZIO);
-  //   });
+  const lezioniDaMostrare = dati_lezioni[docente]
+    ?.filter((lezione) => lezione.GIORNO === giornoVisualizzato)
+    ?.sort((a, b) => a.ORA_INIZIO.localeCompare(b.ORA_INIZIO));
 
   return (
     <>
@@ -160,12 +131,16 @@ function App() {
           giornoCorrente={giornoCorrente}
           classeCorrente={classeCorrente}
         />
-        <div>{/* ### IMPLEMENTARE CODICE PROSSIMA LEZIONE ### */}</div>
         {/* Schermata Orari Giornate */}
         <OrariGiornalieri
           oraFormattata={oraFormattata}
-          lezioniDiOggi={lezioniDiOggi}
+          lezioniDiOggi={lezioniDaMostrare}
           slotOrari={slotOrari}
+          giornoCorrente={giornoCorrente}
+          giornoSelezionato={giornoVisualizzato}
+          setDayOffset={setDayOffset}
+          onPrevDay={() => setDayOffset((d) => d - 1)}
+          onNextDay={() => setDayOffset((d) => d + 1)}
         />
       </section>
     </>
