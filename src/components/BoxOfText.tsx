@@ -21,11 +21,7 @@ function BoxOfText({
       className="w-full uppercase"
       style={{ color: text.color, marginTop: text.marginTop }}
     >
-      <AutoTextSize
-        mode="oneline"
-        minFontSizePx={10}
-        maxFontSizePx={120}
-      >
+      <AutoTextSize mode="oneline" minFontSizePx={10} maxFontSizePx={120}>
         {text.line}
       </AutoTextSize>
     </div>
@@ -33,7 +29,7 @@ function BoxOfText({
 
   return (
     <div
-      className="leading-none text-center text-[#3D2B1F]"
+      className="text-center leading-none text-[#3D2B1F]"
       style={{
         width: `${boxWidth}px`,
         fontWeight: `${bold ? "bold" : ""}`,

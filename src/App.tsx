@@ -12,7 +12,7 @@ function App() {
   const [docente, setDocente] = useState("");
   const [oraCorrente, setOraCorrente] = useState(new Date()); // Impostazione iniziale fissa per test
   const [dayOffset, setDayOffset] = useState(0);
- 
+
   useEffect(() => {
     const timer = setInterval(() => {
       setOraCorrente(new Date());
@@ -38,10 +38,8 @@ function App() {
   })();
 
   // Giorno da visualizzare nella lista giornaliera (può essere modificato con le frecce)
-  const giornoVisualizzato = giorni[
-    ((oraCorrente.getDay() + dayOffset + 7) % 7) as keyof typeof giorni
-  ];
-
+  const giornoVisualizzato =
+    giorni[((oraCorrente.getDay() + dayOffset + 7) % 7) as keyof typeof giorni];
 
   // Definisci tutti gli slot orari possibili
   const slotOrari = [
@@ -70,7 +68,7 @@ function App() {
   return (
     <>
       <section className="flex flex-col items-center bg-[#FDF8E1]">
-        <div className="flex items-center flex-col justify-center py-[4em] gap-[2em] min-h-screen max-w-[300px]">
+        <div className="flex min-h-screen max-w-[300px] flex-col items-center justify-center gap-[2em] py-[4em]">
           {/* Header */}
           <div className="text-[#3D2B1F]">
             <BoxOfText
@@ -93,7 +91,7 @@ function App() {
             />
           </div>
           {/* Seleziona Insegnante */}
-          <div className="flex flex-col gap-[1em] w-full">
+          <div className="flex w-full flex-col gap-[1em]">
             <SelezionaInsegnante
               onClick={setDocente}
               docente="alemanno_giancarlo"
@@ -102,14 +100,8 @@ function App() {
               onClick={setDocente}
               docente="chiocchetti_gudrun"
             />
-            <SelezionaInsegnante
-              onClick={setDocente}
-              docente="fezza_antonio"
-            />
-            <SelezionaInsegnante
-              onClick={setDocente}
-              docente="morossi_paola"
-            />
+            <SelezionaInsegnante onClick={setDocente} docente="fezza_antonio" />
+            <SelezionaInsegnante onClick={setDocente} docente="morossi_paola" />
             <SelezionaInsegnante
               onClick={setDocente}
               docente="prencipe_francesco"
