@@ -1,20 +1,11 @@
 import { AutoTextSize } from "auto-text-size";
-
-interface Text {
-  line: string | null;
-  color?: string;
-  marginTop?: string;
-}
+import type { BoxOfTextProps } from "../types";
 
 function BoxOfText({
   texts,
   boxWidth,
   bold,
-}: {
-  texts: Text[];
-  boxWidth: number;
-  bold?: boolean;
-}) {
+}: BoxOfTextProps) {
   const textElements = texts.map((text, index) => (
     <div
       key={index}

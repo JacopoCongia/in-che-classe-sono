@@ -7,10 +7,11 @@ import OrarioCorrente from "./components/OrarioCorrente.tsx";
 
 import { formatTime } from "../utils";
 import OrariGiornalieri from "./components/OrariGiornalieri.tsx";
+import type { SlotOrario } from "./types";
 
 function App() {
   const [docente, setDocente] = useState("");
-  const [oraCorrente, setOraCorrente] = useState(new Date());
+  const [oraCorrente, setOraCorrente] = useState(new Date("2025 11 24 20:30"));
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -47,7 +48,7 @@ function App() {
   })();
 
   // Definisci tutti gli slot orari possibili
-  const slotOrari = [
+  const slotOrari: SlotOrario[] = [
     { ORA_INIZIO: "18:00", ORA_FINE: "18:50" },
     { ORA_INIZIO: "18:50", ORA_FINE: "19:40" },
     { ORA_INIZIO: "20:00", ORA_FINE: "20:50" },

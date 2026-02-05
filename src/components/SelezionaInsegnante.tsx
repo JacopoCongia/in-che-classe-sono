@@ -1,10 +1,9 @@
+import type { SelezionaInsegnanteProps } from "../types";
+
 function SelezionaInsegnante({
   onClick,
   docente,
-}: {
-  onClick: (docente: string) => void;
-  docente: string;
-}) {
+}: SelezionaInsegnanteProps) {
   const handleClick = (docente: string) => {
     onClick(docente);
     document

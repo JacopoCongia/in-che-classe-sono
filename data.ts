@@ -342,9 +342,9 @@ export const data: TeacherSchedule = {
     {
       MATERIA: "Inglese",
       CLASSE: "1AS",
-      GIORNO: "Martedì",
-      ORA_INIZIO: "20:00",
-      ORA_FINE: "20:50",
+      GIORNO: "Mercoledì",
+      ORA_INIZIO: "18:50",
+      ORA_FINE: "19:40",
     },
     {
       MATERIA: "Inglese",
@@ -426,16 +426,16 @@ export const data: TeacherSchedule = {
     {
       MATERIA: "Inglese",
       CLASSE: "5ACS",
-      GIORNO: "Martedì",
-      ORA_INIZIO: "18:00",
-      ORA_FINE: "18:50",
+      GIORNO: "Lunedì",
+      ORA_INIZIO: "20:50",
+      ORA_FINE: "21:50",
     },
     {
       MATERIA: "Inglese",
       CLASSE: "5ACS",
       GIORNO: "Mercoledì",
-      ORA_INIZIO: "18:50",
-      ORA_FINE: "19:40",
+      ORA_INIZIO: "20:00",
+      ORA_FINE: "20:50",
     },
     {
       MATERIA: "Inglese",

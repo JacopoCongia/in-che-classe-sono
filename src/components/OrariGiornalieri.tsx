@@ -1,15 +1,11 @@
-import type { Lesson } from "../types";
+import type { OrariGiornalieriProps } from "../types";
 import BoxOfText from "./BoxOfText";
 
 function OrariGiornalieri({
   oraFormattata,
   lezioniDiOggi,
   slotOrari,
-}: {
-  oraFormattata: string;
-  lezioniDiOggi: Lesson[] | undefined;
-  slotOrari: { ORA_INIZIO: string; ORA_FINE: string }[];
-}) {
+}: OrariGiornalieriProps) {
   return (
     <div
       id="schermata-calendario-giornaliero"
