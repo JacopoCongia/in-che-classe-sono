@@ -12,7 +12,7 @@
   "dependencies": {
     "@tailwindcss/vite": "^4.1.16",
     "auto-text-size": "^0.2.3",
-    "motion": "^12.23.26",
+    "motion": "^12.33.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "tailwindcss": "^4.1.16"

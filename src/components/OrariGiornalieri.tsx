@@ -2,20 +2,29 @@ import { AnimatePresence, motion } from "motion/react";
 import type { Lesson } from "../types";
 import BoxOfText from "./BoxOfText";
 
-function OrariGiornalieri({
-  oraFormattata,
-  lezioniDiOggi,
-  slotOrari,
-}: OrariGiornalieriProps) {
+type Slot = { ORA_INIZIO: string; ORA_FINE: string };
+
+interface OrariGiornalieriProps {
   oraFormattata: string;
-  lezioniDiOggi: Lesson[] | undefined;
-  slotOrari: { ORA_INIZIO: string; ORA_FINE: string }[];
+  lezioniDiOggi?: Lesson[]; // optional if you sometimes pass undefined
+  slotOrari: Slot[];
   giornoCorrente: string;
   giornoSelezionato: string;
   setDayOffset: (offset: number) => void;
   onPrevDay: () => void;
   onNextDay: () => void;
-}) {
+}
+
+function OrariGiornalieri({
+  oraFormattata,
+  lezioniDiOggi = [],
+  slotOrari,
+  giornoCorrente,
+  giornoSelezionato,
+  setDayOffset,
+  onPrevDay,
+  onNextDay,
+}: OrariGiornalieriProps) {
   return (
     <div
       id="schermata-calendario-giornaliero"
