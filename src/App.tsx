@@ -11,7 +11,8 @@ import type { SlotOrario } from "./types";
 
 function App() {
   const [docente, setDocente] = useState("");
-  const [oraCorrente, setOraCorrente] = useState(new Date("2025 11 24 20:30"));
+  const [oraCorrente, setOraCorrente] = useState(new Date()); // Impostazione iniziale fissa per test
+  const [dayOffset, setDayOffset] = useState(0);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -32,20 +33,14 @@ function App() {
     6: "Sabato",
   };
 
-  // Ottieni la lista degli insegnanti disponibili dai dati e crea i relativi elementi
-  // const insegnanti = Object.keys(dati_lezioni);
-  // const insegnantiEl = insegnanti.map((insegnante) => (
-  //   <SelezionaInsegnante
-  //     key={insegnante}
-  //     onClick={setDocente}
-  //     docente={insegnante}
-  //   />
-  // ));
-
   // Ottieni il giorno corrente in formato stringa
   const giornoCorrente = (() => {
     return giorni[oraCorrente.getDay() as keyof typeof giorni];
   })();
+
+  // Giorno da visualizzare nella lista giornaliera (può essere modificato con le frecce)
+  const giornoVisualizzato =
+    giorni[((oraCorrente.getDay() + dayOffset + 7) % 7) as keyof typeof giorni];
 
   // Definisci tutti gli slot orari possibili
   const slotOrari: SlotOrario[] = [
@@ -55,12 +50,6 @@ function App() {
     { ORA_INIZIO: "20:50", ORA_FINE: "21:50" },
     { ORA_INIZIO: "21:50", ORA_FINE: "22:40" },
   ];
-
-  // Calcola ieri e domani
-  // const ieri =
-  //   giorni[((oraCorrente.getDay() - 1 + 7) % 7) as keyof typeof giorni];
-  // const domani =
-  //   giorni[((oraCorrente.getDay() + 1) % 7) as keyof typeof giorni];
 
   // Trova la classe corrente in base all'insegnante, al giorno e all'ora
   const classeCorrente = dati_lezioni[docente]?.find((lezione) => {
@@ -73,34 +62,14 @@ function App() {
   })?.CLASSE;
 
   // Trova tutte le lezioni di oggi per l'insegnante selezionato
-  const lezioniDiOggi = dati_lezioni[docente]
-    ?.filter((lezione) => {
-      return lezione.GIORNO === giornoCorrente;
-    })
-    ?.sort((a, b) => {
-      return a.ORA_INIZIO.localeCompare(b.ORA_INIZIO);
-    });
-  // Trova tutte le lezioni di domani per l'insegnante selezionato
-  // const lezioniDiDomani = dati_lezioni[docente]
-  //   ?.filter((lezione) => {
-  //     return lezione.GIORNO === domani;
-  //   })
-  //   ?.sort((a, b) => {
-  //     return a.ORA_INIZIO.localeCompare(b.ORA_INIZIO);
-  //   });
-  // Trova tutte le lezioni di ieri per l'insegnante selezionato
-  // const lezioniDiIeri = dati_lezioni[docente]
-  //   ?.filter((lezione) => {
-  //     return lezione.GIORNO === ieri;
-  //   })
-  //   ?.sort((a, b) => {
-  //     return a.ORA_INIZIO.localeCompare(b.ORA_INIZIO);
-  //   });
+  const lezioniDaMostrare = dati_lezioni[docente]
+    ?.filter((lezione) => lezione.GIORNO === giornoVisualizzato)
+    ?.sort((a, b) => a.ORA_INIZIO.localeCompare(b.ORA_INIZIO));
 
   return (
     <>
       <section className="flex flex-col items-center bg-[#FDF8E1]">
-        <div className="flex items-center flex-col justify-center py-[4em] gap-[2em] min-h-screen max-w-[300px]">
+        <div className="flex min-h-screen max-w-[300px] flex-col items-center justify-center gap-[2em] py-[4em]">
           {/* Header */}
           <div className="text-[#3D2B1F]">
             <BoxOfText
@@ -123,7 +92,7 @@ function App() {
             />
           </div>
           {/* Seleziona Insegnante */}
-          <div className="flex flex-col gap-[1em] w-full">
+          <div className="flex w-full flex-col gap-[1em]">
             <SelezionaInsegnante
               onClick={setDocente}
               docente="alemanno_giancarlo"
@@ -132,14 +101,8 @@ function App() {
               onClick={setDocente}
               docente="chiocchetti_gudrun"
             />
-            <SelezionaInsegnante
-              onClick={setDocente}
-              docente="fezza_antonio"
-            />
-            <SelezionaInsegnante
-              onClick={setDocente}
-              docente="morossi_paola"
-            />
+            <SelezionaInsegnante onClick={setDocente} docente="fezza_antonio" />
+            <SelezionaInsegnante onClick={setDocente} docente="morossi_paola" />
             <SelezionaInsegnante
               onClick={setDocente}
               docente="prencipe_francesco"
@@ -161,12 +124,16 @@ function App() {
           giornoCorrente={giornoCorrente}
           classeCorrente={classeCorrente}
         />
-        <div>{/* ### IMPLEMENTARE CODICE PROSSIMA LEZIONE ### */}</div>
         {/* Schermata Orari Giornate */}
         <OrariGiornalieri
           oraFormattata={oraFormattata}
-          lezioniDiOggi={lezioniDiOggi}
+          lezioniDiOggi={lezioniDaMostrare}
           slotOrari={slotOrari}
+          giornoCorrente={giornoCorrente}
+          giornoSelezionato={giornoVisualizzato}
+          setDayOffset={setDayOffset}
+          onPrevDay={() => setDayOffset((d) => d - 1)}
+          onNextDay={() => setDayOffset((d) => d + 1)}
         />
       </section>
     </>

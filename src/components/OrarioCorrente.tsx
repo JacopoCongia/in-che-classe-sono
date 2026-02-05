@@ -20,7 +20,7 @@ function OrarioCorrente({
   return (
     <div
       id="schermata-orario"
-      className="flex flex-col items-center justify-center relative py-[8em] px-[2em] text-center min-h-screen bg-[#3D2B1F] text-[#FDF8E1] gap-[1em] w-full"
+      className="relative flex min-h-screen w-full flex-col items-center justify-center gap-[1em] bg-[#3D2B1F] px-[2em] py-[8em] text-center text-[#FDF8E1]"
     >
       <div className="flex flex-col items-center gap-[3.5em]">
         <BoxOfText
@@ -39,8 +39,8 @@ function OrarioCorrente({
           boxWidth={250}
         />
         {docente ? (
-          <div className="flex flex-col items-center text-center gap-[0.3em]">
-            <p className="uppercase text-[1.35rem]">
+          <div className="flex flex-col items-center gap-[0.3em] text-center">
+            <p className="text-[1.35rem] uppercase">
               {`e dovresti essere ${
                 oraFormattata < "18:00" ||
                 oraFormattata > "22:40" ||
@@ -50,7 +50,7 @@ function OrarioCorrente({
                   : "in"
               } `}
             </p>
-            <p className="uppercase text-[2.5rem] w-[250px] bg-[#FDF8E1] text-[#C65D1E] shadow-[0_4px_0_0] shadow-[#C65D1E] px-[1em] py-[0.2em] rounded-[0.5em]">
+            <p className="w-[250px] rounded-[0.5em] bg-[#FDF8E1] px-[1em] py-[0.2em] text-[2.5rem] text-[#C65D1E] uppercase shadow-[0_4px_0_0] shadow-[#C65D1E]">
               {classeCorrente
                 ? classeCorrente
                 : oraFormattata < "18:00" ||
@@ -63,7 +63,7 @@ function OrarioCorrente({
           </div>
         ) : (
           <button
-            className="px-5 py-3 bg-[#A42A28] rounded-[0.5em] uppercase text-[#FDF8E1] hover:bg-[#A42A28]/80 cursor-pointer max-w-[300px] text-[1.3rem] shadow-[0_3px_0_0] shadow-[#FDF8E1] active:translate-y-0.5 active:shadow-none active:bg-[#A42A28]/80 select-none"
+            className="max-w-[300px] cursor-pointer rounded-[0.5em] bg-[#A42A28] px-5 py-3 text-[1.3rem] text-[#FDF8E1] uppercase shadow-[0_3px_0_0] shadow-[#FDF8E1] select-none hover:bg-[#A42A28]/80 active:translate-y-0.5 active:bg-[#A42A28]/80 active:shadow-none"
             onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           >
             Scegli un docente
@@ -84,10 +84,7 @@ function OrarioCorrente({
             ?.scrollIntoView({ behavior: "smooth" })
         }
       >
-        <path
-          d="M0 0h24v24H0V0z"
-          fill="none"
-        />
+        <path d="M0 0h24v24H0V0z" fill="none" />
         <path d="M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z" />
       </svg>
     </div>
