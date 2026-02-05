@@ -7,6 +7,7 @@ import OrarioCorrente from "./components/OrarioCorrente.tsx";
 
 import { formatTime } from "../utils";
 import OrariGiornalieri from "./components/OrariGiornalieri.tsx";
+import type { SlotOrario } from "./types";
 
 function App() {
   const [docente, setDocente] = useState("");
@@ -42,7 +43,7 @@ function App() {
     giorni[((oraCorrente.getDay() + dayOffset + 7) % 7) as keyof typeof giorni];
 
   // Definisci tutti gli slot orari possibili
-  const slotOrari = [
+  const slotOrari: SlotOrario[] = [
     { ORA_INIZIO: "18:00", ORA_FINE: "18:50" },
     { ORA_INIZIO: "18:50", ORA_FINE: "19:40" },
     { ORA_INIZIO: "20:00", ORA_FINE: "20:50" },

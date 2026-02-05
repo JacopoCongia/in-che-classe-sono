@@ -1,3 +1,4 @@
+import type { OrarioCorrenteProps } from "../types";
 import BoxOfText from "./BoxOfText";
 
 function OrarioCorrente({
@@ -5,12 +6,7 @@ function OrarioCorrente({
   oraFormattata,
   giornoCorrente,
   classeCorrente,
-}: {
-  docente: string | null;
-  oraFormattata: string;
-  giornoCorrente: string;
-  classeCorrente: string | undefined;
-}) {
+}: OrarioCorrenteProps) {
   let nomeDocente = "";
   if (docente) {
     const nomeECognome = docente.split("_");
@@ -18,6 +14,8 @@ function OrarioCorrente({
       nomeECognome.length > 1 ? nomeECognome[1] : nomeECognome[0];
     nomeDocente = nomeGrezzo.charAt(0).toUpperCase() + nomeGrezzo.slice(1);
   }
+
+  console.log(giornoCorrente);
 
   return (
     <div
@@ -44,13 +42,21 @@ function OrarioCorrente({
           <div className="flex flex-col items-center gap-[0.3em] text-center">
             <p className="text-[1.35rem] uppercase">
               {`e dovresti essere ${
-                oraFormattata < "18:00" || oraFormattata > "22:40" ? "a" : "in"
+                oraFormattata < "18:00" ||
+                oraFormattata > "22:40" ||
+                giornoCorrente === "Sabato" ||
+                giornoCorrente === "Domenica"
+                  ? "a"
+                  : "in"
               } `}
             </p>
             <p className="w-[250px] rounded-[0.5em] bg-[#FDF8E1] px-[1em] py-[0.2em] text-[2.5rem] text-[#C65D1E] uppercase shadow-[0_4px_0_0] shadow-[#C65D1E]">
               {classeCorrente
                 ? classeCorrente
-                : oraFormattata < "18:00" || oraFormattata > "22:40"
+                : oraFormattata < "18:00" ||
+                    oraFormattata > "22:40" ||
+                    giornoCorrente === "Sabato" ||
+                    giornoCorrente === "Domenica"
                   ? "Casa"
                   : "Pausa"}
             </p>

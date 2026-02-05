@@ -6,12 +6,7 @@ function OrariGiornalieri({
   oraFormattata,
   lezioniDiOggi,
   slotOrari,
-  giornoCorrente,
-  giornoSelezionato,
-  setDayOffset,
-  onPrevDay,
-  onNextDay,
-}: {
+}: OrariGiornalieriProps) {
   oraFormattata: string;
   lezioniDiOggi: Lesson[] | undefined;
   slotOrari: { ORA_INIZIO: string; ORA_FINE: string }[];
