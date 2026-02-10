@@ -433,7 +433,7 @@ export const data: TeacherSchedule = {
     {
       MATERIA: "Inglese",
       CLASSE: "5ACS",
-      GIORNO: "Mercoledì",
+      GIORNO: "Martedì",
       ORA_INIZIO: "20:00",
       ORA_FINE: "20:50",
     },
