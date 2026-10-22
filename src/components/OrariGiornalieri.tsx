@@ -88,10 +88,14 @@ function OrariGiornalieri({
           className="flex w-full flex-col items-center justify-center gap-[1.5em] pb-[3em] text-[#3D2B1F]"
         >
           {slotOrari.map((slot, index) => {
+            // Una lezione ora può coprire più slot consecutivi (es. 20:00-21:50),
+            // quindi verifichiamo che lo slot rientri nell'intervallo della
+            // lezione invece di richiedere una corrispondenza esatta.
             const lezione = lezioniDiOggi?.find(
               (lez) =>
-                lez.ORA_INIZIO === slot.ORA_INIZIO &&
-                lez.ORA_FINE === slot.ORA_FINE,
+                lez.GIORNO === giornoSelezionato &&
+                slot.ORA_INIZIO >= lez.ORA_INIZIO &&
+                slot.ORA_FINE <= lez.ORA_FINE,
             );
             return lezione ? (
               <div
@@ -104,9 +108,11 @@ function OrariGiornalieri({
                 >
                   {lezione.MATERIA}
                 </p>
-                {/* Orario */}
+                {/* Orario: si mostra l'orario dello SLOT (non della lezione),
+                    così un blocco di più ore continua a comparire come più
+                    riquadri, uno per ogni slot, come prima di questa modifica. */}
                 <p className="text-[1.5rem]">
-                  {lezione.ORA_INIZIO} - {lezione.ORA_FINE}
+                  {slot.ORA_INIZIO} - {slot.ORA_FINE}
                 </p>
                 {/* Classe */}
                 <p
