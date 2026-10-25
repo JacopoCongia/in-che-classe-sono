@@ -83,6 +83,10 @@ function App() {
   return (
     <>
       <section className="flex flex-col items-center bg-[#FDF8E1]">
+        {/* Back to Top Button */}
+        <div className="fixed right-5 bottom-5 z-30 rounded bg-[#C65D1E] px-4 py-2 text-[#FDF8E1]">
+          BACK TO TOP
+        </div>
         <div className="flex min-h-screen max-w-[300px] flex-col items-center justify-center gap-[2em] py-[4em]">
           {/* Header */}
           <div className="text-[#3D2B1F]">
