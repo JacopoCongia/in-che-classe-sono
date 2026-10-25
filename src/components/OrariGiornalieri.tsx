@@ -116,7 +116,7 @@ function OrariGiornalieri({
                 </p>
                 {/* Classe */}
                 <p
-                  className={`0 mt-[0.2em] w-[200px] rounded-[0.5em] bg-[#FDF8E1] px-[1em] py-[0.1em] text-[2.1rem] text-[#C65D1E] uppercase shadow-[0_4px_0_0] ${oraFormattata >= slot.ORA_INIZIO && oraFormattata <= slot.ORA_FINE ? "shadow-[#643010]" : "shadow-[#C65D1E]"}`}
+                  className={`0 mt-[0.2em] rounded-[0.5em] bg-[#FDF8E1] px-[1em] py-[0.1em] text-[2.1rem] text-[#C65D1E] uppercase shadow-[0_4px_0_0] ${oraFormattata >= slot.ORA_INIZIO && oraFormattata <= slot.ORA_FINE ? "shadow-[#643010]" : "shadow-[#C65D1E]"}`}
                 >
                   {lezione.CLASSE}
                 </p>
