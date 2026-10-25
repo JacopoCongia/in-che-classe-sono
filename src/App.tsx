@@ -2,10 +2,17 @@ import { data as dati_lezioni } from "../data.ts";
 import { useState, useEffect } from "react";
 import BoxOfText from "./components/BoxOfText.tsx";
 
-import SelezionaInsegnante from "./components/SelezionaInsegnante";
+import SelettoreInsegnanti from "./components/SelettoreInsegnanti.tsx";
 import OrarioCorrente from "./components/OrarioCorrente.tsx";
 
-import { formatTime } from "../utils";
+// formatTime already existed; getLezioniInsegnante/getInsegnantiAttivi are
+// the two new helpers that resolve data.ts's compact shape (attivo /
+// materiaDefault / lezioni) back into the plain Lesson[] the app used before.
+import {
+  formatTime,
+  getLezioniInsegnante,
+  getInsegnantiAttivi,
+} from "../utils";
 import OrariGiornalieri from "./components/OrariGiornalieri.tsx";
 import type { SlotOrario } from "./types";
 
@@ -51,8 +58,15 @@ function App() {
     { ORA_INIZIO: "21:50", ORA_FINE: "22:40" },
   ];
 
-  // Trova la classe corrente in base all'insegnante, al giorno e all'ora
-  const classeCorrente = dati_lezioni[docente]?.find((lezione) => {
+  // Lezioni "risolte" dell'insegnante selezionato: MATERIA è già compilata
+  // (dal valore esplicito o dal materiaDefault del docente), quindi tutto il
+  // resto del componente lavora esattamente come prima.
+  const lezioniInsegnante = getLezioniInsegnante(dati_lezioni, docente);
+
+  // Trova la classe corrente in base all'insegnante, al giorno e all'ora.
+  // Questo confronto era già un controllo di intervallo (>= / <=), quindi
+  // funziona senza modifiche anche ora che una lezione può coprire più slot.
+  const classeCorrente = lezioniInsegnante.find((lezione) => {
     // Verifica se la lezione è nel giorno corrente
     if (lezione.GIORNO !== giornoCorrente) return false;
     // Verifica se l'ora corrente è compresa tra ORA_INIZIO e ORA_FINE (dai dati)
@@ -62,9 +76,9 @@ function App() {
   })?.CLASSE;
 
   // Trova tutte le lezioni di oggi per l'insegnante selezionato
-  const lezioniDaMostrare = dati_lezioni[docente]
-    ?.filter((lezione) => lezione.GIORNO === giornoVisualizzato)
-    ?.sort((a, b) => a.ORA_INIZIO.localeCompare(b.ORA_INIZIO));
+  const lezioniDaMostrare = lezioniInsegnante
+    .filter((lezione) => lezione.GIORNO === giornoVisualizzato)
+    .sort((a, b) => a.ORA_INIZIO.localeCompare(b.ORA_INIZIO));
 
   return (
     <>
@@ -91,31 +105,13 @@ function App() {
               bold
             />
           </div>
-          {/* Seleziona Insegnante */}
-          <div className="flex w-full flex-col gap-[1em]">
-            <SelezionaInsegnante
-              onClick={setDocente}
-              docente="alemanno_giancarlo"
-            />
-            <SelezionaInsegnante
-              onClick={setDocente}
-              docente="chiocchetti_gudrun"
-            />
-            <SelezionaInsegnante onClick={setDocente} docente="fezza_antonio" />
-            <SelezionaInsegnante onClick={setDocente} docente="morossi_paola" />
-            <SelezionaInsegnante
-              onClick={setDocente}
-              docente="prencipe_francesco"
-            />
-            <SelezionaInsegnante
-              onClick={setDocente}
-              docente="rossi_alessandro"
-            />
-            <SelezionaInsegnante
-              onClick={setDocente}
-              docente="saracino_luigi"
-            />
-          </div>
+          {/* Seleziona Insegnante: lista generata da data.ts (attivo !== false),
+              filtrabile con la ricerca. Aggiungere un docente a data.ts
+              è ora sufficiente perché compaia qui. */}
+          <SelettoreInsegnanti
+            insegnanti={getInsegnantiAttivi(dati_lezioni)}
+            onClick={setDocente}
+          />
         </div>
         {/* Schermata Orario Corrente */}
         <OrarioCorrente
