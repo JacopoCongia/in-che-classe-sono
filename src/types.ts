@@ -22,6 +22,9 @@ export interface TeacherData {
   // Set to false to keep a teacher's schedule in the file without showing
   // them in the selection list (replaces the old "comment it out" approach).
   attivo?: boolean;
+  // NUOVO: se true, il docente compare in cima alla lista del selettore
+  // (prima di tutti gli altri, che restano in ordine alfabetico).
+  inEvidenza?: boolean;
   // Used for entries in `lezioni` that don't specify their own MATERIA.
   materiaDefault?: string;
   lezioni: LessonEntry[];

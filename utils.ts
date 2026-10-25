@@ -25,10 +25,19 @@ export function getLezioniInsegnante(
   }));
 }
 
-// --- NUOVO: chiavi dei docenti attivi (attivo !== false), ordinate
-// alfabeticamente, usate per generare la lista nel SelettoreInsegnanti.
+// --- NUOVO: chiavi dei docenti attivi (attivo !== false), usate per generare
+// la lista nel SelettoreInsegnanti. I docenti "inEvidenza" vengono per primi,
+// poi tutti gli altri; dentro ciascun gruppo l'ordine è alfabetico.
 export function getInsegnantiAttivi(schedule: TeacherSchedule): string[] {
   return Object.keys(schedule)
     .filter((key) => schedule[key].attivo !== false)
-    .sort((a, b) => a.localeCompare(b));
+    .sort((a, b) => {
+      // Number(true) = 1, Number(false/undefined) = 0: confrontando b con a,
+      // chi è in evidenza (1) finisce davanti a chi non lo è (0).
+      const evidenzaA = Number(schedule[a].inEvidenza === true);
+      const evidenzaB = Number(schedule[b].inEvidenza === true);
+      if (evidenzaA !== evidenzaB) return evidenzaB - evidenzaA;
+      // Stesso gruppo: ordine alfabetico come prima.
+      return a.localeCompare(b);
+    });
 }
