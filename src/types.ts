@@ -22,9 +22,9 @@ export interface TeacherData {
   // Set to false to keep a teacher's schedule in the file without showing
   // them in the selection list (replaces the old "comment it out" approach).
   attivo?: boolean;
-  // NUOVO: se true, il docente compare in cima alla lista del selettore
-  // (prima di tutti gli altri, che restano in ordine alfabetico).
-  inEvidenza?: boolean;
+  // NUOVO: false = niente bottone per questo docente nella prima sezione, ma
+  // le sue lezioni restano nelle tabelle delle classi. Omesso = visibile.
+  visibile?: boolean;
   // Used for entries in `lezioni` that don't specify their own MATERIA.
   materiaDefault?: string;
   lezioni: LessonEntry[];
@@ -62,9 +62,22 @@ export interface SelezionaInsegnanteProps {
   docente: string;
 }
 
-export interface SelettoreInsegnantiProps {
-  insegnanti: string[]; // active teacher keys, e.g. "rossi_alessandro"
-  onClick: (docente: string) => void;
+// NUOVO: una Lesson "vista dalla classe": in più sa quale docente la tiene
+// (chiave di data.ts, es. "rossi_alessandro").
+export interface LezioneClasse extends Lesson {
+  DOCENTE: string;
+}
+
+// NUOVO: props della sezione con la tabella settimanale di una classe.
+export interface OrariClassiProps {
+  classeSelezionata: string;
+  lezioniClasse: LezioneClasse[];
+  slotOrari: SlotOrario[];
+  docenteSelezionato: string; // docente scelto in alto, per evidenziarne le lezioni
+  oraFormattata: string;
+  giornoCorrente: string;
+  onPrevClass: () => void;
+  onNextClass: () => void;
 }
 
 export interface OrarioCorrenteProps {

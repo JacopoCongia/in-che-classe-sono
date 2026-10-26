@@ -1,13 +1,17 @@
 import type { TeacherSchedule } from "./src/types";
 
+// Flag opzionali per docente:
+//   visibile: false  -> nessun bottone nella lista, ma le lezioni restano nelle tabelle delle classi
+//   attivo: false    -> docente escluso ovunque (bottone e tabelle)
+
 // Esempio di una lezione (un blocco continuo, anche su più slot):
 // { CLASSE: "3AIS", GIORNO: "Giovedì", ORA_INIZIO: "20:00", ORA_FINE: "21:50" },
 // MATERIA va aggiunta solo se diversa da materiaDefault (o se manca il default):
 // { CLASSE: "3AIS", GIORNO: "Lunedì", ORA_INIZIO: "20:00", ORA_FINE: "20:50", MATERIA: "Sistemi e Reti" },
+// Una lezione condivisa da più classi si scrive con CLASSE: "3ACS + 3AIS".
 
 export const data: TeacherSchedule = {
   chiocchetti_gudrun: {
-    inEvidenza: true, // fissata in cima alla lista
     materiaDefault: "Inglese",
     lezioni: [
       {
@@ -261,7 +265,7 @@ export const data: TeacherSchedule = {
         GIORNO: "Martedì",
         ORA_INIZIO: "20:00",
         ORA_FINE: "20:50",
-        MATERIA: "Gestione di Progettazione e Organizzazione di Impresa",
+        MATERIA: "GPOI",
       },
       {
         CLASSE: "5AIS",
@@ -280,7 +284,7 @@ export const data: TeacherSchedule = {
         GIORNO: "Venerdì",
         ORA_INIZIO: "18:50",
         ORA_FINE: "19:40",
-        MATERIA: "Gestione di Progettazione e Organizzazione di Impresa",
+        MATERIA: "GPOI",
       },
     ],
   },
@@ -400,112 +404,650 @@ export const data: TeacherSchedule = {
         GIORNO: "Lunedì",
         ORA_INIZIO: "18:50",
         ORA_FINE: "19:40",
-        MATERIA: "Lingua e Letteratura Italiana",
+        MATERIA: "Storia",
       },
       {
         CLASSE: "2AS",
         GIORNO: "Lunedì",
         ORA_INIZIO: "20:00",
         ORA_FINE: "20:50",
-        MATERIA: "Lingua e Letteratura Italiana",
+        MATERIA: "Storia",
       },
       {
         CLASSE: "2AS",
         GIORNO: "Mercoledì",
         ORA_INIZIO: "20:50",
         ORA_FINE: "21:50",
-        MATERIA: "Lingua e Letteratura Italiana",
+        MATERIA: "Storia",
       },
       {
         CLASSE: "3ACS + 3AIS",
         GIORNO: "Lunedì",
         ORA_INIZIO: "18:00",
         ORA_FINE: "18:50",
-        MATERIA: "Storia, Cittadinanza e Costituzione",
+        MATERIA: "Storia",
       },
       {
         CLASSE: "3ACS + 3AIS",
         GIORNO: "Martedì",
         ORA_INIZIO: "18:50",
         ORA_FINE: "19:40",
-        MATERIA: "Storia, Cittadinanza e Costituzione",
+        MATERIA: "Storia",
       },
       {
         CLASSE: "3ACS + 3AIS",
         GIORNO: "Mercoledì",
         ORA_INIZIO: "21:50",
         ORA_FINE: "22:40",
-        MATERIA: "Lingua e Letteratura Italiana",
+        MATERIA: "Italiano",
       },
       {
         CLASSE: "3ACS + 3AIS",
         GIORNO: "Venerdì",
         ORA_INIZIO: "20:00",
         ORA_FINE: "21:50",
-        MATERIA: "Lingua e Letteratura Italiana",
+        MATERIA: "Italiano",
       },
       {
         CLASSE: "4AIS",
         GIORNO: "Lunedì",
         ORA_INIZIO: "20:50",
         ORA_FINE: "21:50",
-        MATERIA: "Storia, Cittadinanza e Costituzione",
+        MATERIA: "Storia",
       },
       {
         CLASSE: "4AIS",
         GIORNO: "Martedì",
         ORA_INIZIO: "20:00",
         ORA_FINE: "21:50",
-        MATERIA: "Lingua e Letteratura Italiana",
+        MATERIA: "Italiano",
       },
       {
         CLASSE: "4AIS",
         GIORNO: "Mercoledì",
         ORA_INIZIO: "18:50",
         ORA_FINE: "19:40",
-        MATERIA: "Lingua e Letteratura Italiana",
+        MATERIA: "Italiano",
       },
       {
         CLASSE: "4AIS",
         GIORNO: "Giovedì",
         ORA_INIZIO: "18:50",
         ORA_FINE: "19:40",
-        MATERIA: "Storia, Cittadinanza e Costituzione",
+        MATERIA: "Storia",
       },
       {
         CLASSE: "5AIS",
         GIORNO: "Martedì",
         ORA_INIZIO: "18:00",
         ORA_FINE: "18:50",
-        MATERIA: "Storia, Cittadinanza e Costituzione",
+        MATERIA: "Storia",
       },
       {
         CLASSE: "5AIS",
         GIORNO: "Martedì",
         ORA_INIZIO: "21:50",
         ORA_FINE: "22:40",
-        MATERIA: "Lingua e Letteratura Italiana",
+        MATERIA: "Italiano",
       },
       {
         CLASSE: "5AIS",
         GIORNO: "Mercoledì",
         ORA_INIZIO: "18:00",
         ORA_FINE: "18:50",
-        MATERIA: "Storia, Cittadinanza e Costituzione",
+        MATERIA: "Storia",
       },
       {
         CLASSE: "5AIS",
         GIORNO: "Mercoledì",
         ORA_INIZIO: "20:00",
         ORA_FINE: "20:50",
-        MATERIA: "Lingua e Letteratura Italiana",
+        MATERIA: "Italiano",
       },
       {
         CLASSE: "5AIS",
         GIORNO: "Giovedì",
         ORA_INIZIO: "18:00",
         ORA_FINE: "18:50",
-        MATERIA: "Lingua e Letteratura Italiana",
+        MATERIA: "Italiano",
+      },
+    ],
+  },
+  bonato_p: {
+    visibile: false, // nessun bottone: metti true (o togli la riga) per mostrarlo
+    lezioni: [
+      {
+        CLASSE: "1AS",
+        GIORNO: "Giovedì",
+        ORA_INIZIO: "18:50",
+        ORA_FINE: "19:40",
+        MATERIA: "Tecnologie Informatiche",
+      },
+      {
+        CLASSE: "1AS",
+        GIORNO: "Venerdì",
+        ORA_INIZIO: "20:00",
+        ORA_FINE: "20:50",
+        MATERIA: "Tecnologie Informatiche",
+      },
+      {
+        CLASSE: "3AIS",
+        GIORNO: "Martedì",
+        ORA_INIZIO: "20:00",
+        ORA_FINE: "20:50",
+        MATERIA: "TPSIT",
+      },
+      {
+        CLASSE: "3AIS",
+        GIORNO: "Mercoledì",
+        ORA_INIZIO: "18:00",
+        ORA_FINE: "19:40",
+        MATERIA: "Informatica",
+      },
+      {
+        CLASSE: "3AIS",
+        GIORNO: "Mercoledì",
+        ORA_INIZIO: "20:00",
+        ORA_FINE: "20:50",
+        MATERIA: "Informatica",
+      },
+      {
+        CLASSE: "3AIS",
+        GIORNO: "Venerdì",
+        ORA_INIZIO: "18:50",
+        ORA_FINE: "19:40",
+        MATERIA: "Sistemi e Reti",
+      },
+      {
+        CLASSE: "4AIS",
+        GIORNO: "Martedì",
+        ORA_INIZIO: "18:00",
+        ORA_FINE: "19:40",
+        MATERIA: "Informatica",
+      },
+      {
+        CLASSE: "4AIS",
+        GIORNO: "Giovedì",
+        ORA_INIZIO: "18:00",
+        ORA_FINE: "18:50",
+        MATERIA: "Informatica",
+      },
+      {
+        CLASSE: "4AIS",
+        GIORNO: "Giovedì",
+        ORA_INIZIO: "20:00",
+        ORA_FINE: "20:50",
+        MATERIA: "TPSIT",
+      },
+      {
+        CLASSE: "4AIS",
+        GIORNO: "Giovedì",
+        ORA_INIZIO: "20:50",
+        ORA_FINE: "21:50",
+        MATERIA: "Sistemi e Reti",
+      },
+      {
+        CLASSE: "5AIS",
+        GIORNO: "Lunedì",
+        ORA_INIZIO: "18:00",
+        ORA_FINE: "19:40",
+        MATERIA: "Informatica",
+      },
+      {
+        CLASSE: "5AIS",
+        GIORNO: "Lunedì",
+        ORA_INIZIO: "20:00",
+        ORA_FINE: "21:50",
+        MATERIA: "Sistemi e Reti",
+      },
+      {
+        CLASSE: "5AIS",
+        GIORNO: "Martedì",
+        ORA_INIZIO: "20:50",
+        ORA_FINE: "21:50",
+        MATERIA: "Informatica",
+      },
+      {
+        CLASSE: "5AIS",
+        GIORNO: "Mercoledì",
+        ORA_INIZIO: "20:50",
+        ORA_FINE: "22:40",
+        MATERIA: "TPSIT",
+      },
+    ],
+  },
+  brualdi_b: {
+    visibile: false, // nessun bottone: metti true (o togli la riga) per mostrarlo
+    materiaDefault: "Diritto ed Economia",
+    lezioni: [
+      {
+        CLASSE: "2AS",
+        GIORNO: "Martedì",
+        ORA_INIZIO: "18:00",
+        ORA_FINE: "19:40",
+      },
+    ],
+  },
+  cammarota_a: {
+    visibile: false, // nessun bottone: metti true (o togli la riga) per mostrarlo
+    materiaDefault: "Biologia",
+    lezioni: [
+      {
+        CLASSE: "1AS",
+        GIORNO: "Martedì",
+        ORA_INIZIO: "20:00",
+        ORA_FINE: "21:50",
+      },
+    ],
+  },
+  cimini_p: {
+    visibile: false, // nessun bottone: metti true (o togli la riga) per mostrarlo
+    materiaDefault: "Telecomunicazioni",
+    lezioni: [
+      {
+        CLASSE: "4AIS",
+        GIORNO: "Lunedì",
+        ORA_INIZIO: "18:00",
+        ORA_FINE: "19:40",
+      },
+    ],
+  },
+  davoli_c: {
+    visibile: false, // nessun bottone: metti true (o togli la riga) per mostrarlo
+    materiaDefault: "Disegno Tecnico",
+    lezioni: [
+      {
+        CLASSE: "1AS",
+        GIORNO: "Martedì",
+        ORA_INIZIO: "18:00",
+        ORA_FINE: "19:40",
+      },
+      {
+        CLASSE: "2AS",
+        GIORNO: "Giovedì",
+        ORA_INIZIO: "18:00",
+        ORA_FINE: "19:40",
+      },
+    ],
+  },
+  dipace_f: {
+    visibile: false, // nessun bottone: metti true (o togli la riga) per mostrarlo
+    materiaDefault: "STA - Fisica",
+    lezioni: [
+      {
+        CLASSE: "1AS",
+        GIORNO: "Mercoledì",
+        ORA_INIZIO: "18:00",
+        ORA_FINE: "19:40",
+      },
+      {
+        CLASSE: "2AS",
+        GIORNO: "Venerdì",
+        ORA_INIZIO: "18:00",
+        ORA_FINE: "19:40",
+      },
+    ],
+  },
+  giannini_s: {
+    visibile: false, // nessun bottone: metti true (o togli la riga) per mostrarlo
+    materiaDefault: "Telecomunicazioni",
+    lezioni: [
+      {
+        CLASSE: "3AIS",
+        GIORNO: "Giovedì",
+        ORA_INIZIO: "18:00",
+        ORA_FINE: "19:40",
+      },
+    ],
+  },
+  luciano_a: {
+    visibile: false, // nessun bottone: metti true (o togli la riga) per mostrarlo
+    materiaDefault: "Matematica",
+    lezioni: [
+      {
+        CLASSE: "1AS",
+        GIORNO: "Lunedì",
+        ORA_INIZIO: "18:00",
+        ORA_FINE: "19:40",
+      },
+      {
+        CLASSE: "1AS",
+        GIORNO: "Giovedì",
+        ORA_INIZIO: "18:00",
+        ORA_FINE: "18:50",
+      },
+    ],
+  },
+  malberti_v: {
+    visibile: false, // nessun bottone: metti true (o togli la riga) per mostrarlo
+    materiaDefault: "STA - Fisica",
+    lezioni: [
+      {
+        CLASSE: "1AS",
+        GIORNO: "Mercoledì",
+        ORA_INIZIO: "18:00",
+        ORA_FINE: "19:40",
+      },
+      {
+        CLASSE: "2AS",
+        GIORNO: "Venerdì",
+        ORA_INIZIO: "18:00",
+        ORA_FINE: "19:40",
+      },
+    ],
+  },
+  martino_tonino: {
+    visibile: false, // nessun bottone: metti true (o togli la riga) per mostrarlo
+    lezioni: [
+      {
+        CLASSE: "1AS",
+        GIORNO: "Lunedì",
+        ORA_INIZIO: "20:00",
+        ORA_FINE: "20:50",
+        MATERIA: "STA - Chimica",
+      },
+      {
+        CLASSE: "1AS",
+        GIORNO: "Giovedì",
+        ORA_INIZIO: "20:00",
+        ORA_FINE: "20:50",
+        MATERIA: "STA - Chimica",
+      },
+      {
+        CLASSE: "2AS",
+        GIORNO: "Lunedì",
+        ORA_INIZIO: "20:50",
+        ORA_FINE: "21:50",
+        MATERIA: "STA - Chimica",
+      },
+      {
+        CLASSE: "2AS",
+        GIORNO: "Martedì",
+        ORA_INIZIO: "20:50",
+        ORA_FINE: "21:50",
+        MATERIA: "STA - Chimica",
+      },
+      {
+        CLASSE: "2AS",
+        GIORNO: "Martedì",
+        ORA_INIZIO: "21:50",
+        ORA_FINE: "22:40",
+        MATERIA: "Scienze e Tecnologie Applicate",
+      },
+      {
+        CLASSE: "2AS",
+        GIORNO: "Mercoledì",
+        ORA_INIZIO: "20:00",
+        ORA_FINE: "20:50",
+        MATERIA: "Scienze e Tecnologie Applicate",
+      },
+      {
+        CLASSE: "2AS",
+        GIORNO: "Venerdì",
+        ORA_INIZIO: "20:50",
+        ORA_FINE: "21:50",
+        MATERIA: "STA - Chimica",
+      },
+      {
+        CLASSE: "3ACS",
+        GIORNO: "Martedì",
+        ORA_INIZIO: "20:00",
+        ORA_FINE: "20:50",
+        MATERIA: "Chimica Organica e Biochimica",
+      },
+      {
+        CLASSE: "3ACS",
+        GIORNO: "Giovedì",
+        ORA_INIZIO: "21:50",
+        ORA_FINE: "22:40",
+        MATERIA: "Chimica Organica e Biochimica",
+      },
+      {
+        CLASSE: "3ACS",
+        GIORNO: "Venerdì",
+        ORA_INIZIO: "18:00",
+        ORA_FINE: "19:40",
+        MATERIA: "Chimica Organica e Biochimica",
+      },
+      {
+        CLASSE: "4ACS",
+        GIORNO: "Lunedì",
+        ORA_INIZIO: "18:00",
+        ORA_FINE: "19:40",
+        MATERIA: "Chimica Organica e Biochimica",
+      },
+      {
+        CLASSE: "4ACS",
+        GIORNO: "Mercoledì",
+        ORA_INIZIO: "18:50",
+        ORA_FINE: "19:40",
+        MATERIA: "Chimica Organica e Biochimica",
+      },
+      {
+        CLASSE: "4ACS",
+        GIORNO: "Giovedì",
+        ORA_INIZIO: "18:50",
+        ORA_FINE: "19:40",
+        MATERIA: "Chimica Organica e Biochimica",
+      },
+      {
+        CLASSE: "5ACS",
+        GIORNO: "Martedì",
+        ORA_INIZIO: "18:50",
+        ORA_FINE: "19:40",
+        MATERIA: "Chimica Organica e Biochimica",
+      },
+      {
+        CLASSE: "5ACS",
+        GIORNO: "Giovedì",
+        ORA_INIZIO: "20:50",
+        ORA_FINE: "21:50",
+        MATERIA: "Chimica Organica e Biochimica",
+      },
+      {
+        CLASSE: "5ACS",
+        GIORNO: "Venerdì",
+        ORA_INIZIO: "20:00",
+        ORA_FINE: "20:50",
+        MATERIA: "Chimica Organica e Biochimica",
+      },
+    ],
+  },
+  morossi_paola: {
+    visibile: false, // nessun bottone: metti true (o togli la riga) per mostrarlo
+    lezioni: [
+      {
+        CLASSE: "4ACS",
+        GIORNO: "Giovedì",
+        ORA_INIZIO: "20:50",
+        ORA_FINE: "22:40",
+        MATERIA: "Italiano",
+      },
+      {
+        CLASSE: "4ACS",
+        GIORNO: "Venerdì",
+        ORA_INIZIO: "18:00",
+        ORA_FINE: "19:40",
+        MATERIA: "Storia",
+      },
+      {
+        CLASSE: "4ACS",
+        GIORNO: "Venerdì",
+        ORA_INIZIO: "20:00",
+        ORA_FINE: "20:50",
+        MATERIA: "Italiano",
+      },
+      {
+        CLASSE: "5ACS",
+        GIORNO: "Martedì",
+        ORA_INIZIO: "18:00",
+        ORA_FINE: "18:50",
+        MATERIA: "Italiano",
+      },
+      {
+        CLASSE: "5ACS",
+        GIORNO: "Martedì",
+        ORA_INIZIO: "20:00",
+        ORA_FINE: "21:50",
+        MATERIA: "Italiano",
+      },
+      {
+        CLASSE: "5ACS",
+        GIORNO: "Martedì",
+        ORA_INIZIO: "21:50",
+        ORA_FINE: "22:40",
+        MATERIA: "Storia",
+      },
+      {
+        CLASSE: "5ACS",
+        GIORNO: "Venerdì",
+        ORA_INIZIO: "20:50",
+        ORA_FINE: "21:50",
+        MATERIA: "Storia",
+      },
+    ],
+  },
+  saracino_luigi: {
+    lezioni: [
+      {
+        CLASSE: "3ACS",
+        GIORNO: "Martedì",
+        ORA_INIZIO: "20:50",
+        ORA_FINE: "21:50",
+        MATERIA: "Chimica Analitica e Strumentale",
+      },
+      {
+        CLASSE: "3ACS",
+        GIORNO: "Mercoledì",
+        ORA_INIZIO: "18:00",
+        ORA_FINE: "19:40",
+        MATERIA: "Chimica Analitica e Strumentale",
+      },
+      {
+        CLASSE: "3ACS",
+        GIORNO: "Mercoledì",
+        ORA_INIZIO: "20:00",
+        ORA_FINE: "20:50",
+        MATERIA: "Chimica Analitica e Strumentale",
+      },
+      {
+        CLASSE: "3ACS",
+        GIORNO: "Giovedì",
+        ORA_INIZIO: "20:50",
+        ORA_FINE: "21:50",
+        MATERIA: "Chimica Analitica e Strumentale",
+      },
+      {
+        CLASSE: "4ACS",
+        GIORNO: "Lunedì",
+        ORA_INIZIO: "20:00",
+        ORA_FINE: "20:50",
+        MATERIA: "Tecnologie Chimiche Industriali",
+      },
+      {
+        CLASSE: "4ACS",
+        GIORNO: "Lunedì",
+        ORA_INIZIO: "20:50",
+        ORA_FINE: "21:50",
+        MATERIA: "Chimica Analitica e Strumentale",
+      },
+      {
+        CLASSE: "4ACS",
+        GIORNO: "Martedì",
+        ORA_INIZIO: "18:00",
+        ORA_FINE: "19:40",
+        MATERIA: "Chimica Analitica e Strumentale",
+      },
+      {
+        CLASSE: "4ACS",
+        GIORNO: "Martedì",
+        ORA_INIZIO: "20:00",
+        ORA_FINE: "20:50",
+        MATERIA: "Chimica Analitica e Strumentale",
+      },
+      {
+        CLASSE: "4ACS",
+        GIORNO: "Martedì",
+        ORA_INIZIO: "21:50",
+        ORA_FINE: "22:40",
+        MATERIA: "Tecnologie Chimiche Industriali",
+      },
+      {
+        CLASSE: "4ACS",
+        GIORNO: "Mercoledì",
+        ORA_INIZIO: "20:50",
+        ORA_FINE: "22:40",
+        MATERIA: "Tecnologie Chimiche Industriali",
+      },
+      {
+        CLASSE: "4ACS",
+        GIORNO: "Giovedì",
+        ORA_INIZIO: "20:00",
+        ORA_FINE: "20:50",
+        MATERIA: "Chimica Analitica e Strumentale",
+      },
+      {
+        CLASSE: "5ACS",
+        GIORNO: "Lunedì",
+        ORA_INIZIO: "18:00",
+        ORA_FINE: "18:50",
+        MATERIA: "Tecnologie Chimiche Industriali",
+      },
+      {
+        CLASSE: "5ACS",
+        GIORNO: "Giovedì",
+        ORA_INIZIO: "18:00",
+        ORA_FINE: "19:40",
+        MATERIA: "Tecnologie Chimiche Industriali",
+      },
+      {
+        CLASSE: "5ACS",
+        GIORNO: "Venerdì",
+        ORA_INIZIO: "18:00",
+        ORA_FINE: "18:50",
+        MATERIA: "Tecnologie Chimiche Industriali",
+      },
+    ],
+  },
+  terenzi_m: {
+    visibile: false, // nessun bottone: metti true (o togli la riga) per mostrarlo
+    materiaDefault: "Disegno Tecnico",
+    lezioni: [
+      {
+        CLASSE: "2AS",
+        GIORNO: "Lunedì",
+        ORA_INIZIO: "18:00",
+        ORA_FINE: "18:50",
+      },
+      {
+        CLASSE: "2AS",
+        GIORNO: "Giovedì",
+        ORA_INIZIO: "18:00",
+        ORA_FINE: "19:40",
+      },
+    ],
+  },
+  vitali_g: {
+    visibile: false, // nessun bottone: metti true (o togli la riga) per mostrarlo
+    materiaDefault: "Disegno Tecnico",
+    lezioni: [
+      {
+        CLASSE: "1AS",
+        GIORNO: "Martedì",
+        ORA_INIZIO: "18:00",
+        ORA_FINE: "19:40",
+      },
+    ],
+  },
+  zocche_p: {
+    visibile: false, // nessun bottone: metti true (o togli la riga) per mostrarlo
+    materiaDefault: "Italiano",
+    lezioni: [
+      {
+        CLASSE: "1AS",
+        GIORNO: "Venerdì",
+        ORA_INIZIO: "18:00",
+        ORA_FINE: "19:40",
       },
     ],
   },
