@@ -17,7 +17,7 @@ import {
   getLezioniClasse,
 } from "../utils";
 import OrariGiornalieri from "./components/OrariGiornalieri.tsx";
-import OrariClassi from "./components/Orariclassi.tsx";
+import OrariClassi from "./components/OrariClassi.tsx";
 import type { SlotOrario } from "./types";
 
 function App() {
