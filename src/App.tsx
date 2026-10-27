@@ -35,6 +35,7 @@ function App() {
   }, []);
 
   const oraFormattata = formatTime(oraCorrente);
+  // const oraFormattata = "19:20"; // Impostazione fissa per test
 
   const giorni = {
     0: "Domenica",

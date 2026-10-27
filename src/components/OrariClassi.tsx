@@ -1,11 +1,17 @@
 import { Fragment } from "react";
 import { AnimatePresence, motion } from "motion/react";
-import type { LezioneClasse, OrariClassiProps } from "../types";
+import type { LezioneClasse, OrariClassiProps, SlotOrario } from "../types";
 import { cognomeDocente } from "../../utils";
 import BoxOfText from "./BoxOfText";
 
 // Colonne della tabella (lunedì-venerdì, come i dati)
 const GIORNI = ["Lunedì", "Martedì", "Mercoledì", "Giovedì", "Venerdì"];
+
+// vero se l'ora attuale cade dentro lo slot. La fine è ESCLUSA (<):
+// alle 18:50 siamo già nel secondo slot, non più nel primo.
+function slotInCorso(oraFormattata: string, slot: SlotOrario) {
+  return oraFormattata >= slot.ORA_INIZIO && oraFormattata < slot.ORA_FINE;
+}
 
 function OrariClassi({
   classeSelezionata,
@@ -73,26 +79,11 @@ function OrariClassi({
             transition={{ duration: 0.4 }}
             // overflow-x-auto: su telefono la tabella (più larga dello schermo)
             // si scorre di lato invece di restringere i testi.
-            // MODIFICATO: niente padding orizzontale qui. Un elemento sticky si
-            // ferma al bordo interno del padding, quindi le celle scorrevano
-            // visibili nello spazio a sinistra della colonna degli orari. Il
-            // margine laterale è ora dentro la griglia (px-[1em] sotto).
-            className="w-full max-w-[760px] overflow-x-auto pb-[1em]"
+            className="w-full max-w-[760px] overflow-x-auto pb-[1em] lg:max-w-[1000px]"
           >
             {/* Griglia: colonna orari + 5 colonne giorno da 110px.
                 mx-auto la centra quando c'è abbastanza spazio. */}
-            <div
-              className="mx-auto grid w-max gap-[0.35em] px-[1em]"
-              style={{ gridTemplateColumns: "3.2em repeat(5, 110px)" }}
-            >
-              {/* MODIFICATO: pannello "vetro smerigliato" della colonna orari.
-                  È UN solo elemento che occupa la colonna 1 per tutte le righe
-                  (intestazione + slot), quindi copre anche le fessure tra le
-                  righe. sticky left-0 lo tiene fermo mentre la tabella scorre;
-                  backdrop-blur-md sfoca ciò che gli passa sotto e
-                  bg-[#3D2B1F]/70 è lo sfondo scuro al 70% di opacità.
-                  -mr-[0.35em] lo allarga fino a coprire la fessura verso la
-                  prima colonna dei giorni. */}
+            <div className="mx-auto grid w-max grid-cols-[3.2em_repeat(5,110px)] gap-[0.35em] px-[1em] lg:w-full lg:grid-cols-[3.2em_repeat(5,minmax(0,1fr))]">
               <div
                 aria-hidden
                 className="sticky left-0 z-10 -mr-[0.35em] rounded-r-[0.5em] bg-[#3D2B1F]/70 backdrop-blur-md"
@@ -127,8 +118,17 @@ function OrariClassi({
                     className="sticky left-0 z-20 flex flex-col items-center justify-center text-[0.7rem] leading-tight"
                     style={{ gridColumn: 1, gridRow: indiceSlot + 2 }}
                   >
-                    <span>{slot.ORA_INIZIO}</span>
-                    <span className="opacity-60">{slot.ORA_FINE}</span>
+                    <div
+                      className={`flex flex-col items-center rounded-[0.4em] px-[0.4em] py-[0.3em] ${
+                        GIORNI.includes(giornoCorrente) &&
+                        slotInCorso(oraFormattata, slot)
+                          ? "bg-[#C65D1E]"
+                          : ""
+                      }`}
+                    >
+                      <span>{slot.ORA_INIZIO}</span>
+                      <span className="opacity-60">{slot.ORA_FINE}</span>
+                    </div>
                   </div>
 
                   {GIORNI.map((giorno) => {
@@ -144,23 +144,27 @@ function OrariClassi({
                     // Cerchio chiaro attorno alla cella dello slot attuale
                     const adesso =
                       giorno === giornoCorrente &&
-                      oraFormattata >= slot.ORA_INIZIO &&
-                      oraFormattata <= slot.ORA_FINE;
-                    const evidenziaAdesso = adesso
-                      ? "ring-2 ring-[#FDF8E1] ring-offset-2 ring-offset-[#3D2B1F]"
-                      : "";
+                      slotInCorso(oraFormattata, slot);
+                    const pallino = adesso ? (
+                      <span className="absolute top-[0.4em] right-[0.4em] z-10 flex h-[0.7em] w-[0.7em]">
+                        <span className="absolute inline-flex h-full w-full rounded-full bg-[#C65D1E] opacity-75 motion-safe:animate-ping" />
+                        <span className="relative inline-flex h-full w-full rounded-full bg-[#C65D1E] ring-2 ring-[#FDF8E1]" />
+                      </span>
+                    ) : null;
 
                     // Cella vuota
                     if (lezioni.length === 0) {
                       return (
                         <div
                           key={giorno}
-                          className={`min-h-[5.5em] rounded-[0.5em] border-2 border-dashed border-[#FDF8E1]/25 ${evidenziaAdesso}`}
-                        />
+                          className="relative min-h-[5.5em] rounded-[0.5em] border-2 border-dashed border-[#FDF8E1]/25"
+                        >
+                          {pallino}
+                        </div>
                       );
                     }
 
-                    // MODIFICATO: più docenti con la STESSA materia nella stessa
+                    // più docenti con la STESSA materia nella stessa
                     // cella (compresenza, es. Bonato + Fezza) diventano un solo
                     // riquadro con i cognomi separati da virgola. Un Map raggruppa
                     // le lezioni per materia; materie diverse restano riquadri
@@ -176,8 +180,9 @@ function OrariClassi({
                     return (
                       <div
                         key={giorno}
-                        className={`flex min-h-[5.5em] flex-col gap-[0.2em] rounded-[0.5em] ${evidenziaAdesso}`}
+                        className="relative flex min-h-[5.5em] flex-col gap-[0.2em] rounded-[0.5em]"
                       >
+                        {pallino}
                         {[...gruppi.entries()].map(([materia, gruppo]) => {
                           // Docenti del riquadro: senza doppioni, in ordine alfabetico
                           const docenti = [
@@ -202,16 +207,6 @@ function OrariClassi({
                               }`}
                             >
                               {/* Materia: più grande, nome completo che va a capo */}
-                              {/* MODIFICATO: ogni parola è un "inline-block" con
-                                  max-w-full + truncate (overflow nascosto, puntini
-                                  "…"). Le materie con più parole vanno a capo come
-                                  prima; solo una parola più larga della cella
-                                  (es. "Telecomunicazioni") viene troncata.
-                                  w-full min-w-0 serve perché il <p> sia largo
-                                  quanto la cella e non quanto la parola più lunga:
-                                  senza, max-w-full non avrebbe un limite a cui
-                                  riferirsi. title mostra il nome intero al passaggio
-                                  del mouse (su desktop). */}
                               <p
                                 title={materia}
                                 className={`w-full min-w-0 text-[0.75rem] leading-tight font-bold uppercase ${
