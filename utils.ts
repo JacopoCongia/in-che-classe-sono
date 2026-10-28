@@ -1,4 +1,9 @@
-import type { Lesson, LezioneClasse, TeacherSchedule } from "./src/types";
+import type {
+  Lesson,
+  LezioneClasse,
+  TeacherSchedule,
+  ProssimaLezione,
+} from "./src/types";
 
 // Funzione per formattare un oggetto Date in "HH:MM"
 export function formatTime(date: Date) {
@@ -9,7 +14,7 @@ export function formatTime(date: Date) {
   );
 }
 
-// --- NUOVO: risolve i dati "compatti" di data.ts nella forma Lesson[] già
+// risolve i dati "compatti" di data.ts nella forma Lesson[] già
 // usata dai componenti (MATERIA sempre valorizzata, presa dall'entry o,
 // se assente, dal materiaDefault del docente).
 export function getLezioniInsegnante(
@@ -25,7 +30,7 @@ export function getLezioniInsegnante(
   }));
 }
 
-// --- NUOVO: chiavi dei docenti che devono avere un bottone nella prima
+// chiavi dei docenti che devono avere un bottone nella prima
 // sezione, in ordine alfabetico. Serve attivo !== false (docente ancora in
 // uso) E visibile !== false (non nascosto dalla lista). Le tabelle delle
 // classi non usano `visibile`: le lezioni dei docenti nascosti si vedono lo
@@ -39,7 +44,7 @@ export function getInsegnantiVisibili(schedule: TeacherSchedule): string[] {
     .sort((a, b) => a.localeCompare(b));
 }
 
-// --- NUOVO: una lezione condivisa è scritta come "3ACS + 3AIS" in data.ts;
+// una lezione condivisa è scritta come "3ACS + 3AIS" in data.ts;
 // qui la spezziamo nelle singole classi, così compare nella tabella di
 // entrambe.
 function classiDellaLezione(classe: string): string[] {
@@ -49,7 +54,7 @@ function classiDellaLezione(classe: string): string[] {
     .filter(Boolean);
 }
 
-// --- NUOVO: elenco delle classi presenti nei dati (solo docenti attivi),
+// elenco delle classi presenti nei dati (solo docenti attivi),
 // in ordine "naturale": 1AS, 2AS, 3ACS, 3AIS, ... Una classe nuova in
 // data.ts compare da sola, senza altre modifiche.
 export function getClassi(schedule: TeacherSchedule): string[] {
@@ -66,7 +71,7 @@ export function getClassi(schedule: TeacherSchedule): string[] {
   );
 }
 
-// --- NUOVO: tutte le lezioni di una classe, raccolte da tutti i docenti
+// tutte le lezioni di una classe, raccolte da tutti i docenti
 // attivi. Ogni lezione riporta il suo DOCENTE e ha MATERIA già risolta
 // (esplicita o materiaDefault), come in getLezioniInsegnante.
 export function getLezioniClasse(
@@ -87,8 +92,56 @@ export function getLezioniClasse(
     );
 }
 
-// --- NUOVO: "rossi_alessandro" -> "Rossi" (stessa logica di SelezionaInsegnante)
+// "rossi_alessandro" -> "Rossi" (stessa logica di SelezionaInsegnante)
 export function cognomeDocente(docente: string): string {
   const cognome = docente.split("_")[0];
   return cognome.charAt(0).toUpperCase() + cognome.slice(1);
+}
+
+// i giorni nello stesso ordine di Date.getDay() (0 = Domenica).
+export const GIORNI_SETTIMANA = [
+  "Domenica",
+  "Lunedì",
+  "Martedì",
+  "Mercoledì",
+  "Giovedì",
+  "Venerdì",
+  "Sabato",
+];
+
+// la prima lezione che INIZIA dopo l'ora attuale
+export function getProssimaLezione(
+  lezioni: Lesson[],
+  giornoIndice: number,
+  oraFormattata: string,
+): ProssimaLezione | undefined {
+  for (let giorniDopo = 0; giorniDopo <= 7; giorniDopo++) {
+    const giorno = GIORNI_SETTIMANA[(giornoIndice + giorniDopo) % 7];
+    const prossima = lezioni
+      .filter(
+        (l) =>
+          l.GIORNO === giorno &&
+          (giorniDopo > 0 || l.ORA_INIZIO > oraFormattata),
+      )
+      .sort((a, b) => a.ORA_INIZIO.localeCompare(b.ORA_INIZIO))[0];
+    if (prossima) return { lezione: prossima, giorniDopo };
+  }
+  return undefined;
+}
+
+// solo i giorni di lezione, da Lunedì a Venerdì (posizioni 1-5).
+export const GIORNI_LAVORATIVI = GIORNI_SETTIMANA.slice(1, 6);
+
+// giorno mostrato in "Le tue lezioni". Si parte da oggi (o da Lunedì
+// se oggi è sabato o domenica) e ci si sposta di `offset` giorni lavorativi,
+// facendo il giro: dopo Venerdì torna Lunedì e viceversa.
+export function getGiornoVisualizzato(
+  giornoCorrente: string,
+  offset: number,
+): string {
+  const n = GIORNI_LAVORATIVI.length;
+  // indexOf dà -1 nel weekend: Math.max lo porta a 0 (= Lunedì)
+  const partenza = Math.max(0, GIORNI_LAVORATIVI.indexOf(giornoCorrente));
+  // Il doppio modulo funziona anche con offset negativi (con un solo % no)
+  return GIORNI_LAVORATIVI[(((partenza + offset) % n) + n) % n];
 }

@@ -6,6 +6,7 @@ function OrarioCorrente({
   oraFormattata,
   giornoCorrente,
   classeCorrente,
+  prossimaLezione,
 }: OrarioCorrenteProps) {
   let nomeDocente = "";
   if (docente) {
@@ -15,7 +16,19 @@ function OrarioCorrente({
     nomeDocente = nomeGrezzo.charAt(0).toUpperCase() + nomeGrezzo.slice(1);
   }
 
-  console.log(giornoCorrente);
+  // "Oggi" / "Domani" / nome del giorno (da 7 giorni: "Lunedì prossimo")
+  let quando = "";
+  if (prossimaLezione) {
+    const { giorniDopo, lezione } = prossimaLezione;
+    quando =
+      giorniDopo === 0
+        ? "Oggi"
+        : giorniDopo === 1
+          ? "Domani"
+          : giorniDopo >= 7
+            ? `${lezione.GIORNO} prossimo`
+            : lezione.GIORNO;
+  }
 
   return (
     <div
@@ -60,6 +73,16 @@ function OrarioCorrente({
                   ? "Casa"
                   : "Pausa"}
             </p>
+            {/* prossima lezione, sempre visibile se esiste */}
+            {prossimaLezione && (
+              <p className="mt-[0.8em] max-w-[250px] text-[1.1rem] uppercase">
+                Dopo:{" "}
+                <span className="text-[#C65D1E]">
+                  {prossimaLezione.lezione.CLASSE}
+                </span>{" "}
+                · {quando} {prossimaLezione.lezione.ORA_INIZIO}
+              </p>
+            )}
           </div>
         ) : (
           <button

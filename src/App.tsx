@@ -1,20 +1,24 @@
 import { data as dati_lezioni } from "../data.ts";
 import { useState, useEffect } from "react";
-import BoxOfText from "./components/BoxOfText.tsx";
 
+import BoxOfText from "./components/BoxOfText.tsx";
+import TornaSu from "./components/TornaSu.tsx";
 import SelezionaInsegnante from "./components/SelezionaInsegnante"; // di nuovo i bottoni semplici
 import OrarioCorrente from "./components/OrarioCorrente.tsx";
 
 // formatTime already existed; getLezioniInsegnante/getInsegnantiVisibili are
 // helpers that resolve data.ts's compact shape (attivo / visibile /
 // materiaDefault / lezioni) back into what the components expect.
-// NUOVO: getClassi / getLezioniClasse alimentano la tabella delle classi.
+// getClassi / getLezioniClasse alimentano la tabella delle classi.
 import {
   formatTime,
   getLezioniInsegnante,
   getInsegnantiVisibili,
   getClassi,
   getLezioniClasse,
+  getProssimaLezione,
+  getGiornoVisualizzato,
+  GIORNI_SETTIMANA,
 } from "../utils";
 import OrariGiornalieri from "./components/OrariGiornalieri.tsx";
 import OrariClassi from "./components/OrariClassi.tsx";
@@ -22,9 +26,10 @@ import type { SlotOrario } from "./types";
 
 function App() {
   const [docente, setDocente] = useState("");
-  const [oraCorrente, setOraCorrente] = useState(new Date()); // Impostazione iniziale fissa per test
+  const [oraCorrente, setOraCorrente] = useState(new Date());
+  // const [oraCorrente, setOraCorrente] = useState(new Date("2026-10-31T10:00")); // ONLY FOR TESTING
   const [dayOffset, setDayOffset] = useState(0);
-  // NUOVO: posizione nella lista delle classi (le frecce la aumentano/diminuiscono)
+  // posizione nella lista delle classi (le frecce la aumentano/diminuiscono)
   const [classeOffset, setClasseOffset] = useState(0);
 
   useEffect(() => {
@@ -37,24 +42,13 @@ function App() {
   const oraFormattata = formatTime(oraCorrente);
   // const oraFormattata = "19:20"; // Impostazione fissa per test
 
-  const giorni = {
-    0: "Domenica",
-    1: "Lunedì",
-    2: "Martedì",
-    3: "Mercoledì",
-    4: "Giovedì",
-    5: "Venerdì",
-    6: "Sabato",
-  };
-
   // Ottieni il giorno corrente in formato stringa
   const giornoCorrente = (() => {
-    return giorni[oraCorrente.getDay() as keyof typeof giorni];
+    return GIORNI_SETTIMANA[oraCorrente.getDay()];
   })();
 
-  // Giorno da visualizzare nella lista giornaliera (può essere modificato con le frecce)
-  const giornoVisualizzato =
-    giorni[((oraCorrente.getDay() + dayOffset + 7) % 7) as keyof typeof giorni];
+  // Calcola il giorno visualizzato in base al giorno corrente e all'offset, sabato e domenica esclusi
+  const giornoVisualizzato = getGiornoVisualizzato(giornoCorrente, dayOffset);
 
   // Definisci tutti gli slot orari possibili
   const slotOrari: SlotOrario[] = [
@@ -82,12 +76,19 @@ function App() {
     );
   })?.CLASSE;
 
+  // prossima lezione dopo l'ora attuale (anche nei giorni seguenti)
+  const prossimaLezione = getProssimaLezione(
+    lezioniInsegnante,
+    oraCorrente.getDay(),
+    oraFormattata,
+  );
+
   // Trova tutte le lezioni di oggi per l'insegnante selezionato
   const lezioniDaMostrare = lezioniInsegnante
     .filter((lezione) => lezione.GIORNO === giornoVisualizzato)
     .sort((a, b) => a.ORA_INIZIO.localeCompare(b.ORA_INIZIO));
 
-  // NUOVO: classi presenti nei dati e classe mostrata nella tabella.
+  // classi presenti nei dati e classe mostrata nella tabella.
   // Il doppio modulo ((n % len) + len) % len fa "girare" l'indice in circolo
   // anche quando va sotto zero (freccia sinistra dalla prima classe).
   const classi = getClassi(dati_lezioni);
@@ -141,6 +142,7 @@ function App() {
           oraFormattata={oraFormattata}
           giornoCorrente={giornoCorrente}
           classeCorrente={classeCorrente}
+          prossimaLezione={prossimaLezione}
         />
         {/* Schermata Orari Giornate */}
         <OrariGiornalieri
@@ -153,7 +155,7 @@ function App() {
           onPrevDay={() => setDayOffset((d) => d - 1)}
           onNextDay={() => setDayOffset((d) => d + 1)}
         />
-        {/* NUOVO: Schermata Orari delle Classi (in fondo a tutto) */}
+        {/* Schermata Orari delle Classi (in fondo a tutto) */}
         <OrariClassi
           classeSelezionata={classeSelezionata}
           lezioniClasse={lezioniClasse}
@@ -165,6 +167,7 @@ function App() {
           onNextClass={() => setClasseOffset((c) => c + 1)}
         />
       </section>
+      <TornaSu />
     </>
   );
 }

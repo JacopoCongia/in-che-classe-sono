@@ -1,11 +1,11 @@
 import { Fragment } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import type { LezioneClasse, OrariClassiProps, SlotOrario } from "../types";
-import { cognomeDocente } from "../../utils";
+import { cognomeDocente, GIORNI_LAVORATIVI } from "../../utils";
 import BoxOfText from "./BoxOfText";
 
-// Colonne della tabella (lunedì-venerdì, come i dati)
-const GIORNI = ["Lunedì", "Martedì", "Mercoledì", "Giovedì", "Venerdì"];
+// da Lunedì (1) a Venerdì (5) dell'elenco condiviso
+const GIORNI = GIORNI_LAVORATIVI;
 
 // vero se l'ora attuale cade dentro lo slot. La fine è ESCLUSA (<):
 // alle 18:50 siamo già nel secondo slot, non più nel primo.
