@@ -514,7 +514,7 @@ export const data: TeacherSchedule = {
     ],
   },
   bonato_p: {
-    visibile: false, // nessun bottone: metti true (o togli la riga) per mostrarlo
+    visibile: true, // nessun bottone: metti true (o togli la riga) per mostrarlo
     lezioni: [
       {
         CLASSE: "1AS",
@@ -737,7 +737,7 @@ export const data: TeacherSchedule = {
     ],
   },
   martino_tonino: {
-    visibile: false, // nessun bottone: metti true (o togli la riga) per mostrarlo
+    visibile: true, // nessun bottone: metti true (o togli la riga) per mostrarlo
     lezioni: [
       {
         CLASSE: "1AS",

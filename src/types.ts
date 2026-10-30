@@ -80,9 +80,17 @@ export interface OrariClassiProps {
   onNextClass: () => void;
 }
 
+// la prossima lezione di un docente e quanti giorni mancano
+// (0 = oggi, 1 = domani, ...).
+export interface ProssimaLezione {
+  lezione: Lesson;
+  giorniDopo: number;
+}
+
 export interface OrarioCorrenteProps {
   docente: string | null;
   oraFormattata: string;
   giornoCorrente: string;
   classeCorrente: string | undefined;
+  prossimaLezione?: ProssimaLezione;
 }
