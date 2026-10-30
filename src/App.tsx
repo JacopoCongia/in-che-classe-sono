@@ -26,8 +26,8 @@ import type { SlotOrario } from "./types";
 
 function App() {
   const [docente, setDocente] = useState("");
-  // const [oraCorrente, setOraCorrente] = useState(new Date());
-  const [oraCorrente, setOraCorrente] = useState(new Date("2026-10-30T20:15")); // ONLY FOR TESTING
+  const [oraCorrente, setOraCorrente] = useState(new Date());
+  // const [oraCorrente, setOraCorrente] = useState(new Date("2026-10-30T20:15")); // ONLY FOR TESTING
   const [dayOffset, setDayOffset] = useState(0);
   // posizione nella lista delle classi (le frecce la aumentano/diminuiscono)
   const [classeOffset, setClasseOffset] = useState(0);
