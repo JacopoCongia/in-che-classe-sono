@@ -97,14 +97,19 @@ function OrariGiornalieri({
                 slot.ORA_INIZIO >= lez.ORA_INIZIO &&
                 slot.ORA_FINE <= lez.ORA_FINE,
             );
+            // verifica se lo slot è attualmente in corso
+            const inCorso =
+              giornoSelezionato === giornoCorrente &&
+              oraFormattata >= slot.ORA_INIZIO &&
+              oraFormattata < slot.ORA_FINE;
             return lezione ? (
               <div
                 key={index}
-                className={`flex flex-col items-center justify-center gap-[0.5em] border-2 border-[#c2a490] shadow-[0_3px_0_0] shadow-[#c2a490] ${oraFormattata >= slot.ORA_INIZIO && oraFormattata <= slot.ORA_FINE ? "bg-[#C65D1E] text-[#FDF8E1]" : "bg-[#c2a490]/30"} w-[80%] max-w-[600px] rounded-[1em] pt-[2em] pb-[3em]`}
+                className={`flex flex-col items-center justify-center gap-[0.5em] border-2 border-[#c2a490] shadow-[0_3px_0_0] shadow-[#c2a490] ${inCorso ? "bg-[#C65D1E] text-[#FDF8E1]" : "bg-[#c2a490]/30"} w-[80%] max-w-[600px] rounded-[1em] pt-[2em] pb-[3em]`}
               >
                 {/* Materia */}
                 <p
-                  className={`px-[2em] text-[1.3rem] uppercase ${oraFormattata >= slot.ORA_INIZIO && oraFormattata <= slot.ORA_FINE ? "text-[#3D2B1F]" : "text-[#C65D1E]"}`}
+                  className={`px-[2em] text-[1.3rem] uppercase ${inCorso ? "text-[#3D2B1F]" : "text-[#C65D1E]"}`}
                 >
                   {lezione.MATERIA}
                 </p>
@@ -116,7 +121,7 @@ function OrariGiornalieri({
                 </p>
                 {/* Classe */}
                 <p
-                  className={`0 mt-[0.2em] rounded-[0.5em] bg-[#FDF8E1] px-[1em] py-[0.1em] text-[2.1rem] text-[#C65D1E] uppercase shadow-[0_4px_0_0] ${oraFormattata >= slot.ORA_INIZIO && oraFormattata <= slot.ORA_FINE ? "shadow-[#643010]" : "shadow-[#C65D1E]"}`}
+                  className={`0 mt-[0.2em] rounded-[0.5em] bg-[#FDF8E1] px-[1em] py-[0.1em] text-[2.1rem] text-[#C65D1E] uppercase shadow-[0_4px_0_0] ${inCorso ? "shadow-[#643010]" : "shadow-[#C65D1E]"}`}
                 >
                   {lezione.CLASSE}
                 </p>
