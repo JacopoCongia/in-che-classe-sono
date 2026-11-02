@@ -513,7 +513,7 @@ export const data: TeacherSchedule = {
       },
     ],
   },
-  bonato_p: {
+  bonato_paolo: {
     visibile: true, // nessun bottone: metti true (o togli la riga) per mostrarlo
     lezioni: [
       {
