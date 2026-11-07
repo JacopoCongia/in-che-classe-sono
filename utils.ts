@@ -145,3 +145,17 @@ export function getGiornoVisualizzato(
   // Il doppio modulo funziona anche con offset negativi (con un solo % no)
   return GIORNI_LAVORATIVI[(((partenza + offset) % n) + n) % n];
 }
+
+// le classi in cui insegna un docente, ricavate dalle sue lezioni
+// (già risolte). Una lezione "3ACS + 3AIS" conta per entrambe le classi.
+export function getClassiDocente(lezioni: Lesson[]): string[] {
+  const classi = new Set<string>();
+  for (const lezione of lezioni) {
+    // riutilizzo la funzione già scritta per le lezioni condivise
+    classiDellaLezione(lezione.CLASSE).forEach((c) => classi.add(c));
+  }
+  // numeric: true confronta "2AS" < "5AS" come numeri, non come testo
+  return [...classi].sort((a, b) =>
+    a.localeCompare(b, undefined, { numeric: true }),
+  );
+}
