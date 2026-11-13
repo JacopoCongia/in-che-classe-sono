@@ -1,4 +1,4 @@
-import type { TeacherSchedule } from "./src/types";
+import type { TeacherSchedule } from "./types";
 
 // Flag opzionali per docente:
 //   visibile: false  -> nessun bottone nella lista, ma le lezioni restano nelle tabelle delle classi

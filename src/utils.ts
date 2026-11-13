@@ -4,7 +4,7 @@ import type {
   TeacherSchedule,
   ProssimaLezione,
   SlotOrario,
-} from "./src/types";
+} from "./types";
 
 // vero se l'ora attuale cade dentro lo slot. La fine è ESCLUSA (<):
 // alle 18:50 siamo già nel secondo slot, non più nel primo.
@@ -161,6 +161,17 @@ export function getProssimaLezione(
 
 // solo i giorni di lezione, da Lunedì a Venerdì (posizioni 1-5).
 export const GIORNI_LAVORATIVI = GIORNI_SETTIMANA.slice(1, 6);
+
+// le ore della serata, in ordine. È la fonte di verità dell'orario.
+export const SLOT_ORARI: SlotOrario[] = [
+  { ORA_INIZIO: "18:00", ORA_FINE: "18:50" },
+  { ORA_INIZIO: "18:50", ORA_FINE: "19:40" },
+  // 19:40-20:00: intervallo (nessuna lezione)
+  { ORA_INIZIO: "20:00", ORA_FINE: "20:50" },
+  // unica ora piena da 60 minuti della serata (non è un errore)
+  { ORA_INIZIO: "20:50", ORA_FINE: "21:50" },
+  { ORA_INIZIO: "21:50", ORA_FINE: "22:40" },
+];
 
 // giorno mostrato in "Le tue lezioni". Si parte da oggi (o da Lunedì
 // se oggi è sabato o domenica) e ci si sposta di `offset` giorni lavorativi,
