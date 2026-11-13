@@ -1,12 +1,13 @@
 import { AutoTextSize } from "auto-text-size";
 import type { OrarioCorrenteProps } from "../types";
 import BoxOfText from "./BoxOfText";
+import BarraAvanzamento from "./BarraAvanzamento";
 
 function OrarioCorrente({
   docente,
   oraFormattata,
   giornoCorrente,
-  classeCorrente,
+  lezioneCorrente,
   prossimaLezione,
 }: OrarioCorrenteProps) {
   // App mostra questa schermata solo con un docente scelto
@@ -19,12 +20,14 @@ function OrarioCorrente({
   // JSX; ora è calcolata una volta sola e riusata per "a/in" e "Casa/Pausa".
   const fuoriOrario =
     oraFormattata < "18:00" ||
-    oraFormattata > "22:40" ||
+    // >= perché la fine di una lezione è esclusa: alle 22:40 è già finita
+    oraFormattata >= "22:40" ||
     giornoCorrente === "Sabato" ||
     giornoCorrente === "Domenica";
 
   // testo del riquadro grande ("3AIS", "3ACS + 3AIS", "Casa", "Pausa")
-  const testoClasse = classeCorrente || (fuoriOrario ? "Casa" : "Pausa");
+  const testoClasse =
+    lezioneCorrente?.CLASSE || (fuoriOrario ? "Casa" : "Pausa");
 
   // "Oggi" / "Domani" / nome del giorno (da 7 giorni: "Lunedì prossimo")
   let quando = "";
@@ -80,6 +83,18 @@ function OrarioCorrente({
               </AutoTextSize>
             </div>
           </div>
+          {/* quanto manca alla fine dell'intera lezione (anche se copre più
+              slot), larga quanto il riquadro della classe */}
+          {lezioneCorrente && (
+            <div className="mt-[0.6em] w-[250px]">
+              <BarraAvanzamento
+                oraFormattata={oraFormattata}
+                inizio={lezioneCorrente.ORA_INIZIO}
+                fine={lezioneCorrente.ORA_FINE}
+                tono="arancione"
+              />
+            </div>
+          )}
           {/* prossima lezione dentro una scheda con bordo, larga quanto il riquadro della classe (w-[250px]) così i bordi si allineano. */}
           {prossimaLezione && (
             <div className="mt-[1.2em] flex w-[250px] flex-col items-center gap-[0.2em] rounded-[0.5em] border-2 border-dashed border-[#FDF8E1]/30 px-4 py-[0.9rem] uppercase">

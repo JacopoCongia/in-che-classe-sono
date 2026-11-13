@@ -3,6 +3,7 @@ import { AnimatePresence, motion } from "motion/react";
 import type { OrariGiornalieriProps, SlotOrario } from "../types";
 import { slotInCorso } from "../../utils";
 import BoxOfText from "./BoxOfText";
+import BarraAvanzamento from "./BarraAvanzamento";
 
 // stile comune delle due frecce per cambiare giorno
 const stileFreccia =
@@ -185,6 +186,18 @@ function OrariGiornalieri({
                   )}
 
                   {inCorso ? <BadgeOra chiaro /> : <span />}
+
+                  {/* quanto manca alla fine di questo slot */}
+                  {inCorso && (
+                    <div className="col-span-3">
+                      <BarraAvanzamento
+                        oraFormattata={oraFormattata}
+                        inizio={slot.ORA_INIZIO}
+                        fine={slot.ORA_FINE}
+                        tono="chiaro"
+                      />
+                    </div>
+                  )}
                 </li>
 
                 {intervallo && (
@@ -212,6 +225,18 @@ function OrariGiornalieri({
                       Intervallo
                     </p>
                     {intervalloInCorso ? <BadgeOra chiaro /> : <span />}
+
+                    {/* quanto manca alla fine dell'intervallo */}
+                    {intervalloInCorso && (
+                      <div className="col-span-3">
+                        <BarraAvanzamento
+                          oraFormattata={oraFormattata}
+                          inizio={intervallo.ORA_INIZIO}
+                          fine={intervallo.ORA_FINE}
+                          tono="chiaro"
+                        />
+                      </div>
+                    )}
                   </li>
                 )}
               </Fragment>

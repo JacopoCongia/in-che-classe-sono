@@ -12,6 +12,29 @@ export function slotInCorso(oraFormattata: string, slot: SlotOrario) {
   return oraFormattata >= slot.ORA_INIZIO && oraFormattata < slot.ORA_FINE;
 }
 
+// "HH:MM" -> minuti dalla mezzanotte ("20:15" -> 1215)
+export function minutiDaMezzanotte(ora: string): number {
+  const [ore, minuti] = ora.split(":").map(Number);
+  return ore * 60 + minuti;
+}
+
+// quanto è avanti un intervallo di tempo (lezione, slot o intervallo)
+// all'ora attuale: percentuale da 0 a 100 e minuti che mancano alla fine.
+// Entrambi sono limitati, così fuori dall'intervallo non escono valori strani.
+export function avanzamento(
+  oraFormattata: string,
+  inizio: string,
+  fine: string,
+): { percentuale: number; minutiRimasti: number } {
+  const ora = minutiDaMezzanotte(oraFormattata);
+  const da = minutiDaMezzanotte(inizio);
+  const a = minutiDaMezzanotte(fine);
+  const durata = a - da;
+  const percentuale =
+    durata > 0 ? Math.min(100, Math.max(0, ((ora - da) / durata) * 100)) : 0;
+  return { percentuale, minutiRimasti: Math.max(0, a - ora) };
+}
+
 // Funzione per formattare un oggetto Date in "HH:MM"
 export function formatTime(date: Date) {
   return (
