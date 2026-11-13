@@ -4,10 +4,7 @@ import type { OrariGiornalieriProps, SlotOrario } from "../types";
 import { slotInCorso } from "../../utils";
 import BoxOfText from "./BoxOfText";
 import BarraAvanzamento from "./BarraAvanzamento";
-
-// stile comune delle due frecce per cambiare giorno
-const stileFreccia =
-  "h-[50px] w-[50px] shrink-0 cursor-pointer rounded-[0.4em] border-2 border-[#663110] bg-[#FDF8E1] shadow-[0_3px_0_0] shadow-[#663110] hover:bg-[#663110]/80 hover:text-[#FDF8E1] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#663110] active:translate-y-0.5 active:bg-[#663110] active:shadow-none";
+import SelettoreFrecce from "./SelettoreFrecce";
 
 // Etichetta "Ora" accanto alla riga in corso
 function BadgeOra({ chiaro }: { chiaro: boolean }) {
@@ -54,47 +51,18 @@ function OrariGiornalieri({
           boxWidth={250}
           bold
         />
-        {/* Bottone Cambio Giorno */}
-        <div className="flex w-[245px] items-center justify-center gap-[0.2em]">
-          <button
-            type="button"
-            aria-label="Giorno precedente"
-            className={stileFreccia}
-            onClick={onPrevDay}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-full w-full"
-              viewBox="0 -960 960 960"
-              fill="currentColor"
-            >
-              <path d="M561-240 320-481l241-241 43 43-198 198 198 198-43 43Z" />
-            </svg>
-          </button>
-          <button
-            type="button"
-            aria-label={`${giornoSelezionato}, torna a oggi`}
-            className={`flex h-[50px] w-full cursor-pointer items-center justify-center rounded-[0.3em] border-2 border-[#663110] px-[0.6em] text-[1.4rem] uppercase shadow-[0_3px_0_0] shadow-[#663110] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#663110] ${eOggi ? "bg-[#C65D1E] text-[#FDF8E1] hover:bg-[#C65D1E]/80 active:translate-y-0.5 active:bg-[#663110] active:shadow-none" : "bg-[#FDF8E1] text-[#3D2B1F] hover:bg-[#663110]/80 hover:text-[#FDF8E1] active:translate-y-0.5 active:shadow-none"}`}
-            onClick={() => setDayOffset(0)}
-          >
-            {giornoSelezionato}
-          </button>
-          <button
-            type="button"
-            aria-label="Giorno successivo"
-            className={stileFreccia}
-            onClick={onNextDay}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-full w-full"
-              viewBox="0 -960 960 960"
-              fill="currentColor"
-            >
-              <path d="M530-481 332-679l43-43 241 241-241 241-43-43 198-198Z" />
-            </svg>
-          </button>
-        </div>
+        {/* Cambio giorno: le frecce spostano il giorno, l'etichetta torna a oggi */}
+        <SelettoreFrecce
+          tono="chiaro"
+          etichetta={giornoSelezionato}
+          evidenziato={eOggi}
+          onEtichetta={() => setDayOffset(0)}
+          ariaEtichetta={`${giornoSelezionato}, torna a oggi`}
+          ariaPrecedente="Giorno precedente"
+          ariaSuccessivo="Giorno successivo"
+          onPrecedente={onPrevDay}
+          onSuccessivo={onNextDay}
+        />
       </div>
 
       {/* Contenitore Orari: un solo pannello, una riga per ogni slot */}

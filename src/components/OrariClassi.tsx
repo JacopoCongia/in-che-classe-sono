@@ -3,6 +3,7 @@ import { AnimatePresence, motion } from "motion/react";
 import type { LezioneClasse, OrariClassiProps } from "../types";
 import { cognomeDocente, GIORNI_LAVORATIVI, slotInCorso } from "../../utils";
 import BoxOfText from "./BoxOfText";
+import SelettoreFrecce from "./SelettoreFrecce";
 
 // da Lunedì (1) a Venerdì (5) dell'elenco condiviso
 const GIORNI = GIORNI_LAVORATIVI;
@@ -36,34 +37,15 @@ function OrariClassi({
           boxWidth={250}
           bold
         />
-        {/* Cambio classe: stessa struttura dei bottoni di cambio giorno */}
-        <div className="flex w-[245px] items-center justify-center gap-[0.2em]">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-[50px] cursor-pointer rounded-[0.4em] border-2 border-[#FDF8E1] bg-[#3D2B1F] shadow-[0_3px_0_0] shadow-[#FDF8E1] hover:bg-[#FDF8E1]/20 active:translate-y-0.5 active:shadow-none"
-            height="45px"
-            viewBox="0 -960 960 960"
-            width="50px"
-            fill="currentColor"
-            onClick={() => onPrevClass()}
-          >
-            <path d="M561-240 320-481l241-241 43 43-198 198 198 198-43 43Z" />
-          </svg>
-          <div className="flex h-[50px] w-full items-center justify-center rounded-[0.3em] border-2 border-[#FDF8E1] bg-[#FDF8E1] px-[0.6em] text-[1.4rem] text-[#3D2B1F] uppercase shadow-[0_3px_0_0] shadow-[#C65D1E]">
-            {classeSelezionata || "-"}
-          </div>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-[50px] cursor-pointer rounded-[0.4em] border-2 border-[#FDF8E1] bg-[#3D2B1F] stroke-[3px] shadow-[0_3px_0_0] shadow-[#FDF8E1] hover:bg-[#FDF8E1]/20 active:translate-y-0.5 active:shadow-none"
-            height="45px"
-            viewBox="0 -960 960 960"
-            width="50px"
-            fill="currentColor"
-            onClick={() => onNextClass()}
-          >
-            <path d="M530-481 332-679l43-43 241 241-241 241-43-43 198-198Z" />
-          </svg>
-        </div>
+        {/* Cambio classe: stesso selettore del cambio giorno, nel tono scuro */}
+        <SelettoreFrecce
+          tono="scuro"
+          etichetta={classeSelezionata || "-"}
+          ariaPrecedente="Classe precedente"
+          ariaSuccessivo="Classe successiva"
+          onPrecedente={onPrevClass}
+          onSuccessivo={onNextClass}
+        />
         {puoFiltrare && (
           <label className="mt-[1em] flex min-h-[50px] w-[245px] cursor-pointer items-center justify-center gap-[1em] rounded-[0.4em] border-2 border-[#FDF8E1] bg-[#3D2B1F] px-[0.8em] py-[0.4em] text-[1rem] leading-tight uppercase shadow-[0_3px_0_0] shadow-[#FDF8E1] not-has-checked:hover:bg-[#FDF8E1]/20 active:translate-y-0.5 active:shadow-none has-checked:bg-[#FDF8E1] has-checked:text-[#3D2B1F] has-checked:shadow-[#C65D1E] has-focus-visible:ring-2 has-focus-visible:ring-[#FDF8E1] has-focus-visible:ring-offset-2 has-focus-visible:ring-offset-[#3D2B1F]">
             <input
