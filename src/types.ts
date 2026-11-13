@@ -104,6 +104,20 @@ export interface OrarioCorrenteProps {
   prossimaLezione?: ProssimaLezione;
 }
 
+export interface SelettoreFrecceProps {
+  etichetta: string; // "Lunedì", "1AS", ...
+  onPrecedente: () => void;
+  onSuccessivo: () => void;
+  ariaPrecedente: string; // es. "Giorno precedente"
+  ariaSuccessivo: string; // es. "Giorno successivo"
+  // se presente, l'etichetta diventa un bottone (es. "torna a oggi")
+  onEtichetta?: () => void;
+  ariaEtichetta?: string;
+  evidenziato?: boolean; // etichetta arancione (es. il giorno di oggi)
+  // "chiaro" su sfondo crema, "scuro" su sfondo marrone
+  tono: "chiaro" | "scuro";
+}
+
 export interface BarraAvanzamentoProps {
   oraFormattata: string;
   inizio: string; // "HH:MM"
