@@ -1,17 +1,11 @@
 import { Fragment } from "react";
 import { AnimatePresence, motion } from "motion/react";
-import type { LezioneClasse, OrariClassiProps, SlotOrario } from "../types";
-import { cognomeDocente, GIORNI_LAVORATIVI } from "../../utils";
+import type { LezioneClasse, OrariClassiProps } from "../types";
+import { cognomeDocente, GIORNI_LAVORATIVI, slotInCorso } from "../../utils";
 import BoxOfText from "./BoxOfText";
 
 // da Lunedì (1) a Venerdì (5) dell'elenco condiviso
 const GIORNI = GIORNI_LAVORATIVI;
-
-// vero se l'ora attuale cade dentro lo slot. La fine è ESCLUSA (<):
-// alle 18:50 siamo già nel secondo slot, non più nel primo.
-function slotInCorso(oraFormattata: string, slot: SlotOrario) {
-  return oraFormattata >= slot.ORA_INIZIO && oraFormattata < slot.ORA_FINE;
-}
 
 function OrariClassi({
   classeSelezionata,

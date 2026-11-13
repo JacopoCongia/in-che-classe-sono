@@ -53,8 +53,13 @@ export interface SlotOrario {
 
 export interface OrariGiornalieriProps {
   oraFormattata: string;
-  lezioniDiOggi: Lesson[] | undefined;
+  lezioniDiOggi: Lesson[]; // solo le lezioni del giorno mostrato
   slotOrari: SlotOrario[];
+  giornoCorrente: string;
+  giornoSelezionato: string;
+  setDayOffset: (offset: number) => void;
+  onPrevDay: () => void;
+  onNextDay: () => void;
 }
 
 export interface SelezionaInsegnanteProps {
