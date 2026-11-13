@@ -672,7 +672,7 @@ export const data: TeacherSchedule = {
   },
   dipace_f: {
     visibile: false, // nessun bottone: metti true (o togli la riga) per mostrarlo
-    materiaDefault: "STA - Fisica",
+    materiaDefault: "Scienze Integrate - Fisica",
     lezioni: [
       {
         CLASSE: "1AS",
@@ -720,7 +720,7 @@ export const data: TeacherSchedule = {
   },
   malberti_v: {
     visibile: false, // nessun bottone: metti true (o togli la riga) per mostrarlo
-    materiaDefault: "STA - Fisica",
+    materiaDefault: "Scienze Integrate - Fisica",
     lezioni: [
       {
         CLASSE: "1AS",
@@ -744,28 +744,28 @@ export const data: TeacherSchedule = {
         GIORNO: "Lunedì",
         ORA_INIZIO: "20:00",
         ORA_FINE: "20:50",
-        MATERIA: "STA - Chimica",
+        MATERIA: "Scienze Integrate - Chimica",
       },
       {
         CLASSE: "1AS",
         GIORNO: "Giovedì",
         ORA_INIZIO: "20:00",
         ORA_FINE: "20:50",
-        MATERIA: "STA - Chimica",
+        MATERIA: "Scienze Integrate - Chimica",
       },
       {
         CLASSE: "2AS",
         GIORNO: "Lunedì",
         ORA_INIZIO: "20:50",
         ORA_FINE: "21:50",
-        MATERIA: "STA - Chimica",
+        MATERIA: "Scienze Integrate - Chimica",
       },
       {
         CLASSE: "2AS",
         GIORNO: "Martedì",
         ORA_INIZIO: "20:50",
         ORA_FINE: "21:50",
-        MATERIA: "STA - Chimica",
+        MATERIA: "Scienze Integrate - Chimica",
       },
       {
         CLASSE: "2AS",
@@ -786,7 +786,7 @@ export const data: TeacherSchedule = {
         GIORNO: "Venerdì",
         ORA_INIZIO: "20:50",
         ORA_FINE: "21:50",
-        MATERIA: "STA - Chimica",
+        MATERIA: "Scienze Integrate - Chimica",
       },
       {
         CLASSE: "3ACS",
