@@ -1,7 +1,12 @@
 import { Fragment } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import type { LezioneClasse, OrariClassiProps } from "../types";
-import { cognomeDocente, GIORNI_LAVORATIVI, slotInCorso } from "../../utils";
+import {
+  cognomeDocente,
+  GIORNI_LAVORATIVI,
+  SLOT_ORARI,
+  slotInCorso,
+} from "../utils";
 import BoxOfText from "./BoxOfText";
 import SelettoreFrecce from "./SelettoreFrecce";
 
@@ -11,7 +16,6 @@ const GIORNI = GIORNI_LAVORATIVI;
 function OrariClassi({
   classeSelezionata,
   lezioniClasse,
-  slotOrari,
   docenteSelezionato,
   oraFormattata,
   giornoCorrente,
@@ -89,7 +93,7 @@ function OrariClassi({
                 className="sticky left-0 z-10 -mr-[0.35em] bg-[#3D2B1F]/70 backdrop-blur-md"
                 style={{
                   gridColumn: 1,
-                  gridRow: `1 / span ${slotOrari.length + 1}`,
+                  gridRow: `1 / span ${SLOT_ORARI.length + 1}`,
                 }}
               />
               {/* Riga intestazione: giorni (la colonna 1 è occupata dal pannello) */}
@@ -107,7 +111,7 @@ function OrariClassi({
               ))}
 
               {/* Una riga per ogni slot orario */}
-              {slotOrari.map((slot, indiceSlot) => (
+              {SLOT_ORARI.map((slot, indiceSlot) => (
                 <Fragment key={slot.ORA_INIZIO}>
                   {/* Etichetta orario: sticky come il pannello, ma z-20 così sta
                       sopra. È piazzata a mano in colonna 1 (+2 perché la riga 1

@@ -1,4 +1,4 @@
-import { data as dati_lezioni } from "../data.ts";
+import { data as dati_lezioni } from "./data.ts";
 import { useState, useEffect } from "react";
 
 import BoxOfText from "./components/BoxOfText.tsx";
@@ -21,10 +21,9 @@ import {
   GIORNI_SETTIMANA,
   getClassiDocente,
   slotInCorso,
-} from "../utils";
+} from "./utils";
 import OrariGiornalieri from "./components/OrariGiornalieri.tsx";
 import OrariClassi from "./components/OrariClassi.tsx";
-import type { SlotOrario } from "./types";
 
 function App() {
   const [docente, setDocente] = useState("");
@@ -64,17 +63,6 @@ function App() {
 
   // Calcola il giorno visualizzato in base al giorno corrente e all'offset, sabato e domenica esclusi
   const giornoVisualizzato = getGiornoVisualizzato(giornoCorrente, dayOffset);
-
-  // Definisci tutti gli slot orari possibili
-  const slotOrari: SlotOrario[] = [
-    { ORA_INIZIO: "18:00", ORA_FINE: "18:50" },
-    { ORA_INIZIO: "18:50", ORA_FINE: "19:40" },
-    // 19:40-20:00: intervallo (nessuna lezione)
-    { ORA_INIZIO: "20:00", ORA_FINE: "20:50" },
-    // unica ora piena da 60 minuti della serata (non è un errore)
-    { ORA_INIZIO: "20:50", ORA_FINE: "21:50" },
-    { ORA_INIZIO: "21:50", ORA_FINE: "22:40" },
-  ];
 
   // Lezioni "risolte" dell'insegnante selezionato: MATERIA è già compilata
   // (dal valore esplicito o dal materiaDefault del docente), quindi tutto il
@@ -180,7 +168,6 @@ function App() {
             <OrariGiornalieri
               oraFormattata={oraFormattata}
               lezioniDiOggi={lezioniDaMostrare}
-              slotOrari={slotOrari}
               giornoCorrente={giornoCorrente}
               giornoSelezionato={giornoVisualizzato}
               setDayOffset={setDayOffset}
@@ -193,7 +180,6 @@ function App() {
         <OrariClassi
           classeSelezionata={classeSelezionata}
           lezioniClasse={lezioniClasse}
-          slotOrari={slotOrari}
           docenteSelezionato={docente}
           oraFormattata={oraFormattata}
           giornoCorrente={giornoCorrente}

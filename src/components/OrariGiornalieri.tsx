@@ -1,7 +1,7 @@
 import { Fragment } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import type { OrariGiornalieriProps, SlotOrario } from "../types";
-import { slotInCorso } from "../../utils";
+import { SLOT_ORARI, slotInCorso } from "../utils";
 import BoxOfText from "./BoxOfText";
 import BarraAvanzamento from "./BarraAvanzamento";
 import SelettoreFrecce from "./SelettoreFrecce";
@@ -22,7 +22,6 @@ function BadgeOra({ chiaro }: { chiaro: boolean }) {
 function OrariGiornalieri({
   oraFormattata,
   lezioniDiOggi,
-  slotOrari,
   giornoCorrente,
   giornoSelezionato,
   setDayOffset,
@@ -75,7 +74,7 @@ function OrariGiornalieri({
           transition={{ duration: 0.4 }}
           className="mb-[3em] w-[90%] max-w-[600px] overflow-hidden rounded-[1em] border-2 border-[#663110] text-left shadow-[0_3px_0_0] shadow-[#663110]"
         >
-          {slotOrari.map((slot, index) => {
+          {SLOT_ORARI.map((slot, index) => {
             // Una lezione può coprire più slot consecutivi (es. 20:00-21:50),
             // quindi lo slot deve rientrare nell'intervallo della lezione.
             // lezioniDiOggi contiene già solo le lezioni del giorno mostrato.
@@ -89,14 +88,14 @@ function OrariGiornalieri({
             // Se tra la fine di questo slot e l'inizio del successivo c'è un
             // buco, quello è l'intervallo (es. 19:40-20:00): lo si mostra come
             // riga separata, mai come parte di una lezione.
-            const successivo = slotOrari[index + 1];
+            const successivo = SLOT_ORARI[index + 1];
             const intervallo: SlotOrario | null =
               successivo && slot.ORA_FINE < successivo.ORA_INIZIO
                 ? { ORA_INIZIO: slot.ORA_FINE, ORA_FINE: successivo.ORA_INIZIO }
                 : null;
             // la riga subito dopo un intervallo ha il bordo superiore
             // tratteggiato, così l'intervallo è tratteggiato sopra e sotto
-            const precedente = slotOrari[index - 1];
+            const precedente = SLOT_ORARI[index - 1];
             const dopoIntervallo =
               precedente !== undefined && precedente.ORA_FINE < slot.ORA_INIZIO;
             const intervalloInCorso =

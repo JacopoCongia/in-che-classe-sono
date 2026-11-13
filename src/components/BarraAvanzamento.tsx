@@ -1,5 +1,5 @@
 import type { BarraAvanzamentoProps } from "../types";
-import { avanzamento } from "../../utils";
+import { avanzamento } from "../utils";
 
 // Barra che mostra quanto è avanti la lezione (o lo slot, o l'intervallo)
 // in corso, con i minuti che mancano alla fine.

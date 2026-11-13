@@ -2,7 +2,7 @@
 
 A web app for the teachers of an **evening school**: pick your name and it tells you which class you should be in right now, your lessons for the day, and the weekly timetable of each class. Deployed on Netlify (https://incheclassesono.netlify.app/).
 
-Stack: React 19 + TypeScript, Vite, Tailwind CSS v4 (via `@tailwindcss/vite`, no config file), `motion` for animations. No backend, no tests: all data lives in `data.ts`.
+Stack: React 19 + TypeScript, Vite, Tailwind CSS v4 (via `@tailwindcss/vite`, no config file), `motion` for animations. No backend, no tests: all data lives in `src/data.ts`.
 
 ## Commands
 
@@ -12,26 +12,26 @@ Stack: React 19 + TypeScript, Vite, Tailwind CSS v4 (via `@tailwindcss/vite`, no
 
 ## School timetable
 
-The periods are defined in `slotOrari` in `src/App.tsx`, which is the source of truth. Things that look like mistakes but are not:
+The periods are defined in `SLOT_ORARI` in `src/utils.ts`, which is the source of truth; components import it directly. Things that look like mistakes but are not:
 
 - Periods are **not full hours**: most are 50 minutes.
 - **19:40–20:00 is the "Intervallo"** (the break). No lesson happens in it, and it must never be merged into a lesson or shown as lesson time.
 - **20:50–21:50 is intentionally 60 minutes**: it's the only full-hour period of the evening. It is not a typo.
 - Only weekdays (Monday–Friday) are used; days are written in Italian with accents (`"Lunedì"`, `"Mercoledì"`, ...).
 
-## Data (`data.ts`)
+## Data (`src/data.ts`)
 
 - One entry per teacher, keyed `cognome_nome` (e.g. `chiocchetti_gudrun`).
 - A lesson is one continuous block and can span several periods (e.g. `ORA_INIZIO: "20:00", ORA_FINE: "21:50"`). Components match a period to a lesson with a range check, not an exact match.
 - `MATERIA` is optional on a lesson: it falls back to the teacher's `materiaDefault` (resolved in `getLezioniInsegnante`).
-- A lesson shared by several classes is written `CLASSE: "3ACS + 3AIS"`; use `classiDellaLezione` in `utils.ts` to split it, never parse it ad hoc.
+- A lesson shared by several classes is written `CLASSE: "3ACS + 3AIS"`; use `classiDellaLezione` in `src/utils.ts` to split it, never parse it ad hoc.
 - `attivo: false` hides a teacher everywhere; `visibile: false` hides only their button but keeps their lessons in the class timetables.
-- `data.ts.old` is the previous data format, kept for reference only. Don't edit or import it.
+- `data.ts.old` (repo root) is the previous data format, kept for reference only. Don't edit or import it.
 
 ## Code layout
 
 - `src/App.tsx`: all state and derived data (selected teacher, current time, day offset, selected class), passed down as props.
-- `utils.ts` (repo root, not `src/`): pure helpers over the data.
+- `src/utils.ts`: pure helpers over the data, plus the shared constants (`SLOT_ORARI`, `GIORNI_SETTIMANA`, `GIORNI_LAVORATIVI`).
 - `src/types.ts`: shared types.
 - `src/components/`: one file per section (`SelezionaInsegnante`, `OrarioCorrente`, `OrariGiornalieri`, `OrariClassi`, `TornaSu`, `BoxOfText`).
 - Times are `"HH:MM"` strings and are compared as strings (this works because they're zero-padded).

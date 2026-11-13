@@ -54,7 +54,6 @@ export interface SlotOrario {
 export interface OrariGiornalieriProps {
   oraFormattata: string;
   lezioniDiOggi: Lesson[]; // solo le lezioni del giorno mostrato
-  slotOrari: SlotOrario[];
   giornoCorrente: string;
   giornoSelezionato: string;
   setDayOffset: (offset: number) => void;
@@ -77,7 +76,6 @@ export interface LezioneClasse extends Lesson {
 export interface OrariClassiProps {
   classeSelezionata: string;
   lezioniClasse: LezioneClasse[];
-  slotOrari: SlotOrario[];
   docenteSelezionato: string; // docente scelto in alto, per evidenziarne le lezioni
   oraFormattata: string;
   giornoCorrente: string;
