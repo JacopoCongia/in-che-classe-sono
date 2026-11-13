@@ -77,7 +77,7 @@ export function getInsegnantiVisibili(schedule: TeacherSchedule): string[] {
 // una lezione condivisa è scritta come "3ACS + 3AIS" in data.ts;
 // qui la spezziamo nelle singole classi, così compare nella tabella di
 // entrambe.
-function classiDellaLezione(classe: string): string[] {
+export function classiDellaLezione(classe: string): string[] {
   return classe
     .split("+")
     .map((c) => c.trim())
