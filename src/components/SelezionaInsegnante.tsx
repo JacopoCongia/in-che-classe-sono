@@ -1,11 +1,11 @@
+import { flushSync } from "react-dom";
 import type { SelezionaInsegnanteProps } from "../types";
 
-function SelezionaInsegnante({
-  onClick,
-  docente,
-}: SelezionaInsegnanteProps) {
+function SelezionaInsegnante({ onClick, docente }: SelezionaInsegnanteProps) {
   const handleClick = (docente: string) => {
-    onClick(docente);
+    // flushSync: la schermata-orario esiste solo con un docente scelto, quindi
+    // al primo clic va prima disegnata, poi si può scorrere fino a lei
+    flushSync(() => onClick(docente));
     document
       .getElementById("schermata-orario")
       ?.scrollIntoView({ behavior: "smooth" });
