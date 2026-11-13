@@ -3,7 +3,14 @@ import type {
   LezioneClasse,
   TeacherSchedule,
   ProssimaLezione,
+  SlotOrario,
 } from "./src/types";
+
+// vero se l'ora attuale cade dentro lo slot. La fine è ESCLUSA (<):
+// alle 18:50 siamo già nel secondo slot, non più nel primo.
+export function slotInCorso(oraFormattata: string, slot: SlotOrario) {
+  return oraFormattata >= slot.ORA_INIZIO && oraFormattata < slot.ORA_FINE;
+}
 
 // Funzione per formattare un oggetto Date in "HH:MM"
 export function formatTime(date: Date) {
