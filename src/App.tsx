@@ -152,25 +152,34 @@ function App() {
             ))}
           </div>
         </div>
-        {/* Schermata Orario Corrente */}
-        <OrarioCorrente
-          docente={docente}
-          oraFormattata={oraFormattata}
-          giornoCorrente={giornoCorrente}
-          classeCorrente={classeCorrente}
-          prossimaLezione={prossimaLezione}
-        />
-        {/* Schermata Orari Giornate */}
-        <OrariGiornalieri
-          oraFormattata={oraFormattata}
-          lezioniDiOggi={lezioniDaMostrare}
-          slotOrari={slotOrari}
-          giornoCorrente={giornoCorrente}
-          giornoSelezionato={giornoVisualizzato}
-          setDayOffset={setDayOffset}
-          onPrevDay={() => setDayOffset((d) => d - 1)}
-          onNextDay={() => setDayOffset((d) => d + 1)}
-        />
+        {/* Le due schermate del docente (orario corrente e lezioni del
+            giorno) compaiono solo dopo aver scelto un docente: senza, una
+            sarebbe solo "Scegli un docente" e l'altra una colonna di
+            "Nessuna lezione". Così le schermate restano sempre alternate
+            chiaro/scuro (lista docenti chiara -> orario delle classi scuro). */}
+        {docente !== "" && (
+          <>
+            {/* Schermata Orario Corrente */}
+            <OrarioCorrente
+              docente={docente}
+              oraFormattata={oraFormattata}
+              giornoCorrente={giornoCorrente}
+              classeCorrente={classeCorrente}
+              prossimaLezione={prossimaLezione}
+            />
+            {/* Schermata Orari Giornate */}
+            <OrariGiornalieri
+              oraFormattata={oraFormattata}
+              lezioniDiOggi={lezioniDaMostrare}
+              slotOrari={slotOrari}
+              giornoCorrente={giornoCorrente}
+              giornoSelezionato={giornoVisualizzato}
+              setDayOffset={setDayOffset}
+              onPrevDay={() => setDayOffset((d) => d - 1)}
+              onNextDay={() => setDayOffset((d) => d + 1)}
+            />
+          </>
+        )}
         {/* Schermata Orari delle Classi (in fondo a tutto) */}
         <OrariClassi
           classeSelezionata={classeSelezionata}

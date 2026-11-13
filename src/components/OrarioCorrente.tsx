@@ -9,13 +9,11 @@ function OrarioCorrente({
   classeCorrente,
   prossimaLezione,
 }: OrarioCorrenteProps) {
-  let nomeDocente = "";
-  if (docente) {
-    const nomeECognome = docente.split("_");
-    const nomeGrezzo =
-      nomeECognome.length > 1 ? nomeECognome[1] : nomeECognome[0];
-    nomeDocente = nomeGrezzo.charAt(0).toUpperCase() + nomeGrezzo.slice(1);
-  }
+  // App mostra questa schermata solo con un docente scelto
+  const nomeECognome = docente.split("_");
+  const nomeGrezzo =
+    nomeECognome.length > 1 ? nomeECognome[1] : nomeECognome[0];
+  const nomeDocente = nomeGrezzo.charAt(0).toUpperCase() + nomeGrezzo.slice(1);
 
   // la condizione "fuori orario di lezione" era scritta due volte nel
   // JSX; ora è calcolata una volta sola e riusata per "a/in" e "Casa/Pausa".
@@ -67,51 +65,42 @@ function OrarioCorrente({
         />
         {/* riquadro con la classe in corso (o "Casa"/"Pausa") e la prossima
         lezione */}
-        {docente ? (
-          <div className="flex flex-col items-center gap-[0.3em]">
-            <p className="text-[1.35rem] uppercase">
-              {`e dovresti essere ${fuoriOrario ? "a" : "in"} `}
-            </p>
-            <div className="flex h-19 w-[250px] items-center justify-center rounded-[0.5em] bg-[#FDF8E1] px-4 text-[#C65D1E] uppercase shadow-[0_4px_0_0] shadow-[#C65D1E]">
-              <div className="flex w-full items-center justify-center text-center">
+        <div className="flex flex-col items-center gap-[0.3em]">
+          <p className="text-[1.35rem] uppercase">
+            {`e dovresti essere ${fuoriOrario ? "a" : "in"} `}
+          </p>
+          <div className="flex h-19 w-[250px] items-center justify-center rounded-[0.5em] bg-[#FDF8E1] px-4 text-[#C65D1E] uppercase shadow-[0_4px_0_0] shadow-[#C65D1E]">
+            <div className="flex w-full items-center justify-center text-center">
+              <AutoTextSize
+                mode="oneline"
+                minFontSizePx={14}
+                maxFontSizePx={40}
+              >
+                {testoClasse}
+              </AutoTextSize>
+            </div>
+          </div>
+          {/* prossima lezione dentro una scheda con bordo, larga quanto il riquadro della classe (w-[250px]) così i bordi si allineano. */}
+          {prossimaLezione && (
+            <div className="mt-[1.2em] flex w-[250px] flex-col items-center gap-[0.2em] rounded-[0.5em] border-2 border-dashed border-[#FDF8E1]/30 px-4 py-[0.9rem] uppercase">
+              <p className="text-[0.9rem] tracking-[0.15em] opacity-70">
+                Prossima lezione
+              </p>
+              <p className="text-[1.3rem]">
+                {quando} {prossimaLezione.lezione.ORA_INIZIO}
+              </p>
+              <div className="flex w-full items-center justify-center text-[#C65D1E]">
                 <AutoTextSize
                   mode="oneline"
                   minFontSizePx={14}
-                  maxFontSizePx={40}
+                  maxFontSizePx={32}
                 >
-                  {testoClasse}
+                  {prossimaLezione.lezione.CLASSE}
                 </AutoTextSize>
               </div>
             </div>
-            {/* prossima lezione dentro una scheda con bordo, larga quanto il riquadro della classe (w-[250px]) così i bordi si allineano. */}
-            {prossimaLezione && (
-              <div className="mt-[1.2em] flex w-[250px] flex-col items-center gap-[0.2em] rounded-[0.5em] border-2 border-dashed border-[#FDF8E1]/30 px-4 py-[0.9rem] uppercase">
-                <p className="text-[0.9rem] tracking-[0.15em] opacity-70">
-                  Prossima lezione
-                </p>
-                <p className="text-[1.3rem]">
-                  {quando} {prossimaLezione.lezione.ORA_INIZIO}
-                </p>
-                <div className="flex w-full items-center justify-center text-[#C65D1E]">
-                  <AutoTextSize
-                    mode="oneline"
-                    minFontSizePx={14}
-                    maxFontSizePx={32}
-                  >
-                    {prossimaLezione.lezione.CLASSE}
-                  </AutoTextSize>
-                </div>
-              </div>
-            )}
-          </div>
-        ) : (
-          <button
-            className="max-w-[300px] cursor-pointer rounded-[0.5em] bg-[#A42A28] px-5 py-3 text-[1.3rem] text-[#FDF8E1] uppercase shadow-[0_3px_0_0] shadow-[#FDF8E1] select-none hover:bg-[#A42A28]/80 active:translate-y-0.5 active:bg-[#A42A28]/80 active:shadow-none"
-            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-          >
-            Scegli un docente
-          </button>
-        )}
+          )}
+        </div>
       </div>
       {/* Arrow Down Icon */}
       <svg

@@ -97,7 +97,7 @@ export interface ProssimaLezione {
 }
 
 export interface OrarioCorrenteProps {
-  docente: string | null;
+  docente: string; // sempre scelto: App mostra la schermata solo con un docente
   oraFormattata: string;
   giornoCorrente: string;
   classeCorrente: string | undefined;
