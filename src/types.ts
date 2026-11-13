@@ -78,6 +78,10 @@ export interface OrariClassiProps {
   giornoCorrente: string;
   onPrevClass: () => void;
   onNextClass: () => void;
+  // casella "Mostra solo le mie classi"
+  puoFiltrare: boolean; // c'è un docente scelto con almeno una classe?
+  soloMieClassi: boolean; // la casella è spuntata?
+  onCambiaSoloMieClassi: (valore: boolean) => void;
 }
 
 // la prossima lezione di un docente e quanti giorni mancano

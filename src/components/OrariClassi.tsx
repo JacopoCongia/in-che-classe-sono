@@ -20,6 +20,9 @@ function OrariClassi({
   docenteSelezionato,
   oraFormattata,
   giornoCorrente,
+  puoFiltrare,
+  soloMieClassi,
+  onCambiaSoloMieClassi,
   onPrevClass,
   onNextClass,
 }: OrariClassiProps) {
@@ -67,6 +70,27 @@ function OrariClassi({
             <path d="M530-481 332-679l43-43 241 241-241 241-43-43 198-198Z" />
           </svg>
         </div>
+        {puoFiltrare && (
+          <label className="mt-[1em] flex min-h-[50px] w-[245px] cursor-pointer items-center justify-center gap-[1em] rounded-[0.4em] border-2 border-[#FDF8E1] bg-[#3D2B1F] px-[0.8em] py-[0.4em] text-[1rem] leading-tight uppercase shadow-[0_3px_0_0] shadow-[#FDF8E1] not-has-checked:hover:bg-[#FDF8E1]/20 active:translate-y-0.5 active:shadow-none has-checked:bg-[#FDF8E1] has-checked:text-[#3D2B1F] has-checked:shadow-[#C65D1E] has-focus-visible:ring-2 has-focus-visible:ring-[#FDF8E1] has-focus-visible:ring-offset-2 has-focus-visible:ring-offset-[#3D2B1F]">
+            <input
+              type="checkbox"
+              checked={soloMieClassi}
+              onChange={(e) => onCambiaSoloMieClassi(e.target.checked)}
+              className="peer sr-only"
+            />
+            <span className="flex h-[1.4em] w-[1.4em] shrink-0 items-center justify-center rounded-[0.3em] border-2 border-[#FDF8E1] text-[#FDF8E1] peer-checked:border-[#C65D1E] peer-checked:bg-[#C65D1E] peer-checked:[&>svg]:block">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                className="hidden h-[1em] w-[1em]"
+                fill="currentColor"
+              >
+                <path d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+              </svg>
+            </span>
+            <span>Solo le mie classi</span>
+          </label>
+        )}
       </div>
 
       {classeSelezionata ? (
@@ -86,7 +110,7 @@ function OrariClassi({
             <div className="mx-auto grid w-max grid-cols-[3.2em_repeat(5,110px)] gap-[0.35em] px-[1em] lg:w-full lg:grid-cols-[3.2em_repeat(5,minmax(0,1fr))]">
               <div
                 aria-hidden
-                className="sticky left-0 z-10 -mr-[0.35em] rounded-r-[0.5em] bg-[#3D2B1F]/70 backdrop-blur-md"
+                className="sticky left-0 z-10 -mr-[0.35em] bg-[#3D2B1F]/70 backdrop-blur-md"
                 style={{
                   gridColumn: 1,
                   gridRow: `1 / span ${slotOrari.length + 1}`,

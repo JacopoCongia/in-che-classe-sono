@@ -19,6 +19,7 @@ import {
   getProssimaLezione,
   getGiornoVisualizzato,
   GIORNI_SETTIMANA,
+  getClassiDocente,
 } from "../utils";
 import OrariGiornalieri from "./components/OrariGiornalieri.tsx";
 import OrariClassi from "./components/OrariClassi.tsx";
@@ -29,8 +30,10 @@ function App() {
   const [oraCorrente, setOraCorrente] = useState(new Date());
   // const [oraCorrente, setOraCorrente] = useState(new Date("2026-10-30T20:15")); // ONLY FOR TESTING
   const [dayOffset, setDayOffset] = useState(0);
-  // posizione nella lista delle classi (le frecce la aumentano/diminuiscono)
-  const [classeOffset, setClasseOffset] = useState(0);
+  // un numero punterebbe a classi diverse quando la lista cambia, uso quindi un nome.
+  const [classeScelta, setClasseScelta] = useState("");
+  // casella "Mostra solo le mie classi" (inizia non spuntata)
+  const [soloMieClassi, setSoloMieClassi] = useState(false);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -88,15 +91,26 @@ function App() {
     .filter((lezione) => lezione.GIORNO === giornoVisualizzato)
     .sort((a, b) => a.ORA_INIZIO.localeCompare(b.ORA_INIZIO));
 
-  // classi presenti nei dati e classe mostrata nella tabella.
-  // Il doppio modulo ((n % len) + len) % len fa "girare" l'indice in circolo
-  // anche quando va sotto zero (freccia sinistra dalla prima classe).
-  const classi = getClassi(dati_lezioni);
-  const classeSelezionata =
-    classi.length > 0
-      ? classi[((classeOffset % classi.length) + classi.length) % classi.length]
-      : "";
+  // trova tutte le classi dell'insegnante selezionato
+  const classiDocente = getClassiDocente(lezioniInsegnante);
+  // La casella ha senso solo con un docente scelto che ha almeno una classe
+  const puoFiltrare = docente !== "" && classiDocente.length > 0;
+  const classiMostrate =
+    soloMieClassi && puoFiltrare ? classiDocente : getClassi(dati_lezioni);
+  // Se la classe scelta non è nella lista (es. appena spuntata la casella),
+  // si riparte dalla prima classe della lista.
+  const classeSelezionata = classiMostrate.includes(classeScelta)
+    ? classeScelta
+    : (classiMostrate[0] ?? "");
   const lezioniClasse = getLezioniClasse(dati_lezioni, classeSelezionata);
+
+  // Frecce: passo = -1 (indietro) o +1 (avanti), con giro completo
+  const vaiAClasse = (passo: number) => {
+    const n = classiMostrate.length;
+    if (n === 0) return;
+    const i = classiMostrate.indexOf(classeSelezionata);
+    setClasseScelta(classiMostrate[(i + passo + n) % n]);
+  };
 
   return (
     <>
@@ -163,8 +177,11 @@ function App() {
           docenteSelezionato={docente}
           oraFormattata={oraFormattata}
           giornoCorrente={giornoCorrente}
-          onPrevClass={() => setClasseOffset((c) => c - 1)}
-          onNextClass={() => setClasseOffset((c) => c + 1)}
+          onPrevClass={() => vaiAClasse(-1)}
+          onNextClass={() => vaiAClasse(1)}
+          puoFiltrare={puoFiltrare}
+          soloMieClassi={soloMieClassi}
+          onCambiaSoloMieClassi={setSoloMieClassi}
         />
       </section>
       <TornaSu />
