@@ -20,6 +20,7 @@ import {
   getGiornoVisualizzato,
   GIORNI_SETTIMANA,
   getClassiDocente,
+  slotInCorso,
 } from "../utils";
 import OrariGiornalieri from "./components/OrariGiornalieri.tsx";
 import OrariClassi from "./components/OrariClassi.tsx";
@@ -35,11 +36,22 @@ function App() {
   // casella "Mostra solo le mie classi" (inizia non spuntata)
   const [soloMieClassi, setSoloMieClassi] = useState(false);
 
+  // Aggiorna l'ora allo scoccare di ogni minuto: prima si aspetta il
+  // prossimo minuto intero, poi si aggiorna ogni 60 secondi. Così ora e barra
+  // di avanzamento non restano indietro fino a 59 secondi.
   useEffect(() => {
-    const timer = setInterval(() => {
-      setOraCorrente(new Date());
-    }, 1000 * 60); // Aggiorna ogni minuto
-    return () => clearInterval(timer);
+    let intervallo: ReturnType<typeof setInterval> | undefined;
+    const attesa = setTimeout(
+      () => {
+        setOraCorrente(new Date());
+        intervallo = setInterval(() => setOraCorrente(new Date()), 1000 * 60);
+      },
+      1000 * 60 - (Date.now() % (1000 * 60)),
+    );
+    return () => {
+      clearTimeout(attesa);
+      clearInterval(intervallo);
+    };
   }, []);
 
   const oraFormattata = formatTime(oraCorrente);
@@ -69,17 +81,14 @@ function App() {
   // resto del componente lavora esattamente come prima.
   const lezioniInsegnante = getLezioniInsegnante(dati_lezioni, docente);
 
-  // Trova la classe corrente in base all'insegnante, al giorno e all'ora.
-  // Questo confronto era già un controllo di intervallo (>= / <=), quindi
-  // funziona senza modifiche anche ora che una lezione può coprire più slot.
-  const classeCorrente = lezioniInsegnante.find((lezione) => {
-    // Verifica se la lezione è nel giorno corrente
-    if (lezione.GIORNO !== giornoCorrente) return false;
-    // Verifica se l'ora corrente è compresa tra ORA_INIZIO e ORA_FINE (dai dati)
-    return (
-      lezione.ORA_INIZIO <= oraFormattata && oraFormattata <= lezione.ORA_FINE
-    );
-  })?.CLASSE;
+  // La lezione in corso adesso (oggi, con l'ora attuale dentro la lezione).
+  // Stessa regola dei pannelli (slotInCorso): la fine è esclusa, quindi alle
+  // 18:50 vale la lezione che inizia, non quella che finisce. Una lezione può
+  // coprire più slot: il controllo è sull'intera lezione.
+  const lezioneCorrente = lezioniInsegnante.find(
+    (lezione) =>
+      lezione.GIORNO === giornoCorrente && slotInCorso(oraFormattata, lezione),
+  );
 
   // prossima lezione dopo l'ora attuale (anche nei giorni seguenti)
   const prossimaLezione = getProssimaLezione(
@@ -164,7 +173,7 @@ function App() {
               docente={docente}
               oraFormattata={oraFormattata}
               giornoCorrente={giornoCorrente}
-              classeCorrente={classeCorrente}
+              lezioneCorrente={lezioneCorrente}
               prossimaLezione={prossimaLezione}
             />
             {/* Schermata Orari Giornate */}

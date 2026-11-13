@@ -100,6 +100,15 @@ export interface OrarioCorrenteProps {
   docente: string; // sempre scelto: App mostra la schermata solo con un docente
   oraFormattata: string;
   giornoCorrente: string;
-  classeCorrente: string | undefined;
+  lezioneCorrente: Lesson | undefined; // la lezione in corso adesso, se c'è
   prossimaLezione?: ProssimaLezione;
+}
+
+export interface BarraAvanzamentoProps {
+  oraFormattata: string;
+  inizio: string; // "HH:MM"
+  fine: string; // "HH:MM"
+  // colore del riempimento in base allo sfondo su cui sta la barra:
+  // "chiaro" sulla riga arancione, "arancione" sulla schermata scura
+  tono: "chiaro" | "arancione";
 }
