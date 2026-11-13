@@ -1,11 +1,7 @@
 import { AutoTextSize } from "auto-text-size";
 import type { BoxOfTextProps } from "../types";
 
-function BoxOfText({
-  texts,
-  boxWidth,
-  bold,
-}: BoxOfTextProps) {
+function BoxOfText({ texts, boxWidth, bold }: BoxOfTextProps) {
   const textElements = texts.map((text, index) => (
     <div
       key={index}
