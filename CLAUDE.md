@@ -9,6 +9,7 @@ Stack: React 19 + TypeScript, Vite, Tailwind CSS v4 (via `@tailwindcss/vite`, no
 - `npm run dev`: dev server
 - `npm run build`: `tsc -b` + Vite build (use it as the typecheck)
 - `npm run lint`: ESLint (flat config in `eslint.config.js`)
+- `npm run check-data`: validates `src/data.ts` (`scripts/controlla-dati.ts`, run directly by Node's type stripping). Run it after every data change.
 
 ## School timetable
 
@@ -26,6 +27,7 @@ The periods are defined in `SLOT_ORARI` in `src/utils.ts`, which is the source o
 - `MATERIA` is optional on a lesson: it falls back to the teacher's `materiaDefault` (resolved in `getLezioniInsegnante`).
 - A lesson shared by several classes is written `CLASSE: "3ACS + 3AIS"`; use `classiDellaLezione` in `src/utils.ts` to split it, never parse it ad hoc.
 - `attivo: false` hides a teacher everywhere; `visibile: false` hides only their button but keeps their lessons in the class timetables.
+- Subject names are fixed by `MATERIE` in `scripts/materie.ts`. The timetable PDF uses different names: when updating from a PDF, translate each subject with `MATERIE_DA_PDF` in the same file, and add any new PDF name to it (ask the user which app name it maps to).
 - `data.ts.old` (repo root) is the previous data format, kept for reference only. Don't edit or import it.
 
 ## Code layout
