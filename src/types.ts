@@ -72,10 +72,27 @@ export interface LezioneClasse extends Lesson {
   DOCENTE: string;
 }
 
+// cosa mostra la tabella settimanale: l'orario di una classe o quello del
+// docente scelto in alto
+export type VistaTabella = "classe" | "docente";
+
+export interface TabellaSettimanaleProps {
+  lezioni: LezioneClasse[];
+  modalita: VistaTabella;
+  docenteSelezionato: string; // per evidenziarne le lezioni nella vista classe
+  oraFormattata: string;
+  giornoCorrente: string;
+}
+
 // NUOVO: props della sezione con la tabella settimanale di una classe.
 export interface OrariClassiProps {
   classeSelezionata: string;
   lezioniClasse: LezioneClasse[];
+  // lezioni del docente scelto, per la vista "Il mio orario"
+  lezioniDocente: LezioneClasse[];
+  // vista mostrata; "docente" solo se c'è un docente scelto
+  vista: VistaTabella;
+  onCambiaVista: (vista: VistaTabella) => void;
   docenteSelezionato: string; // docente scelto in alto, per evidenziarne le lezioni
   oraFormattata: string;
   giornoCorrente: string;

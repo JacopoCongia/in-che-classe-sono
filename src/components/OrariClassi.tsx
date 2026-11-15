@@ -1,21 +1,21 @@
-import { Fragment } from "react";
 import { AnimatePresence, motion } from "motion/react";
-import type { LezioneClasse, OrariClassiProps } from "../types";
-import {
-  cognomeDocente,
-  GIORNI_LAVORATIVI,
-  SLOT_ORARI,
-  slotInCorso,
-} from "../utils";
+import type { OrariClassiProps, VistaTabella } from "../types";
 import BoxOfText from "./BoxOfText";
 import SelettoreFrecce from "./SelettoreFrecce";
+import TabellaSettimanale from "./TabellaSettimanale";
 
-// da Lunedì (1) a Venerdì (5) dell'elenco condiviso
-const GIORNI = GIORNI_LAVORATIVI;
+// i due bottoni dello switch, nell'ordine in cui compaiono
+const VISTE: { valore: VistaTabella; etichetta: string }[] = [
+  { valore: "classe", etichetta: "Classe" },
+  { valore: "docente", etichetta: "Il mio orario" },
+];
 
 function OrariClassi({
   classeSelezionata,
   lezioniClasse,
+  lezioniDocente,
+  vista,
+  onCambiaVista,
   docenteSelezionato,
   oraFormattata,
   giornoCorrente,
@@ -25,6 +25,12 @@ function OrariClassi({
   onPrevClass,
   onNextClass,
 }: OrariClassiProps) {
+  const vistaDocente = vista === "docente";
+  // chiave dell'animazione: cambia sia con la classe sia con la vista
+  const chiaveTabella = vistaDocente
+    ? `docente:${docenteSelezionato}`
+    : `classe:${classeSelezionata}`;
+
   return (
     <div
       id="schermata-orari-classi"
@@ -41,42 +47,74 @@ function OrariClassi({
           boxWidth={250}
           bold
         />
-        {/* Cambio classe: stesso selettore del cambio giorno, nel tono scuro */}
-        <SelettoreFrecce
-          tono="scuro"
-          etichetta={classeSelezionata || "-"}
-          ariaPrecedente="Classe precedente"
-          ariaSuccessivo="Classe successiva"
-          onPrecedente={onPrevClass}
-          onSuccessivo={onNextClass}
-        />
-        {puoFiltrare && (
-          <label className="mt-[1em] flex min-h-[50px] w-[245px] cursor-pointer items-center justify-center gap-[1em] rounded-[0.4em] border-2 border-[#FDF8E1] bg-[#3D2B1F] px-[0.8em] py-[0.4em] text-[1rem] leading-tight uppercase shadow-[0_3px_0_0] shadow-[#FDF8E1] not-has-checked:hover:bg-[#FDF8E1]/20 active:translate-y-0.5 active:shadow-none has-checked:bg-[#FDF8E1] has-checked:text-[#3D2B1F] has-checked:shadow-[#C65D1E] has-focus-visible:ring-2 has-focus-visible:ring-[#FDF8E1] has-focus-visible:ring-offset-2 has-focus-visible:ring-offset-[#3D2B1F]">
-            <input
-              type="checkbox"
-              checked={soloMieClassi}
-              onChange={(e) => onCambiaSoloMieClassi(e.target.checked)}
-              className="peer sr-only"
-            />
-            <span className="flex h-[1.4em] w-[1.4em] shrink-0 items-center justify-center rounded-[0.3em] border-2 border-[#FDF8E1] text-[#FDF8E1] peer-checked:border-[#C65D1E] peer-checked:bg-[#C65D1E] peer-checked:[&>svg]:block">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                className="hidden h-[1em] w-[1em]"
-                fill="currentColor"
+        {/* Switch Classe / Il mio orario: solo con un docente scelto. Sono
+            due radio nascosti dentro label, così si usano anche da tastiera
+            (frecce sinistra/destra), con lo stesso stile della casella sotto. */}
+        {docenteSelezionato !== "" && (
+          <div
+            role="radiogroup"
+            aria-label="Cosa mostrare nella tabella"
+            className="mb-[0.5em] flex w-[245px] gap-[0.5em]"
+          >
+            {VISTE.map(({ valore, etichetta }) => (
+              <label
+                key={valore}
+                className="flex min-h-[44px] flex-1 cursor-pointer items-center justify-center rounded-[0.4em] border-2 border-[#FDF8E1] bg-[#3D2B1F] px-[0.5em] py-[0.3em] text-[0.9rem] leading-tight uppercase shadow-[0_3px_0_0] shadow-[#FDF8E1] not-has-checked:hover:bg-[#FDF8E1]/20 active:translate-y-0.5 active:shadow-none has-checked:bg-[#FDF8E1] has-checked:text-[#3D2B1F] has-checked:shadow-[#C65D1E] has-focus-visible:ring-2 has-focus-visible:ring-[#FDF8E1] has-focus-visible:ring-offset-2 has-focus-visible:ring-offset-[#3D2B1F]"
               >
-                <path d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
-              </svg>
-            </span>
-            <span>Solo le mie classi</span>
-          </label>
+                <input
+                  type="radio"
+                  name="vista-tabella"
+                  value={valore}
+                  checked={vista === valore}
+                  onChange={() => onCambiaVista(valore)}
+                  className="sr-only"
+                />
+                {etichetta}
+              </label>
+            ))}
+          </div>
+        )}
+        {/* Selettore classe e casella servono solo nella vista classe */}
+        {!vistaDocente && (
+          <>
+            {/* Cambio classe: stesso selettore del cambio giorno, nel tono scuro */}
+            <SelettoreFrecce
+              tono="scuro"
+              etichetta={classeSelezionata || "-"}
+              ariaPrecedente="Classe precedente"
+              ariaSuccessivo="Classe successiva"
+              onPrecedente={onPrevClass}
+              onSuccessivo={onNextClass}
+            />
+            {puoFiltrare && (
+              <label className="mt-[1em] flex min-h-[50px] w-[245px] cursor-pointer items-center justify-center gap-[1em] rounded-[0.4em] border-2 border-[#FDF8E1] bg-[#3D2B1F] px-[0.8em] py-[0.4em] text-[1rem] leading-tight uppercase shadow-[0_3px_0_0] shadow-[#FDF8E1] not-has-checked:hover:bg-[#FDF8E1]/20 active:translate-y-0.5 active:shadow-none has-checked:bg-[#FDF8E1] has-checked:text-[#3D2B1F] has-checked:shadow-[#C65D1E] has-focus-visible:ring-2 has-focus-visible:ring-[#FDF8E1] has-focus-visible:ring-offset-2 has-focus-visible:ring-offset-[#3D2B1F]">
+                <input
+                  type="checkbox"
+                  checked={soloMieClassi}
+                  onChange={(e) => onCambiaSoloMieClassi(e.target.checked)}
+                  className="peer sr-only"
+                />
+                <span className="flex h-[1.4em] w-[1.4em] shrink-0 items-center justify-center rounded-[0.3em] border-2 border-[#FDF8E1] text-[#FDF8E1] peer-checked:border-[#C65D1E] peer-checked:bg-[#C65D1E] peer-checked:[&>svg]:block">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    className="hidden h-[1em] w-[1em]"
+                    fill="currentColor"
+                  >
+                    <path d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                  </svg>
+                </span>
+                <span>Solo le mie classi</span>
+              </label>
+            )}
+          </>
         )}
       </div>
 
-      {classeSelezionata ? (
+      {vistaDocente || classeSelezionata ? (
         <AnimatePresence mode="wait">
           <motion.div
-            key={classeSelezionata}
+            key={chiaveTabella}
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -20 }}
@@ -85,164 +123,13 @@ function OrariClassi({
             // si scorre di lato invece di restringere i testi.
             className="w-full max-w-[760px] overflow-x-auto pb-[1em] lg:max-w-[1000px]"
           >
-            {/* Griglia: colonna orari + 5 colonne giorno da 110px.
-                mx-auto la centra quando c'è abbastanza spazio. */}
-            <div className="mx-auto grid w-max grid-cols-[3.2em_repeat(5,110px)] gap-[0.35em] px-[1em] lg:w-full lg:grid-cols-[3.2em_repeat(5,minmax(0,1fr))]">
-              <div
-                aria-hidden
-                className="sticky left-0 z-10 -mr-[0.35em] bg-[#3D2B1F]/70 backdrop-blur-md"
-                style={{
-                  gridColumn: 1,
-                  gridRow: `1 / span ${SLOT_ORARI.length + 1}`,
-                }}
-              />
-              {/* Riga intestazione: giorni (la colonna 1 è occupata dal pannello) */}
-              {GIORNI.map((giorno) => (
-                <div
-                  key={giorno}
-                  className={`rounded-[0.4em] py-[0.3em] text-[0.85rem] uppercase ${
-                    giorno === giornoCorrente
-                      ? "bg-[#C65D1E] text-[#FDF8E1]"
-                      : "text-[#FDF8E1]"
-                  }`}
-                >
-                  {giorno.slice(0, 3)}
-                </div>
-              ))}
-
-              {/* Una riga per ogni slot orario */}
-              {SLOT_ORARI.map((slot, indiceSlot) => (
-                <Fragment key={slot.ORA_INIZIO}>
-                  {/* Etichetta orario: sticky come il pannello, ma z-20 così sta
-                      sopra. È piazzata a mano in colonna 1 (+2 perché la riga 1
-                      è l'intestazione e le righe della griglia partono da 1),
-                      stessa cella del pannello: la sovrapposizione è permessa
-                      perché entrambi hanno una posizione esplicita. */}
-                  <div
-                    className="sticky left-0 z-20 flex flex-col items-center justify-center text-[0.7rem] leading-tight"
-                    style={{ gridColumn: 1, gridRow: indiceSlot + 2 }}
-                  >
-                    <div
-                      className={`flex flex-col items-center rounded-[0.4em] px-[0.4em] py-[0.3em] ${
-                        GIORNI.includes(giornoCorrente) &&
-                        slotInCorso(oraFormattata, slot)
-                          ? "bg-[#C65D1E]"
-                          : ""
-                      }`}
-                    >
-                      <span>{slot.ORA_INIZIO}</span>
-                      <span className="opacity-60">{slot.ORA_FINE}</span>
-                    </div>
-                  </div>
-
-                  {GIORNI.map((giorno) => {
-                    // Stessa regola della vista giornaliera: lo slot deve
-                    // rientrare nell'intervallo della lezione. Uso filter (non
-                    // find) per mostrare anche eventuali lezioni in compresenza.
-                    const lezioni = lezioniClasse.filter(
-                      (lez) =>
-                        lez.GIORNO === giorno &&
-                        slot.ORA_INIZIO >= lez.ORA_INIZIO &&
-                        slot.ORA_FINE <= lez.ORA_FINE,
-                    );
-                    // Cerchio chiaro attorno alla cella dello slot attuale
-                    const adesso =
-                      giorno === giornoCorrente &&
-                      slotInCorso(oraFormattata, slot);
-                    const pallino = adesso ? (
-                      <span className="absolute top-[0.4em] right-[0.4em] z-10 flex h-[0.7em] w-[0.7em]">
-                        <span className="absolute inline-flex h-full w-full rounded-full bg-[#C65D1E] opacity-75 motion-safe:animate-ping" />
-                        <span className="relative inline-flex h-full w-full rounded-full bg-[#C65D1E] ring-2 ring-[#FDF8E1]" />
-                      </span>
-                    ) : null;
-
-                    // Cella vuota
-                    if (lezioni.length === 0) {
-                      return (
-                        <div
-                          key={giorno}
-                          className="relative min-h-[5.5em] rounded-[0.5em] border-2 border-dashed border-[#FDF8E1]/25"
-                        >
-                          {pallino}
-                        </div>
-                      );
-                    }
-
-                    // più docenti con la STESSA materia nella stessa
-                    // cella (compresenza, es. Bonato + Fezza) diventano un solo
-                    // riquadro con i cognomi separati da virgola. Un Map raggruppa
-                    // le lezioni per materia; materie diverse restano riquadri
-                    // separati.
-                    const gruppi = new Map<string, LezioneClasse[]>();
-                    for (const lez of lezioni) {
-                      gruppi.set(lez.MATERIA, [
-                        ...(gruppi.get(lez.MATERIA) ?? []),
-                        lez,
-                      ]);
-                    }
-
-                    return (
-                      <div
-                        key={giorno}
-                        className="relative flex min-h-[5.5em] flex-col gap-[0.2em] rounded-[0.5em]"
-                      >
-                        {pallino}
-                        {[...gruppi.entries()].map(([materia, gruppo]) => {
-                          // Docenti del riquadro: senza doppioni, in ordine alfabetico
-                          const docenti = [
-                            ...new Set(gruppo.map((l) => l.DOCENTE)),
-                          ]
-                            .map(cognomeDocente)
-                            .sort((a, b) => a.localeCompare(b));
-                          // Il riquadro risalta se il docente scelto in alto è
-                          // UNO dei docenti (anche se in compresenza)
-                          const evidenziata =
-                            docenteSelezionato !== "" &&
-                            gruppo.some(
-                              (l) => l.DOCENTE === docenteSelezionato,
-                            );
-                          return (
-                            <div
-                              key={materia}
-                              className={`flex flex-1 flex-col items-center justify-center gap-[0.3em] rounded-[0.5em] p-[0.4em] ${
-                                evidenziata
-                                  ? "bg-[#C65D1E] text-[#FDF8E1]"
-                                  : "bg-[#FDF8E1] text-[#3D2B1F]"
-                              }`}
-                            >
-                              {/* Materia: più grande, nome completo che va a capo */}
-                              <p
-                                title={materia}
-                                className={`w-full min-w-0 text-[0.75rem] leading-tight font-bold uppercase ${
-                                  evidenziata ? "" : "text-[#C65D1E]"
-                                }`}
-                              >
-                                {materia.split(" ").map((parola, i) => (
-                                  <Fragment key={i}>
-                                    {i > 0 && " "}
-                                    <span className="inline-block max-w-full truncate align-bottom">
-                                      {parola}
-                                    </span>
-                                  </Fragment>
-                                ))}
-                              </p>
-                              {/* Cognomi dei docenti: più piccoli, separati da virgola */}
-                              <p
-                                className={`text-[0.65rem] leading-none ${
-                                  evidenziata ? "opacity-80" : ""
-                                }`}
-                              >
-                                {docenti.join(", ")}
-                              </p>
-                            </div>
-                          );
-                        })}
-                      </div>
-                    );
-                  })}
-                </Fragment>
-              ))}
-            </div>
+            <TabellaSettimanale
+              lezioni={vistaDocente ? lezioniDocente : lezioniClasse}
+              modalita={vista}
+              docenteSelezionato={docenteSelezionato}
+              oraFormattata={oraFormattata}
+              giornoCorrente={giornoCorrente}
+            />
           </motion.div>
         </AnimatePresence>
       ) : (

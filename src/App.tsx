@@ -24,6 +24,7 @@ import {
 } from "./utils";
 import OrariGiornalieri from "./components/OrariGiornalieri.tsx";
 import OrariClassi from "./components/OrariClassi.tsx";
+import type { VistaTabella } from "./types";
 
 function App() {
   const [docente, setDocente] = useState("");
@@ -34,6 +35,8 @@ function App() {
   const [classeScelta, setClasseScelta] = useState("");
   // casella "Mostra solo le mie classi" (inizia non spuntata)
   const [soloMieClassi, setSoloMieClassi] = useState(false);
+  // tabella in fondo: orario di una classe o "Il mio orario" del docente
+  const [vistaScelta, setVistaScelta] = useState<VistaTabella>("classe");
 
   // Aggiorna l'ora allo scoccare di ogni minuto: prima si aspetta il
   // prossimo minuto intero, poi si aggiorna ogni 60 secondi. Così ora e barra
@@ -102,6 +105,14 @@ function App() {
     ? classeScelta
     : (classiMostrate[0] ?? "");
   const lezioniClasse = getLezioniClasse(dati_lezioni, classeSelezionata);
+  // "Il mio orario" ha senso solo con un docente scelto: senza, si torna
+  // alla vista classe (come puoFiltrare per la casella).
+  const vista: VistaTabella = docente !== "" ? vistaScelta : "classe";
+  // la tabella lavora con LezioneClasse: aggiungo il DOCENTE alle sue lezioni
+  const lezioniDocenteTabella = lezioniInsegnante.map((lezione) => ({
+    ...lezione,
+    DOCENTE: docente,
+  }));
 
   // Frecce: passo = -1 (indietro) o +1 (avanti), con giro completo
   const vaiAClasse = (passo: number) => {
@@ -180,6 +191,9 @@ function App() {
         <OrariClassi
           classeSelezionata={classeSelezionata}
           lezioniClasse={lezioniClasse}
+          lezioniDocente={lezioniDocenteTabella}
+          vista={vista}
+          onCambiaVista={setVistaScelta}
           docenteSelezionato={docente}
           oraFormattata={oraFormattata}
           giornoCorrente={giornoCorrente}
