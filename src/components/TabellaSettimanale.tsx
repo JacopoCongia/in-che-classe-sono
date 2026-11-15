@@ -1,0 +1,196 @@
+import { Fragment } from "react";
+import type { LezioneClasse, TabellaSettimanaleProps } from "../types";
+import {
+  cognomeDocente,
+  GIORNI_LAVORATIVI,
+  SLOT_ORARI,
+  slotInCorso,
+} from "../utils";
+
+// da Lunedì (1) a Venerdì (5) dell'elenco condiviso
+const GIORNI = GIORNI_LAVORATIVI;
+
+// La griglia settimanale (slot × giorni) usata sia per l'orario di una classe
+// sia per l'orario di un docente. Cambia solo cosa c'è scritto nei riquadri:
+// - "classe": materia in grande, cognomi dei docenti sotto
+// - "docente": classe in grande, materia sotto
+function TabellaSettimanale({
+  lezioni,
+  modalita,
+  docenteSelezionato,
+  oraFormattata,
+  giornoCorrente,
+}: TabellaSettimanaleProps) {
+  return (
+    // Griglia: colonna orari + 5 colonne giorno da 110px.
+    // mx-auto la centra quando c'è abbastanza spazio.
+    <div className="mx-auto grid w-max grid-cols-[3.2em_repeat(5,110px)] gap-[0.35em] px-[1em] lg:w-full lg:grid-cols-[3.2em_repeat(5,minmax(0,1fr))]">
+      <div
+        aria-hidden
+        className="sticky left-0 z-10 -mr-[0.35em] bg-[#3D2B1F]/70 backdrop-blur-md"
+        style={{
+          gridColumn: 1,
+          gridRow: `1 / span ${SLOT_ORARI.length + 1}`,
+        }}
+      />
+      {/* Riga intestazione: giorni (la colonna 1 è occupata dal pannello) */}
+      {GIORNI.map((giorno) => (
+        <div
+          key={giorno}
+          className={`rounded-[0.4em] py-[0.3em] text-[0.85rem] uppercase ${
+            giorno === giornoCorrente
+              ? "bg-[#C65D1E] text-[#FDF8E1]"
+              : "text-[#FDF8E1]"
+          }`}
+        >
+          {giorno.slice(0, 3)}
+        </div>
+      ))}
+
+      {/* Una riga per ogni slot orario */}
+      {SLOT_ORARI.map((slot, indiceSlot) => (
+        <Fragment key={slot.ORA_INIZIO}>
+          {/* Etichetta orario: sticky come il pannello, ma z-20 così sta
+              sopra. È piazzata a mano in colonna 1 (+2 perché la riga 1
+              è l'intestazione e le righe della griglia partono da 1),
+              stessa cella del pannello: la sovrapposizione è permessa
+              perché entrambi hanno una posizione esplicita. */}
+          <div
+            className="sticky left-0 z-20 flex flex-col items-center justify-center text-[0.7rem] leading-tight"
+            style={{ gridColumn: 1, gridRow: indiceSlot + 2 }}
+          >
+            <div
+              className={`flex flex-col items-center rounded-[0.4em] px-[0.4em] py-[0.3em] ${
+                GIORNI.includes(giornoCorrente) &&
+                slotInCorso(oraFormattata, slot)
+                  ? "bg-[#C65D1E]"
+                  : ""
+              }`}
+            >
+              <span>{slot.ORA_INIZIO}</span>
+              <span className="opacity-60">{slot.ORA_FINE}</span>
+            </div>
+          </div>
+
+          {GIORNI.map((giorno) => {
+            // Stessa regola della vista giornaliera: lo slot deve
+            // rientrare nell'intervallo della lezione. Uso filter (non
+            // find) per mostrare anche eventuali lezioni in compresenza.
+            const lezioniCella = lezioni.filter(
+              (lez) =>
+                lez.GIORNO === giorno &&
+                slot.ORA_INIZIO >= lez.ORA_INIZIO &&
+                slot.ORA_FINE <= lez.ORA_FINE,
+            );
+            // Cerchio chiaro attorno alla cella dello slot attuale
+            const adesso =
+              giorno === giornoCorrente && slotInCorso(oraFormattata, slot);
+            const pallino = adesso ? (
+              <span className="absolute top-[0.4em] right-[0.4em] z-10 flex h-[0.7em] w-[0.7em]">
+                <span className="absolute inline-flex h-full w-full rounded-full bg-[#C65D1E] opacity-75 motion-safe:animate-ping" />
+                <span className="relative inline-flex h-full w-full rounded-full bg-[#C65D1E] ring-2 ring-[#FDF8E1]" />
+              </span>
+            ) : null;
+
+            // Cella vuota
+            if (lezioniCella.length === 0) {
+              return (
+                <div
+                  key={giorno}
+                  className="relative min-h-[5.5em] rounded-[0.5em] border-2 border-dashed border-[#FDF8E1]/25"
+                >
+                  {pallino}
+                </div>
+              );
+            }
+
+            // Un Map raggruppa le lezioni della cella in riquadri:
+            // - vista classe: per materia, così più docenti con la STESSA
+            //   materia (compresenza, es. Bonato + Fezza) diventano un solo
+            //   riquadro con i cognomi separati da virgola;
+            // - vista docente: per classe e materia (di norma un docente ha
+            //   una sola lezione per cella, ma così un doppione non si perde).
+            const gruppi = new Map<string, LezioneClasse[]>();
+            for (const lez of lezioniCella) {
+              const chiave =
+                modalita === "classe"
+                  ? lez.MATERIA
+                  : `${lez.CLASSE}|${lez.MATERIA}`;
+              gruppi.set(chiave, [...(gruppi.get(chiave) ?? []), lez]);
+            }
+
+            return (
+              <div
+                key={giorno}
+                className="relative flex min-h-[5.5em] flex-col gap-[0.2em] rounded-[0.5em]"
+              >
+                {pallino}
+                {[...gruppi.entries()].map(([chiave, gruppo]) => {
+                  let titolo: string;
+                  let sottotitolo: string;
+                  let evidenziata: boolean;
+                  if (modalita === "classe") {
+                    titolo = gruppo[0].MATERIA;
+                    // Docenti del riquadro: senza doppioni, in ordine alfabetico
+                    sottotitolo = [...new Set(gruppo.map((l) => l.DOCENTE))]
+                      .map(cognomeDocente)
+                      .sort((a, b) => a.localeCompare(b))
+                      .join(", ");
+                    // Il riquadro risalta se il docente scelto in alto è
+                    // UNO dei docenti (anche se in compresenza)
+                    evidenziata =
+                      docenteSelezionato !== "" &&
+                      gruppo.some((l) => l.DOCENTE === docenteSelezionato);
+                  } else {
+                    titolo = gruppo[0].CLASSE;
+                    sottotitolo = gruppo[0].MATERIA;
+                    // Qui le lezioni sono tutte del docente: evidenziarle
+                    // tutte non direbbe niente, risalta solo quella in corso.
+                    evidenziata = adesso;
+                  }
+                  return (
+                    <div
+                      key={chiave}
+                      className={`flex flex-1 flex-col items-center justify-center gap-[0.3em] rounded-[0.5em] p-[0.4em] ${
+                        evidenziata
+                          ? "bg-[#C65D1E] text-[#FDF8E1]"
+                          : "bg-[#FDF8E1] text-[#3D2B1F]"
+                      }`}
+                    >
+                      {/* Titolo: più grande, nome completo che va a capo */}
+                      <p
+                        title={titolo}
+                        className={`w-full min-w-0 text-[0.75rem] leading-tight font-bold uppercase ${
+                          evidenziata ? "" : "text-[#C65D1E]"
+                        }`}
+                      >
+                        {titolo.split(" ").map((parola, i) => (
+                          <Fragment key={i}>
+                            {i > 0 && " "}
+                            <span className="inline-block max-w-full truncate align-bottom">
+                              {parola}
+                            </span>
+                          </Fragment>
+                        ))}
+                      </p>
+                      {/* Sottotitolo: più piccolo */}
+                      <p
+                        className={`text-[0.65rem] leading-none ${
+                          evidenziata ? "opacity-80" : ""
+                        }`}
+                      >
+                        {sottotitolo}
+                      </p>
+                    </div>
+                  );
+                })}
+              </div>
+            );
+          })}
+        </Fragment>
+      ))}
+    </div>
+  );
+}
+
+export default TabellaSettimanale;
