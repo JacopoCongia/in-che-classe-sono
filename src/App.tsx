@@ -24,9 +24,13 @@ import {
 } from "./utils";
 import OrariGiornalieri from "./components/OrariGiornalieri.tsx";
 import OrariClassi from "./components/OrariClassi.tsx";
+import SettimanaDocente from "./components/SettimanaDocente.tsx";
+import { useSchermoGrande } from "./useSchermoGrande.ts";
 import type { VistaTabella } from "./types";
 
 function App() {
+  // desktop e telefono mostrano le lezioni del docente in modo diverso
+  const schermoGrande = useSchermoGrande();
   const [docente, setDocente] = useState("");
   const [oraCorrente, setOraCorrente] = useState(new Date());
   // const [oraCorrente, setOraCorrente] = useState(new Date("2026-10-30T20:15")); // ONLY FOR TESTING
@@ -106,8 +110,11 @@ function App() {
     : (classiMostrate[0] ?? "");
   const lezioniClasse = getLezioniClasse(dati_lezioni, classeSelezionata);
   // "Il mio orario" ha senso solo con un docente scelto: senza, si torna
-  // alla vista classe (come puoFiltrare per la casella).
-  const vista: VistaTabella = docente !== "" ? vistaScelta : "classe";
+  // alla vista classe (come puoFiltrare per la casella). Da desktop lo switch
+  // non c'è: la settimana del docente ha già la sua sezione (SettimanaDocente),
+  // quindi la tabella in fondo mostra solo le classi.
+  const puoCambiareVista = docente !== "" && !schermoGrande;
+  const vista: VistaTabella = puoCambiareVista ? vistaScelta : "classe";
   // la tabella lavora con LezioneClasse: aggiungo il DOCENTE alle sue lezioni
   const lezioniDocenteTabella = lezioniInsegnante.map((lezione) => ({
     ...lezione,
@@ -175,16 +182,27 @@ function App() {
               lezioneCorrente={lezioneCorrente}
               prossimaLezione={prossimaLezione}
             />
-            {/* Schermata Orari Giornate */}
-            <OrariGiornalieri
-              oraFormattata={oraFormattata}
-              lezioniDiOggi={lezioniDaMostrare}
-              giornoCorrente={giornoCorrente}
-              giornoSelezionato={giornoVisualizzato}
-              setDayOffset={setDayOffset}
-              onPrevDay={() => setDayOffset((d) => d - 1)}
-              onNextDay={() => setDayOffset((d) => d + 1)}
-            />
+            {/* Lezioni del docente. Da telefono: un giorno alla volta, con
+                le frecce (Schermata Orari Giornate). Da desktop c'è spazio
+                per tutta la settimana insieme, senza frecce. */}
+            {schermoGrande ? (
+              <SettimanaDocente
+                lezioni={lezioniDocenteTabella}
+                docente={docente}
+                oraFormattata={oraFormattata}
+                giornoCorrente={giornoCorrente}
+              />
+            ) : (
+              <OrariGiornalieri
+                oraFormattata={oraFormattata}
+                lezioniDiOggi={lezioniDaMostrare}
+                giornoCorrente={giornoCorrente}
+                giornoSelezionato={giornoVisualizzato}
+                setDayOffset={setDayOffset}
+                onPrevDay={() => setDayOffset((d) => d - 1)}
+                onNextDay={() => setDayOffset((d) => d + 1)}
+              />
+            )}
           </>
         )}
         {/* Schermata Orari delle Classi (in fondo a tutto) */}
@@ -193,6 +211,7 @@ function App() {
           lezioniClasse={lezioniClasse}
           lezioniDocente={lezioniDocenteTabella}
           vista={vista}
+          puoCambiareVista={puoCambiareVista}
           onCambiaVista={setVistaScelta}
           docenteSelezionato={docente}
           oraFormattata={oraFormattata}

@@ -82,6 +82,17 @@ export interface TabellaSettimanaleProps {
   docenteSelezionato: string; // per evidenziarne le lezioni nella vista classe
   oraFormattata: string;
   giornoCorrente: string;
+  // sfondo su cui sta la tabella: "scuro" (marrone, il default) o "chiaro"
+  // (crema)
+  tono?: "chiaro" | "scuro";
+}
+
+// props della sezione desktop con tutta la settimana del docente scelto
+export interface SettimanaDocenteProps {
+  lezioni: LezioneClasse[];
+  docente: string;
+  oraFormattata: string;
+  giornoCorrente: string;
 }
 
 // NUOVO: props della sezione con la tabella settimanale di una classe.
@@ -90,8 +101,10 @@ export interface OrariClassiProps {
   lezioniClasse: LezioneClasse[];
   // lezioni del docente scelto, per la vista "Il mio orario"
   lezioniDocente: LezioneClasse[];
-  // vista mostrata; "docente" solo se c'è un docente scelto
+  // vista mostrata; "docente" solo se si può cambiare vista
   vista: VistaTabella;
+  // mostrare lo switch Classe / Il mio orario? (docente scelto, da telefono)
+  puoCambiareVista: boolean;
   onCambiaVista: (vista: VistaTabella) => void;
   docenteSelezionato: string; // docente scelto in alto, per evidenziarne le lezioni
   oraFormattata: string;
