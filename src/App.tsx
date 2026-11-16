@@ -218,6 +218,8 @@ function App() {
           giornoCorrente={giornoCorrente}
           onPrevClass={() => vaiAClasse(-1)}
           onNextClass={() => vaiAClasse(1)}
+          classi={classiMostrate}
+          onScegliClasse={setClasseScelta}
           puoFiltrare={puoFiltrare}
           soloMieClassi={soloMieClassi}
           onCambiaSoloMieClassi={setSoloMieClassi}
