@@ -15,6 +15,7 @@ function OrariClassi({
   lezioniClasse,
   lezioniDocente,
   vista,
+  puoCambiareVista,
   onCambiaVista,
   docenteSelezionato,
   oraFormattata,
@@ -47,10 +48,12 @@ function OrariClassi({
           boxWidth={250}
           bold
         />
-        {/* Switch Classe / Il mio orario: solo con un docente scelto. Sono
-            due radio nascosti dentro label, così si usano anche da tastiera
-            (frecce sinistra/destra), con lo stesso stile della casella sotto. */}
-        {docenteSelezionato !== "" && (
+        {/* Switch Classe / Il mio orario: solo con un docente scelto e solo
+            da telefono (da desktop la settimana del docente ha la sua
+            sezione). Sono due radio nascosti dentro label, così si usano
+            anche da tastiera (frecce sinistra/destra), con lo stesso stile
+            della casella sotto. */}
+        {puoCambiareVista && (
           <div
             role="radiogroup"
             aria-label="Cosa mostrare nella tabella"

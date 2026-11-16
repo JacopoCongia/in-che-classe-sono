@@ -14,20 +14,41 @@ const GIORNI = GIORNI_LAVORATIVI;
 // sia per l'orario di un docente. Cambia solo cosa c'è scritto nei riquadri:
 // - "classe": materia in grande, cognomi dei docenti sotto
 // - "docente": classe in grande, materia sotto
+// `tono` dice su che sfondo sta: "scuro" (marrone) o "chiaro" (crema).
 function TabellaSettimanale({
   lezioni,
   modalita,
   docenteSelezionato,
   oraFormattata,
   giornoCorrente,
+  tono = "scuro",
 }: TabellaSettimanaleProps) {
+  // i soli colori che cambiano con lo sfondo. Sul crema i riquadri hanno il
+  // bordo e le celle vuote il fondo leggero, come le righe di OrariGiornalieri.
+  const colori =
+    tono === "scuro"
+      ? {
+          pannello: "bg-[#3D2B1F]/70",
+          giorno: "text-[#FDF8E1]",
+          cellaVuota: "border-[#FDF8E1]/25",
+          riquadro: "bg-[#FDF8E1] text-[#3D2B1F]",
+        }
+      : {
+          pannello: "bg-[#FDF8E1]/70",
+          giorno: "text-[#3D2B1F]",
+          cellaVuota: "border-[#663110]/30 bg-[#c2a490]/15",
+          // bordo al 60%: più leggero, ma ancora oltre 3:1 di contrasto
+          // sul crema (sotto il 55% scenderebbe sotto la soglia)
+          riquadro: "border-2 border-[#663110]/60 bg-[#FDF8E1] text-[#3D2B1F]",
+        };
+
   return (
     // Griglia: colonna orari + 5 colonne giorno da 110px.
     // mx-auto la centra quando c'è abbastanza spazio.
     <div className="mx-auto grid w-max grid-cols-[3.2em_repeat(5,110px)] gap-[0.35em] px-[1em] lg:w-full lg:grid-cols-[3.2em_repeat(5,minmax(0,1fr))]">
       <div
         aria-hidden
-        className="sticky left-0 z-10 -mr-[0.35em] bg-[#3D2B1F]/70 backdrop-blur-md"
+        className={`sticky left-0 z-10 -mr-[0.35em] backdrop-blur-md ${colori.pannello}`}
         style={{
           gridColumn: 1,
           gridRow: `1 / span ${SLOT_ORARI.length + 1}`,
@@ -40,7 +61,7 @@ function TabellaSettimanale({
           className={`rounded-[0.4em] py-[0.3em] text-[0.85rem] uppercase ${
             giorno === giornoCorrente
               ? "bg-[#C65D1E] text-[#FDF8E1]"
-              : "text-[#FDF8E1]"
+              : colori.giorno
           }`}
         >
           {giorno.slice(0, 3)}
@@ -63,7 +84,7 @@ function TabellaSettimanale({
               className={`flex flex-col items-center rounded-[0.4em] px-[0.4em] py-[0.3em] ${
                 GIORNI.includes(giornoCorrente) &&
                 slotInCorso(oraFormattata, slot)
-                  ? "bg-[#C65D1E]"
+                  ? "bg-[#C65D1E] text-[#FDF8E1]"
                   : ""
               }`}
             >
@@ -97,7 +118,7 @@ function TabellaSettimanale({
               return (
                 <div
                   key={giorno}
-                  className="relative min-h-[5.5em] rounded-[0.5em] border-2 border-dashed border-[#FDF8E1]/25"
+                  className={`relative min-h-[5.5em] rounded-[0.5em] border-2 border-dashed ${colori.cellaVuota}`}
                 >
                   {pallino}
                 </div>
@@ -154,7 +175,7 @@ function TabellaSettimanale({
                       className={`flex flex-1 flex-col items-center justify-center gap-[0.3em] rounded-[0.5em] p-[0.4em] ${
                         evidenziata
                           ? "bg-[#C65D1E] text-[#FDF8E1]"
-                          : "bg-[#FDF8E1] text-[#3D2B1F]"
+                          : colori.riquadro
                       }`}
                     >
                       {/* Titolo: più grande, nome completo che va a capo */}
