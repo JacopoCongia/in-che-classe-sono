@@ -1,5 +1,7 @@
 import { AnimatePresence, motion } from "motion/react";
 import type { OrariClassiProps, VistaTabella } from "../types";
+import { useSchermoGrande } from "../useSchermoGrande";
+import BottoniClassi from "./BottoniClassi";
 import BoxOfText from "./BoxOfText";
 import SelettoreFrecce from "./SelettoreFrecce";
 import TabellaSettimanale from "./TabellaSettimanale";
@@ -25,7 +27,11 @@ function OrariClassi({
   onCambiaSoloMieClassi,
   onPrevClass,
   onNextClass,
+  classi,
+  onScegliClasse,
 }: OrariClassiProps) {
+  // da desktop un bottone per classe, da telefono le frecce
+  const schermoGrande = useSchermoGrande();
   const vistaDocente = vista === "docente";
   // chiave dell'animazione: cambia sia con la classe sia con la vista
   const chiaveTabella = vistaDocente
@@ -80,15 +86,24 @@ function OrariClassi({
         {/* Selettore classe e casella servono solo nella vista classe */}
         {!vistaDocente && (
           <>
-            {/* Cambio classe: stesso selettore del cambio giorno, nel tono scuro */}
-            <SelettoreFrecce
-              tono="scuro"
-              etichetta={classeSelezionata || "-"}
-              ariaPrecedente="Classe precedente"
-              ariaSuccessivo="Classe successiva"
-              onPrecedente={onPrevClass}
-              onSuccessivo={onNextClass}
-            />
+            {/* Cambio classe. Da desktop: un bottone per classe. Da
+                telefono: stesso selettore del cambio giorno, nel tono scuro. */}
+            {schermoGrande ? (
+              <BottoniClassi
+                classi={classi}
+                classeSelezionata={classeSelezionata}
+                onScegli={onScegliClasse}
+              />
+            ) : (
+              <SelettoreFrecce
+                tono="scuro"
+                etichetta={classeSelezionata || "-"}
+                ariaPrecedente="Classe precedente"
+                ariaSuccessivo="Classe successiva"
+                onPrecedente={onPrevClass}
+                onSuccessivo={onNextClass}
+              />
+            )}
             {puoFiltrare && (
               <label className="mt-[1em] flex min-h-[50px] w-[245px] cursor-pointer items-center justify-center gap-[1em] rounded-[0.4em] border-2 border-[#FDF8E1] bg-[#3D2B1F] px-[0.8em] py-[0.4em] text-[1rem] leading-tight uppercase shadow-[0_3px_0_0] shadow-[#FDF8E1] not-has-checked:hover:bg-[#FDF8E1]/20 active:translate-y-0.5 active:shadow-none has-checked:bg-[#FDF8E1] has-checked:text-[#3D2B1F] has-checked:shadow-[#C65D1E] has-focus-visible:ring-2 has-focus-visible:ring-[#FDF8E1] has-focus-visible:ring-offset-2 has-focus-visible:ring-offset-[#3D2B1F]">
                 <input
@@ -115,26 +130,34 @@ function OrariClassi({
       </div>
 
       {vistaDocente || classeSelezionata ? (
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={chiaveTabella}
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -20 }}
-            transition={{ duration: 0.4 }}
-            // overflow-x-auto: su telefono la tabella (più larga dello schermo)
-            // si scorre di lato invece di restringere i testi.
-            className="w-full max-w-[760px] overflow-x-auto pb-[1em] lg:max-w-[1000px]"
-          >
-            <TabellaSettimanale
-              lezioni={vistaDocente ? lezioniDocente : lezioniClasse}
-              modalita={vista}
-              docenteSelezionato={docenteSelezionato}
-              oraFormattata={oraFormattata}
-              giornoCorrente={giornoCorrente}
-            />
-          </motion.div>
-        </AnimatePresence>
+        // Da telefono la tabella vecchia esce di lato e poi entra la nuova,
+        // come cambiando pagina ("wait"). Da desktop si salta da una classe
+        // all'altra con i bottoni: le due tabelle stanno nella stessa cella
+        // della griglia e si dissolvono una nell'altra nello stesso momento
+        // ("sync"). Così la griglia non resta mai vuota (niente sfarfallio) e
+        // l'altezza della sezione non cambia.
+        <div className="flex w-full flex-col items-center lg:grid lg:grid-cols-1 lg:justify-items-center">
+          <AnimatePresence mode={schermoGrande ? "sync" : "wait"}>
+            <motion.div
+              key={chiaveTabella}
+              initial={schermoGrande ? { opacity: 0 } : { opacity: 0, x: 20 }}
+              animate={schermoGrande ? { opacity: 1 } : { opacity: 1, x: 0 }}
+              exit={schermoGrande ? { opacity: 0 } : { opacity: 0, x: -20 }}
+              transition={{ duration: schermoGrande ? 0.15 : 0.4 }}
+              // overflow-x-auto: su telefono la tabella (più larga dello
+              // schermo) si scorre di lato invece di restringere i testi.
+              className="w-full max-w-[760px] overflow-x-auto pb-[1em] lg:max-w-[1000px] lg:[grid-area:1/1]"
+            >
+              <TabellaSettimanale
+                lezioni={vistaDocente ? lezioniDocente : lezioniClasse}
+                modalita={vista}
+                docenteSelezionato={docenteSelezionato}
+                oraFormattata={oraFormattata}
+                giornoCorrente={giornoCorrente}
+              />
+            </motion.div>
+          </AnimatePresence>
+        </div>
       ) : (
         <p className="text-[1.2rem] uppercase opacity-60">Nessuna classe</p>
       )}

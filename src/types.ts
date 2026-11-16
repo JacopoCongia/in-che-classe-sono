@@ -111,10 +111,20 @@ export interface OrariClassiProps {
   giornoCorrente: string;
   onPrevClass: () => void;
   onNextClass: () => void;
+  // da desktop: le classi della lista, un bottone ciascuna, al posto delle frecce
+  classi: string[];
+  onScegliClasse: (classe: string) => void;
   // casella "Mostra solo le mie classi"
   puoFiltrare: boolean; // c'è un docente scelto con almeno una classe?
   soloMieClassi: boolean; // la casella è spuntata?
   onCambiaSoloMieClassi: (valore: boolean) => void;
+}
+
+// props dei bottoni delle classi (solo desktop)
+export interface BottoniClassiProps {
+  classi: string[];
+  classeSelezionata: string;
+  onScegli: (classe: string) => void;
 }
 
 // la prossima lezione di un docente e quanti giorni mancano
