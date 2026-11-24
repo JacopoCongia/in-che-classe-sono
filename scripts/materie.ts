@@ -1,30 +1,8 @@
-// Nomi delle materie come compaiono nell'app. È l'elenco "ufficiale":
-// controlla-dati.ts segnala come errore ogni MATERIA (o materiaDefault) di
-// data.ts che non è qui, così un nome copiato dal PDF non passa inosservato.
-// Per aggiungere una materia nuova, aggiungila qui.
-export const MATERIE = [
-  "Biologia",
-  "Chimica Analitica e Strumentale",
-  "Chimica Organica e Biochimica",
-  "Diritto ed Economia",
-  "Disegno Tecnico",
-  "GPOI",
-  "Informatica",
-  "Inglese",
-  "Italiano",
-  "Matematica",
-  "Scienze e Tecnologie Applicate",
-  "Scienze Integrate - Chimica",
-  "Scienze Integrate - Fisica",
-  "Sistemi e Reti",
-  "Storia",
-  "TPSIT",
-  "Tecnologie Chimiche Industriali",
-  "Tecnologie Informatiche",
-  "Telecomunicazioni",
-] as const;
+import { configScuola } from "../src/configScuola.ts";
 
-export type Materia = (typeof MATERIE)[number];
+// I nomi delle materie come compaiono nell'app stanno in
+// src/configScuola.ts (configScuola.materie). Qui c'è solo il loro tipo.
+export type Materia = (typeof configScuola.materie)[number];
 
 // Nome della materia nel PDF dell'orario -> nome usato nell'app.
 // Serve quando si aggiorna data.ts da un PDF nuovo: ogni materia del PDF va
@@ -32,7 +10,8 @@ export type Materia = (typeof MATERIE)[number];
 // con lo stesso nome nell'app: così un nome del PDF che qui non c'è è
 // sicuramente nuovo, e va chiesto come chiamarlo. Le chiavi sono copiate
 // esatte dal PDF (punti, abbreviazioni e il trattino lungo "–" compresi).
-// Il tipo Materia impedisce di scrivere a destra un nome che non è in MATERIE.
+// Il tipo Materia impedisce di scrivere a destra un nome che non è in
+// configScuola.materie.
 //
 // Nel PDF compare anche "Attività didattica in FAD (20%)": non è una
 // materia ma le ore a distanza, e non va messa in data.ts.

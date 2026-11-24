@@ -2,13 +2,18 @@
 //   npm run check-data
 // Esce con codice 1 se trova errori (gli avvisi da soli non bastano).
 //
-// Errori (dati sicuramente sbagliati):
+// Errori nella configurazione (src/configScuola.ts):
+//   - giorno di scuola che non è in GIORNI_SETTIMANA
+//   - ora o intervallo con un orario non valido, o che non inizia quando
+//     finisce il precedente (buchi e sovrapposizioni)
+// Errori nei dati (sicuramente sbagliati):
 //   - chiave docente non nel formato cognome_nome
-//   - giorno che non è Lunedì-Venerdì
-//   - ORA_INIZIO / ORA_FINE che non cadono sui confini di SLOT_ORARI
-//   - lezione che attraversa l'intervallo 19:40-20:00
+//   - giorno che non è un giorno di scuola
+//   - ORA_INIZIO / ORA_FINE che non sono l'inizio / la fine di un'ora di
+//     lezione della configurazione
+//   - lezione che copre un intervallo
 //   - nome di classe non valido (es. "3 AIS" o "3ACS +")
-//   - materia mancante o non presente in scripts/materie.ts
+//   - materia mancante o non presente in configScuola.materie
 //   - docente in due posti nello stesso momento
 //   - lezione ripetuta due volte
 // Avvisi (da guardare, ma possono essere giusti):
@@ -17,16 +22,43 @@
 //   - MATERIA uguale al materiaDefault del docente (si può togliere)
 
 import { data } from "../src/data.ts";
-import {
-  classiDellaLezione,
-  GIORNI_LAVORATIVI,
-  SLOT_ORARI,
-} from "../src/utils.ts";
-import type { LessonEntry } from "../src/types.ts";
-import { MATERIE } from "./materie.ts";
+import { configScuola } from "../src/configScuola.ts";
+import { classiDellaLezione, GIORNI_SETTIMANA } from "../src/utils.ts";
+import type { ConfigScuola, LessonEntry } from "../src/types.ts";
 
 const errori: string[] = [];
 const avvisi: string[] = [];
+
+// il tipo largo (string[]), non quello letterale di configScuola: serve per
+// .includes(l.GIORNO) con un giorno qualsiasi
+const config: ConfigScuola = configScuola;
+const { giorni, periodi } = config;
+
+// controlli sulla configurazione stessa
+for (const giorno of giorni) {
+  if (!GIORNI_SETTIMANA.includes(giorno)) {
+    errori.push(`configScuola: giorno "${giorno}" non valido`);
+  }
+}
+periodi.forEach((p, k) => {
+  const chi = `configScuola: ${p.tipo} ${p.ORA_INIZIO}-${p.ORA_FINE}`;
+  if (
+    !/^([01]\d|2[0-3]):[0-5]\d$/.test(p.ORA_INIZIO) ||
+    !/^([01]\d|2[0-3]):[0-5]\d$/.test(p.ORA_FINE)
+  ) {
+    errori.push(`${chi}: gli orari vanno scritti "HH:MM"`);
+  } else if (p.ORA_FINE <= p.ORA_INIZIO) {
+    errori.push(`${chi}: finisce prima di iniziare`);
+  }
+  // le voci sono contigue: ognuna inizia quando finisce la precedente. Un
+  // buco va scritto come intervallo, non lasciato vuoto.
+  const precedente = periodi[k - 1];
+  if (precedente && precedente.ORA_FINE !== p.ORA_INIZIO) {
+    errori.push(
+      `${chi}: non inizia alla fine della voce precedente (${precedente.ORA_FINE}); un buco va scritto come intervallo`,
+    );
+  }
+});
 
 // "rossi_alessandro Lunedì 20:00-20:50 4AIS"
 function descrivi(docente: string, l: LessonEntry) {
@@ -43,7 +75,7 @@ function siSovrappongono(a: LessonEntry, b: LessonEntry) {
   );
 }
 
-const materieValide = new Set<string>(MATERIE);
+const materieValide = new Set<string>(config.materie);
 
 // tutte le lezioni dei docenti attivi, con materia già risolta, per i
 // controlli tra docenti diversi
@@ -58,36 +90,40 @@ for (const [docente, teacher] of Object.entries(data)) {
     !materieValide.has(teacher.materiaDefault)
   ) {
     errori.push(
-      `${docente}: materiaDefault "${teacher.materiaDefault}" non è in scripts/materie.ts`,
+      `${docente}: materiaDefault "${teacher.materiaDefault}" non è in configScuola.materie`,
     );
   }
 
   teacher.lezioni.forEach((l, i) => {
     const chi = descrivi(docente, l);
 
-    if (!GIORNI_LAVORATIVI.includes(l.GIORNO)) {
+    if (!giorni.includes(l.GIORNO)) {
       errori.push(`${chi}: giorno "${l.GIORNO}" non valido`);
     }
 
-    // posizione degli slot di inizio e fine: devono esistere entrambi
-    const da = SLOT_ORARI.findIndex((s) => s.ORA_INIZIO === l.ORA_INIZIO);
-    const a = SLOT_ORARI.findIndex((s) => s.ORA_FINE === l.ORA_FINE);
+    // posizione delle ore di inizio e fine nella configurazione: devono
+    // esistere entrambe, ed essere ore di lezione (non intervalli)
+    const da = periodi.findIndex(
+      (p) => p.tipo === "lezione" && p.ORA_INIZIO === l.ORA_INIZIO,
+    );
+    const a = periodi.findIndex(
+      (p) => p.tipo === "lezione" && p.ORA_FINE === l.ORA_FINE,
+    );
     if (da === -1) {
-      errori.push(`${chi}: ORA_INIZIO non è l'inizio di uno slot`);
+      errori.push(`${chi}: ORA_INIZIO non è l'inizio di un'ora di lezione`);
     }
     if (a === -1) {
-      errori.push(`${chi}: ORA_FINE non è la fine di uno slot`);
+      errori.push(`${chi}: ORA_FINE non è la fine di un'ora di lezione`);
     }
     if (da !== -1 && a !== -1) {
       if (a < da) {
         errori.push(`${chi}: finisce prima di iniziare`);
       }
-      // tra due slot consecutivi della lezione non ci deve essere un buco:
-      // se c'è, la lezione sta attraversando l'intervallo
-      for (let k = da; k < a; k++) {
-        if (SLOT_ORARI[k].ORA_FINE !== SLOT_ORARI[k + 1].ORA_INIZIO) {
+      // nessuna delle voci coperte dalla lezione può essere un intervallo
+      for (const p of periodi.slice(da, a + 1)) {
+        if (p.tipo === "intervallo") {
           errori.push(
-            `${chi}: attraversa l'intervallo ${SLOT_ORARI[k].ORA_FINE}-${SLOT_ORARI[k + 1].ORA_INIZIO}, va divisa in due lezioni`,
+            `${chi}: copre l'intervallo ${p.ORA_INIZIO}-${p.ORA_FINE}, va divisa in due lezioni`,
           );
         }
       }
@@ -108,7 +144,7 @@ for (const [docente, teacher] of Object.entries(data)) {
     if (!materia) {
       errori.push(`${chi}: manca MATERIA e il docente non ha materiaDefault`);
     } else if (!materieValide.has(materia)) {
-      errori.push(`${chi}: materia "${materia}" non è in scripts/materie.ts`);
+      errori.push(`${chi}: materia "${materia}" non è in configScuola.materie`);
     }
     if (l.MATERIA !== undefined && l.MATERIA === teacher.materiaDefault) {
       avvisi.push(`${chi}: MATERIA uguale al materiaDefault, si può togliere`);

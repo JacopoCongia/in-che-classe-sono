@@ -18,10 +18,11 @@ import {
   getLezioniClasse,
   getProssimaLezione,
   getGiornoVisualizzato,
-  GIORNI_SETTIMANA,
   getClassiDocente,
+  nomeGiorno,
   slotInCorso,
 } from "./utils";
+import { useConfigScuola } from "./configScuolaContext.ts";
 import OrariGiornalieri from "./components/OrariGiornalieri.tsx";
 import OrariClassi from "./components/OrariClassi.tsx";
 import SettimanaDocente from "./components/SettimanaDocente.tsx";
@@ -29,6 +30,7 @@ import { useSchermoGrande } from "./useSchermoGrande.ts";
 import type { VistaTabella } from "./types";
 
 function App() {
+  const config = useConfigScuola();
   // desktop e telefono mostrano le lezioni del docente in modo diverso
   const schermoGrande = useSchermoGrande();
   const [docente, setDocente] = useState("");
@@ -64,12 +66,15 @@ function App() {
   // const oraFormattata = "19:20"; // Impostazione fissa per test
 
   // Ottieni il giorno corrente in formato stringa
-  const giornoCorrente = (() => {
-    return GIORNI_SETTIMANA[oraCorrente.getDay()];
-  })();
+  const giornoCorrente = nomeGiorno(oraCorrente);
 
-  // Calcola il giorno visualizzato in base al giorno corrente e all'offset, sabato e domenica esclusi
-  const giornoVisualizzato = getGiornoVisualizzato(giornoCorrente, dayOffset);
+  // Calcola il giorno visualizzato in base al giorno corrente e all'offset,
+  // contando solo i giorni di scuola della configurazione
+  const giornoVisualizzato = getGiornoVisualizzato(
+    config.giorni,
+    giornoCorrente,
+    dayOffset,
+  );
 
   // Lezioni "risolte" dell'insegnante selezionato: MATERIA è già compilata
   // (dal valore esplicito o dal materiaDefault del docente), quindi tutto il

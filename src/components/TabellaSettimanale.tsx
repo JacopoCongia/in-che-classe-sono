@@ -1,17 +1,11 @@
-import { Fragment } from "react";
+import { Fragment, type CSSProperties } from "react";
 import type { LezioneClasse, TabellaSettimanaleProps } from "../types";
-import {
-  cognomeDocente,
-  GIORNI_LAVORATIVI,
-  SLOT_ORARI,
-  slotInCorso,
-} from "../utils";
+import { useConfigScuola } from "../configScuolaContext";
+import { cognomeDocente, oreDiLezione, slotInCorso } from "../utils";
 
-// da Lunedì (1) a Venerdì (5) dell'elenco condiviso
-const GIORNI = GIORNI_LAVORATIVI;
-
-// La griglia settimanale (slot × giorni) usata sia per l'orario di una classe
-// sia per l'orario di un docente. Cambia solo cosa c'è scritto nei riquadri:
+// La griglia settimanale (ore × giorni di scuola) usata sia per l'orario di
+// una classe sia per l'orario di un docente. Cambia solo cosa c'è scritto nei
+// riquadri:
 // - "classe": materia in grande, cognomi dei docenti sotto
 // - "docente": classe in grande, materia sotto
 // `tono` dice su che sfondo sta: "scuro" (marrone) o "chiaro" (crema).
@@ -23,6 +17,13 @@ function TabellaSettimanale({
   giornoCorrente,
   tono = "scuro",
 }: TabellaSettimanaleProps) {
+  const config = useConfigScuola();
+  const giorni = config.giorni;
+  // La tabella ha una riga per ogni ora di lezione: gli intervalli non sono
+  // righe qui (le lezioni non li coprono mai), si vedono nella vista del
+  // giorno.
+  const ore = oreDiLezione(config.periodi);
+
   // i soli colori che cambiano con lo sfondo. Sul crema i riquadri hanno il
   // bordo e le celle vuote il fondo leggero, come le righe di OrariGiornalieri.
   const colori =
@@ -43,19 +44,22 @@ function TabellaSettimanale({
         };
 
   return (
-    // Griglia: colonna orari + 5 colonne giorno da 110px.
-    // mx-auto la centra quando c'è abbastanza spazio.
-    <div className="mx-auto grid w-max grid-cols-[3.2em_repeat(5,110px)] gap-[0.35em] px-[1em] lg:w-full lg:grid-cols-[3.2em_repeat(5,minmax(0,1fr))]">
+    // Griglia: colonna orari + una colonna da 110px per ogni giorno di scuola
+    // (--giorni). mx-auto la centra quando c'è abbastanza spazio.
+    <div
+      className="mx-auto grid w-max grid-cols-[3.2em_repeat(var(--giorni),110px)] gap-[0.35em] px-[1em] lg:w-full lg:grid-cols-[3.2em_repeat(var(--giorni),minmax(0,1fr))]"
+      style={{ "--giorni": giorni.length } as CSSProperties}
+    >
       <div
         aria-hidden
         className={`sticky left-0 z-10 -mr-[0.35em] backdrop-blur-md ${colori.pannello}`}
         style={{
           gridColumn: 1,
-          gridRow: `1 / span ${SLOT_ORARI.length + 1}`,
+          gridRow: `1 / span ${ore.length + 1}`,
         }}
       />
       {/* Riga intestazione: giorni (la colonna 1 è occupata dal pannello) */}
-      {GIORNI.map((giorno) => (
+      {giorni.map((giorno) => (
         <div
           key={giorno}
           className={`rounded-[0.4em] py-[0.3em] text-[0.85rem] uppercase ${
@@ -68,8 +72,8 @@ function TabellaSettimanale({
         </div>
       ))}
 
-      {/* Una riga per ogni slot orario */}
-      {SLOT_ORARI.map((slot, indiceSlot) => (
+      {/* Una riga per ogni ora di lezione */}
+      {ore.map((slot, indiceSlot) => (
         <Fragment key={slot.ORA_INIZIO}>
           {/* Etichetta orario: sticky come il pannello, ma z-20 così sta
               sopra. È piazzata a mano in colonna 1 (+2 perché la riga 1
@@ -82,7 +86,7 @@ function TabellaSettimanale({
           >
             <div
               className={`flex flex-col items-center rounded-[0.4em] px-[0.4em] py-[0.3em] ${
-                GIORNI.includes(giornoCorrente) &&
+                giorni.includes(giornoCorrente) &&
                 slotInCorso(oraFormattata, slot)
                   ? "bg-[#C65D1E] text-[#FDF8E1]"
                   : ""
@@ -93,7 +97,7 @@ function TabellaSettimanale({
             </div>
           </div>
 
-          {GIORNI.map((giorno) => {
+          {giorni.map((giorno) => {
             // Stessa regola della vista giornaliera: lo slot deve
             // rientrare nell'intervallo della lezione. Uso filter (non
             // find) per mostrare anche eventuali lezioni in compresenza.

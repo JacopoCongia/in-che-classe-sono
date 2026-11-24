@@ -1,5 +1,6 @@
 import { AutoTextSize } from "auto-text-size";
 import type { OrarioCorrenteProps } from "../types";
+import { useConfigScuola } from "../configScuolaContext";
 import BoxOfText from "./BoxOfText";
 import BarraAvanzamento from "./BarraAvanzamento";
 
@@ -18,12 +19,16 @@ function OrarioCorrente({
 
   // la condizione "fuori orario di lezione" era scritta due volte nel
   // JSX; ora è calcolata una volta sola e riusata per "a/in" e "Casa/Pausa".
+  // La giornata va dall'inizio della prima voce dell'orario alla fine
+  // dell'ultima (gli intervalli in mezzo sono "Pausa", non "Casa").
+  const { giorni, periodi } = useConfigScuola();
+  const inizioGiornata = periodi[0]?.ORA_INIZIO ?? "00:00";
+  const fineGiornata = periodi.at(-1)?.ORA_FINE ?? "00:00";
   const fuoriOrario =
-    oraFormattata < "18:00" ||
+    oraFormattata < inizioGiornata ||
     // >= perché la fine di una lezione è esclusa: alle 22:40 è già finita
-    oraFormattata >= "22:40" ||
-    giornoCorrente === "Sabato" ||
-    giornoCorrente === "Domenica";
+    oraFormattata >= fineGiornata ||
+    !giorni.includes(giornoCorrente);
 
   // testo del riquadro grande ("3AIS", "3ACS + 3AIS", "Casa", "Pausa")
   const testoClasse =
