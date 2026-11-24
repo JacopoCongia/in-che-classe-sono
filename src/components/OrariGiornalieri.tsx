@@ -1,7 +1,7 @@
 import { AnimatePresence, motion } from "motion/react";
 import type { OrariGiornalieriProps } from "../types";
 import { useConfigScuola } from "../configScuolaContext";
-import { slotInCorso } from "../utils";
+import { etichettaClassi, slotInCorso } from "../utils";
 import BoxOfText from "./BoxOfText";
 import BarraAvanzamento from "./BarraAvanzamento";
 import SelettoreFrecce from "./SelettoreFrecce";
@@ -167,7 +167,7 @@ function OrariGiornalieri({
                         inCorso ? "text-[#FDF8E1]" : "text-[#C65D1E]"
                       }`}
                     >
-                      {lezione.CLASSE}
+                      {etichettaClassi(lezione.CLASSI)}
                     </p>
                     {/* Materia */}
                     <p className="text-[0.9rem] uppercase opacity-80">

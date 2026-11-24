@@ -7,12 +7,13 @@
 //   - ora o intervallo con un orario non valido, o che non inizia quando
 //     finisce il precedente (buchi e sovrapposizioni)
 // Errori nei dati (sicuramente sbagliati):
-//   - chiave docente non nel formato cognome_nome
+//   - id docente mancante, ripetuto o non nel formato minuscolo (es.
+//     "rossi_alessandro"), nome o cognome vuoti
 //   - giorno che non è un giorno di scuola
 //   - ORA_INIZIO / ORA_FINE che non sono l'inizio / la fine di un'ora di
 //     lezione della configurazione
 //   - lezione che copre un intervallo
-//   - nome di classe non valido (es. "3 AIS" o "3ACS +")
+//   - lezione senza classi, o con una classe ripetuta o non valida
 //   - materia mancante o non presente in configScuola.materie
 //   - docente in due posti nello stesso momento
 //   - lezione ripetuta due volte
@@ -21,9 +22,9 @@
 //     (con la stessa materia è compresenza, ed è normale: la contiamo e basta)
 //   - MATERIA uguale al materiaDefault del docente (si può togliere)
 
-import { data } from "../src/data.ts";
+import { docenti } from "../src/data.ts";
 import { configScuola } from "../src/configScuola.ts";
-import { classiDellaLezione, GIORNI_SETTIMANA } from "../src/utils.ts";
+import { etichettaClassi, GIORNI_SETTIMANA } from "../src/utils.ts";
 import type { ConfigScuola, LessonEntry } from "../src/types.ts";
 
 const errori: string[] = [];
@@ -62,7 +63,7 @@ periodi.forEach((p, k) => {
 
 // "rossi_alessandro Lunedì 20:00-20:50 4AIS"
 function descrivi(docente: string, l: LessonEntry) {
-  return `${docente} ${l.GIORNO} ${l.ORA_INIZIO}-${l.ORA_FINE} ${l.CLASSE}`;
+  return `${docente} ${l.GIORNO} ${l.ORA_INIZIO}-${l.ORA_FINE} ${etichettaClassi(l.CLASSI)}`;
 }
 
 // due lezioni dello stesso giorno si sovrappongono se una inizia prima che
@@ -81,9 +82,20 @@ const materieValide = new Set<string>(config.materie);
 // controlli tra docenti diversi
 const tutte: { docente: string; lezione: LessonEntry; materia: string }[] = [];
 
-for (const [docente, teacher] of Object.entries(data)) {
-  if (!/^[a-z]+_[a-z]+$/.test(docente)) {
-    errori.push(`${docente}: la chiave deve essere cognome_nome, minuscola`);
+const idVisti = new Set<string>();
+for (const teacher of docenti) {
+  const docente = teacher.id;
+  if (!/^[a-z0-9]+(_[a-z0-9]+)*$/.test(docente)) {
+    errori.push(
+      `${docente}: l'id va scritto minuscolo, con parole separate da _ (es. "rossi_alessandro")`,
+    );
+  }
+  if (idVisti.has(docente)) {
+    errori.push(`${docente}: c'è un altro docente con lo stesso id`);
+  }
+  idVisti.add(docente);
+  if (teacher.nome.trim() === "" || teacher.cognome.trim() === "") {
+    errori.push(`${docente}: nome e cognome non possono essere vuoti`);
   }
   if (
     teacher.materiaDefault !== undefined &&
@@ -129,15 +141,16 @@ for (const [docente, teacher] of Object.entries(data)) {
       }
     }
 
-    const classi = classiDellaLezione(l.CLASSE);
-    if (
-      classi.length === 0 ||
-      classi.some((c) => !/^[1-5][A-Z]+$/.test(c)) ||
-      classi.join(" + ") !== l.CLASSE
-    ) {
-      errori.push(
-        `${chi}: classe "${l.CLASSE}" non valida (es. "3AIS" o "3ACS + 3AIS")`,
-      );
+    if (l.CLASSI.length === 0) {
+      errori.push(`${chi}: la lezione non ha classi`);
+    }
+    if (new Set(l.CLASSI).size !== l.CLASSI.length) {
+      errori.push(`${chi}: una classe è scritta due volte`);
+    }
+    for (const c of l.CLASSI) {
+      if (!/^[1-5][A-Z]+$/.test(c)) {
+        errori.push(`${chi}: classe "${c}" non valida (es. "3AIS")`);
+      }
     }
 
     const materia = l.MATERIA ?? teacher.materiaDefault;
@@ -154,7 +167,7 @@ for (const [docente, teacher] of Object.entries(data)) {
     for (const altra of teacher.lezioni.slice(i + 1)) {
       if (!siSovrappongono(l, altra)) continue;
       if (
-        altra.CLASSE === l.CLASSE &&
+        etichettaClassi(altra.CLASSI) === etichettaClassi(l.CLASSI) &&
         altra.ORA_INIZIO === l.ORA_INIZIO &&
         altra.ORA_FINE === l.ORA_FINE
       ) {
@@ -181,9 +194,8 @@ for (let i = 0; i < tutte.length; i++) {
     if (x.docente === y.docente || !siSovrappongono(x.lezione, y.lezione)) {
       continue;
     }
-    const classiY = classiDellaLezione(y.lezione.CLASSE);
-    const inComune = classiDellaLezione(x.lezione.CLASSE).filter((c) =>
-      classiY.includes(c),
+    const inComune = x.lezione.CLASSI.filter((c) =>
+      y.lezione.CLASSI.includes(c),
     );
     if (inComune.length === 0) continue;
     if (x.materia === y.materia) {

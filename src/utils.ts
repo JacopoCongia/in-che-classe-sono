@@ -1,7 +1,7 @@
 import type {
+  Docente,
   Lesson,
   LezioneClasse,
-  TeacherSchedule,
   Periodo,
   ProssimaLezione,
   SlotOrario,
@@ -45,55 +45,48 @@ export function formatTime(date: Date) {
   );
 }
 
-// risolve i dati "compatti" di data.ts nella forma Lesson[] già
-// usata dai componenti (MATERIA sempre valorizzata, presa dall'entry o,
-// se assente, dal materiaDefault del docente).
-export function getLezioniInsegnante(
-  schedule: TeacherSchedule,
-  docente: string,
-): Lesson[] {
-  const teacher = schedule[docente];
-  if (!teacher) return [];
+// risolve le lezioni "compatte" di data.ts di un docente nella forma
+// Lesson[] usata dai componenti (MATERIA sempre valorizzata, presa
+// dall'entry o, se assente, dal materiaDefault del docente). Senza docente
+// (nessuno scelto) non ci sono lezioni.
+export function getLezioniInsegnante(docente: Docente | undefined): Lesson[] {
+  if (!docente) return [];
 
-  return teacher.lezioni.map((entry) => ({
+  return docente.lezioni.map((entry) => ({
     ...entry,
-    MATERIA: entry.MATERIA ?? teacher.materiaDefault ?? "",
+    MATERIA: entry.MATERIA ?? docente.materiaDefault ?? "",
   }));
 }
 
-// chiavi dei docenti che devono avere un bottone nella prima
-// sezione, in ordine alfabetico. Serve attivo !== false (docente ancora in
+// i docenti che devono avere un bottone nella prima sezione, in ordine
+// alfabetico per cognome (e nome). Serve attivo !== false (docente ancora in
 // uso) E visibile !== false (non nascosto dalla lista). Le tabelle delle
 // classi non usano `visibile`: le lezioni dei docenti nascosti si vedono lo
 // stesso.
-export function getInsegnantiVisibili(schedule: TeacherSchedule): string[] {
-  return Object.keys(schedule)
-    .filter(
-      (key) =>
-        schedule[key].attivo !== false && schedule[key].visibile !== false,
-    )
-    .sort((a, b) => a.localeCompare(b));
+export function getInsegnantiVisibili(docenti: Docente[]): Docente[] {
+  return docenti
+    .filter((d) => d.attivo !== false && d.visibile !== false)
+    .sort(
+      (a, b) =>
+        a.cognome.localeCompare(b.cognome) || a.nome.localeCompare(b.nome),
+    );
 }
 
-// una lezione condivisa è scritta come "3ACS + 3AIS" in data.ts;
-// qui la spezziamo nelle singole classi, così compare nella tabella di
-// entrambe.
-export function classiDellaLezione(classe: string): string[] {
-  return classe
-    .split("+")
-    .map((c) => c.trim())
-    .filter(Boolean);
+// le classi di una lezione come testo: "3AIS", o "3ACS + 3AIS" per una
+// lezione condivisa
+export function etichettaClassi(classi: string[]): string {
+  return classi.join(" + ");
 }
 
 // elenco delle classi presenti nei dati (solo docenti attivi),
 // in ordine "naturale": 1AS, 2AS, 3ACS, 3AIS, ... Una classe nuova in
 // data.ts compare da sola, senza altre modifiche.
-export function getClassi(schedule: TeacherSchedule): string[] {
+export function getClassi(docenti: Docente[]): string[] {
   const classi = new Set<string>();
-  for (const teacher of Object.values(schedule)) {
-    if (teacher.attivo === false) continue;
-    for (const entry of teacher.lezioni) {
-      classiDellaLezione(entry.CLASSE).forEach((c) => classi.add(c));
+  for (const docente of docenti) {
+    if (docente.attivo === false) continue;
+    for (const entry of docente.lezioni) {
+      entry.CLASSI.forEach((c) => classi.add(c));
     }
   }
   // numeric: true confronta "2AS" < "10AS" come numeri, non come testo
@@ -106,27 +99,16 @@ export function getClassi(schedule: TeacherSchedule): string[] {
 // attivi. Ogni lezione riporta il suo DOCENTE e ha MATERIA già risolta
 // (esplicita o materiaDefault), come in getLezioniInsegnante.
 export function getLezioniClasse(
-  schedule: TeacherSchedule,
+  docenti: Docente[],
   classe: string,
 ): LezioneClasse[] {
-  return Object.entries(schedule)
-    .filter(([, teacher]) => teacher.attivo !== false)
-    .flatMap(([docente, teacher]) =>
-      teacher.lezioni
-        .filter((entry) => classiDellaLezione(entry.CLASSE).includes(classe))
-        .map((entry) => ({
-          ...entry,
-          CLASSE: classe, // per le lezioni condivise mostra la classe richiesta
-          MATERIA: entry.MATERIA ?? teacher.materiaDefault ?? "",
-          DOCENTE: docente,
-        })),
+  return docenti
+    .filter((docente) => docente.attivo !== false)
+    .flatMap((docente) =>
+      getLezioniInsegnante(docente)
+        .filter((lezione) => lezione.CLASSI.includes(classe))
+        .map((lezione) => ({ ...lezione, DOCENTE: docente })),
     );
-}
-
-// "rossi_alessandro" -> "Rossi" (stessa logica di SelezionaInsegnante)
-export function cognomeDocente(docente: string): string {
-  const cognome = docente.split("_")[0];
-  return cognome.charAt(0).toUpperCase() + cognome.slice(1);
 }
 
 // i giorni nello stesso ordine di Date.getDay() (0 = Domenica).
@@ -187,12 +169,11 @@ export function getGiornoVisualizzato(
 }
 
 // le classi in cui insegna un docente, ricavate dalle sue lezioni
-// (già risolte). Una lezione "3ACS + 3AIS" conta per entrambe le classi.
+// (già risolte). Una lezione condivisa conta per tutte le sue classi.
 export function getClassiDocente(lezioni: Lesson[]): string[] {
   const classi = new Set<string>();
   for (const lezione of lezioni) {
-    // riutilizzo la funzione già scritta per le lezioni condivise
-    classiDellaLezione(lezione.CLASSE).forEach((c) => classi.add(c));
+    lezione.CLASSI.forEach((c) => classi.add(c));
   }
   // numeric: true confronta "2AS" < "5AS" come numeri, non come testo
   return [...classi].sort((a, b) =>

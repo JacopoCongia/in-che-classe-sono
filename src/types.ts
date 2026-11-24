@@ -1,37 +1,41 @@
+// una lezione "risolta", come la usano i componenti: MATERIA è sempre
+// valorizzata (vedi utils.ts -> getLezioniInsegnante).
 export interface Lesson {
   MATERIA: string;
-  CLASSE: string;
+  // codici delle classi: più di uno per una lezione condivisa
+  // (es. ["3ACS", "3AIS"])
+  CLASSI: string[];
   GIORNO: string;
   ORA_INIZIO: string;
   ORA_FINE: string;
 }
 
-// Raw shape as written in data.ts: MATERIA is optional here because it can
-// fall back to the teacher's materiaDefault (see TeacherData below). Once
-// resolved (see utils.ts -> getLezioniInsegnante), it becomes a full Lesson.
+// una lezione come è scritta in data.ts: MATERIA si può omettere quando è
+// il materiaDefault del docente (vedi Docente qui sotto).
 export interface LessonEntry {
   MATERIA?: string;
-  CLASSE: string;
+  CLASSI: string[];
   GIORNO: string;
   ORA_INIZIO: string;
   ORA_FINE: string;
 }
 
-export interface TeacherData {
+export interface Docente {
+  // identificativo unico (es. "rossi_alessandro"). Serve solo a riconoscere
+  // il docente: nome e cognome mostrati nell'app sono i campi qui sotto.
+  id: string;
+  nome: string;
+  cognome: string;
   // Omit entirely (or set true) for a teacher who should appear in the app.
   // Set to false to keep a teacher's schedule in the file without showing
   // them in the selection list (replaces the old "comment it out" approach).
   attivo?: boolean;
-  // NUOVO: false = niente bottone per questo docente nella prima sezione, ma
-  // le sue lezioni restano nelle tabelle delle classi. Omesso = visibile.
+  // false = niente bottone per questo docente nella prima sezione, ma le sue
+  // lezioni restano nelle tabelle delle classi. Omesso = visibile.
   visibile?: boolean;
   // Used for entries in `lezioni` that don't specify their own MATERIA.
   materiaDefault?: string;
   lezioni: LessonEntry[];
-}
-
-export interface TeacherSchedule {
-  [teacherName: string]: TeacherData;
 }
 
 export interface BoxTextItem {
@@ -87,14 +91,13 @@ export interface OrariGiornalieriProps {
 }
 
 export interface SelezionaInsegnanteProps {
-  onClick: (docente: string) => void;
-  docente: string;
+  onClick: (id: string) => void; // riceve l'id del docente
+  docente: Docente;
 }
 
-// NUOVO: una Lesson "vista dalla classe": in più sa quale docente la tiene
-// (chiave di data.ts, es. "rossi_alessandro").
+// una Lesson "vista dalla classe": in più sa quale docente la tiene.
 export interface LezioneClasse extends Lesson {
-  DOCENTE: string;
+  DOCENTE: Docente;
 }
 
 // cosa mostra la tabella settimanale: l'orario di una classe o quello del
@@ -104,7 +107,7 @@ export type VistaTabella = "classe" | "docente";
 export interface TabellaSettimanaleProps {
   lezioni: LezioneClasse[];
   modalita: VistaTabella;
-  docenteSelezionato: string; // per evidenziarne le lezioni nella vista classe
+  docenteSelezionato: string; // id, per evidenziarne le lezioni nella vista classe
   oraFormattata: string;
   giornoCorrente: string;
   // sfondo su cui sta la tabella: "scuro" (marrone, il default) o "chiaro"
@@ -115,7 +118,7 @@ export interface TabellaSettimanaleProps {
 // props della sezione desktop con tutta la settimana del docente scelto
 export interface SettimanaDocenteProps {
   lezioni: LezioneClasse[];
-  docente: string;
+  docente: string; // id del docente
   oraFormattata: string;
   giornoCorrente: string;
 }
@@ -131,7 +134,7 @@ export interface OrariClassiProps {
   // mostrare lo switch Classe / Il mio orario? (docente scelto, da telefono)
   puoCambiareVista: boolean;
   onCambiaVista: (vista: VistaTabella) => void;
-  docenteSelezionato: string; // docente scelto in alto, per evidenziarne le lezioni
+  docenteSelezionato: string; // id del docente scelto in alto, per evidenziarne le lezioni
   oraFormattata: string;
   giornoCorrente: string;
   onPrevClass: () => void;
@@ -160,7 +163,7 @@ export interface ProssimaLezione {
 }
 
 export interface OrarioCorrenteProps {
-  docente: string; // sempre scelto: App mostra la schermata solo con un docente
+  docente: Docente; // sempre scelto: App mostra la schermata solo con un docente
   oraFormattata: string;
   giornoCorrente: string;
   lezioneCorrente: Lesson | undefined; // la lezione in corso adesso, se c'è
