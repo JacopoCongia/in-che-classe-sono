@@ -52,3 +52,14 @@ Everything specific to the school lives in `configScuola` (`src/configScuola.ts`
   - `#663110` deep brown (borders, button shadows)
   - `#c2a490` tan (lesson cards)
 - Buttons use the "pressable" look: 2px border, `shadow-[0_3px_0_0]`, and `active:translate-y-0.5 active:shadow-none`.
+
+## Explaining what you do
+
+The owner is a self-taught, non-professional developer with a couple of years of experience in JavaScript/TypeScript, React, HTML and CSS, and uses this project to keep learning. Whenever you add or change code, finish by explaining the programming concepts behind it that are worth knowing:
+
+- Assume the basics of JS/TS, React, HTML and CSS are known (components, props, state, hooks like `useState`/`useEffect`, array methods, basic types). Focus on what goes beyond them: less common language or React features, type-system techniques, design patterns, architecture and data-modeling choices, tooling, and the practices professional teams use.
+- Name each concept, say what it is in plain words, and show where it appears in this change with a file reference.
+- Say why it was the right tool here, and what the alternative would have been and its trade-offs.
+- Stick to concepts the change actually uses, and don't repeat one already explained in the same conversation unless it is used in a new way.
+- Keep it short: a few bullets or a short paragraph per concept, in English. A link to the official docs (React, TypeScript, MDN, ...) is welcome when it helps going deeper.
+- In pull requests, add a short "Concepts" section with the same explanations, so they can be reread later.
