@@ -1,7 +1,7 @@
-import { Fragment } from "react";
 import { AnimatePresence, motion } from "motion/react";
-import type { OrariGiornalieriProps, SlotOrario } from "../types";
-import { SLOT_ORARI, slotInCorso } from "../utils";
+import type { OrariGiornalieriProps } from "../types";
+import { useConfigScuola } from "../configScuolaContext";
+import { slotInCorso } from "../utils";
 import BoxOfText from "./BoxOfText";
 import BarraAvanzamento from "./BarraAvanzamento";
 import SelettoreFrecce from "./SelettoreFrecce";
@@ -28,6 +28,7 @@ function OrariGiornalieri({
   onPrevDay,
   onNextDay,
 }: OrariGiornalieriProps) {
+  const { periodi } = useConfigScuola();
   const eOggi = giornoSelezionato === giornoCorrente;
 
   return (
@@ -64,7 +65,8 @@ function OrariGiornalieri({
         />
       </div>
 
-      {/* Contenitore Orari: un solo pannello, una riga per ogni slot */}
+      {/* Contenitore Orari: un solo pannello, una riga per ogni ora o
+          intervallo della configurazione */}
       <AnimatePresence mode="wait">
         <motion.ol
           key={giornoSelezionato}
@@ -74,139 +76,126 @@ function OrariGiornalieri({
           transition={{ duration: 0.4 }}
           className="mb-[3em] w-[90%] max-w-[600px] overflow-hidden rounded-[1em] border-2 border-[#663110] text-left shadow-[0_3px_0_0] shadow-[#663110]"
         >
-          {SLOT_ORARI.map((slot, index) => {
-            // Una lezione può coprire più slot consecutivi (es. 20:00-21:50),
-            // quindi lo slot deve rientrare nell'intervallo della lezione.
-            // lezioniDiOggi contiene già solo le lezioni del giorno mostrato.
-            const lezione = lezioniDiOggi.find(
-              (lez) =>
-                slot.ORA_INIZIO >= lez.ORA_INIZIO &&
-                slot.ORA_FINE <= lez.ORA_FINE,
-            );
-            const inCorso = eOggi && slotInCorso(oraFormattata, slot);
+          {periodi.map((periodo, index) => {
+            const inCorso = eOggi && slotInCorso(oraFormattata, periodo);
 
-            // Se tra la fine di questo slot e l'inizio del successivo c'è un
-            // buco, quello è l'intervallo (es. 19:40-20:00): lo si mostra come
-            // riga separata, mai come parte di una lezione.
-            const successivo = SLOT_ORARI[index + 1];
-            const intervallo: SlotOrario | null =
-              successivo && slot.ORA_FINE < successivo.ORA_INIZIO
-                ? { ORA_INIZIO: slot.ORA_FINE, ORA_FINE: successivo.ORA_INIZIO }
-                : null;
-            // la riga subito dopo un intervallo ha il bordo superiore
-            // tratteggiato, così l'intervallo è tratteggiato sopra e sotto
-            const precedente = SLOT_ORARI[index - 1];
-            const dopoIntervallo =
-              precedente !== undefined && precedente.ORA_FINE < slot.ORA_INIZIO;
-            const intervalloInCorso =
-              intervallo !== null &&
-              eOggi &&
-              slotInCorso(oraFormattata, intervallo);
-
-            return (
-              <Fragment key={slot.ORA_INIZIO}>
+            if (periodo.tipo === "intervallo") {
+              // Stesso aspetto di una riga "Nessuna lezione", ma con il
+              // bordo tratteggiato (sopra qui, sotto nella riga successiva).
+              // Un intervallo non fa mai parte di una lezione.
+              return (
                 <li
+                  key={periodo.ORA_INIZIO}
                   aria-current={inCorso ? "time" : undefined}
-                  className={`grid grid-cols-[4.2em_1fr_auto] items-center gap-[0.8em] px-[1em] not-first:border-t-2 ${
-                    dopoIntervallo
-                      ? "border-dashed border-[#663110]/30"
-                      : "border-[#663110]/20"
-                  } ${lezione ? "py-[0.8em]" : "py-[0.5em]"} ${
-                    inCorso
-                      ? "bg-[#C65D1E] text-[#FDF8E1]"
-                      : lezione
-                        ? "bg-[#FDF8E1]"
-                        : "bg-[#c2a490]/15"
+                  className={`grid grid-cols-[4.2em_1fr_auto] items-center gap-[0.8em] border-dashed border-[#663110]/30 px-[1em] py-[0.5em] not-first:border-t-2 ${
+                    inCorso ? "bg-[#C65D1E] text-[#FDF8E1]" : "bg-[#c2a490]/15"
                   }`}
                 >
-                  {/* Orario dello slot */}
                   <p
                     className={`flex flex-col text-[1rem] leading-tight ${
-                      !lezione && !inCorso ? "opacity-50" : ""
+                      inCorso ? "" : "opacity-50"
                     }`}
                   >
-                    <span>{slot.ORA_INIZIO}</span>
-                    <span className="opacity-60">{slot.ORA_FINE}</span>
+                    <span>{periodo.ORA_INIZIO}</span>
+                    <span className="opacity-60">{periodo.ORA_FINE}</span>
                   </p>
-
-                  {lezione ? (
-                    <div className="min-w-0">
-                      {/* Classe: è l'informazione principale */}
-                      <p
-                        className={`text-[1.6rem] leading-tight uppercase ${
-                          inCorso ? "text-[#FDF8E1]" : "text-[#C65D1E]"
-                        }`}
-                      >
-                        {lezione.CLASSE}
-                      </p>
-                      {/* Materia */}
-                      <p className="text-[0.9rem] uppercase opacity-80">
-                        {lezione.MATERIA}
-                      </p>
-                    </div>
-                  ) : (
-                    <p
-                      className={`text-[0.9rem] uppercase ${inCorso ? "" : "opacity-50"}`}
-                    >
-                      Nessuna lezione
-                    </p>
-                  )}
-
+                  <p
+                    className={`text-[0.9rem] uppercase ${inCorso ? "" : "opacity-50"}`}
+                  >
+                    Intervallo
+                  </p>
                   {inCorso ? <BadgeOra chiaro /> : <span />}
 
-                  {/* quanto manca alla fine di questo slot */}
+                  {/* quanto manca alla fine dell'intervallo */}
                   {inCorso && (
                     <div className="col-span-3">
                       <BarraAvanzamento
                         oraFormattata={oraFormattata}
-                        inizio={slot.ORA_INIZIO}
-                        fine={slot.ORA_FINE}
+                        inizio={periodo.ORA_INIZIO}
+                        fine={periodo.ORA_FINE}
                         tono="chiaro"
                       />
                     </div>
                   )}
                 </li>
+              );
+            }
 
-                {intervallo && (
-                  // Stesso aspetto di una riga "Nessuna lezione", ma con il
-                  // bordo tratteggiato (sopra qui, sotto nella riga successiva)
-                  <li
-                    aria-current={intervalloInCorso ? "time" : undefined}
-                    className={`grid grid-cols-[4.2em_1fr_auto] items-center gap-[0.8em] border-t-2 border-dashed border-[#663110]/30 px-[1em] py-[0.5em] ${
-                      intervalloInCorso
-                        ? "bg-[#C65D1E] text-[#FDF8E1]"
-                        : "bg-[#c2a490]/15"
-                    }`}
-                  >
+            // Una lezione può coprire più ore consecutive (es. 20:00-21:50),
+            // quindi l'ora deve rientrare nell'intervallo della lezione.
+            // lezioniDiOggi contiene già solo le lezioni del giorno mostrato.
+            const lezione = lezioniDiOggi.find(
+              (lez) =>
+                periodo.ORA_INIZIO >= lez.ORA_INIZIO &&
+                periodo.ORA_FINE <= lez.ORA_FINE,
+            );
+            // la riga subito dopo un intervallo ha il bordo superiore
+            // tratteggiato, così l'intervallo è tratteggiato sopra e sotto
+            const dopoIntervallo = periodi[index - 1]?.tipo === "intervallo";
+
+            return (
+              <li
+                key={periodo.ORA_INIZIO}
+                aria-current={inCorso ? "time" : undefined}
+                className={`grid grid-cols-[4.2em_1fr_auto] items-center gap-[0.8em] px-[1em] not-first:border-t-2 ${
+                  dopoIntervallo
+                    ? "border-dashed border-[#663110]/30"
+                    : "border-[#663110]/20"
+                } ${lezione ? "py-[0.8em]" : "py-[0.5em]"} ${
+                  inCorso
+                    ? "bg-[#C65D1E] text-[#FDF8E1]"
+                    : lezione
+                      ? "bg-[#FDF8E1]"
+                      : "bg-[#c2a490]/15"
+                }`}
+              >
+                {/* Orario dell'ora */}
+                <p
+                  className={`flex flex-col text-[1rem] leading-tight ${
+                    !lezione && !inCorso ? "opacity-50" : ""
+                  }`}
+                >
+                  <span>{periodo.ORA_INIZIO}</span>
+                  <span className="opacity-60">{periodo.ORA_FINE}</span>
+                </p>
+
+                {lezione ? (
+                  <div className="min-w-0">
+                    {/* Classe: è l'informazione principale */}
                     <p
-                      className={`flex flex-col text-[1rem] leading-tight ${
-                        intervalloInCorso ? "" : "opacity-50"
+                      className={`text-[1.6rem] leading-tight uppercase ${
+                        inCorso ? "text-[#FDF8E1]" : "text-[#C65D1E]"
                       }`}
                     >
-                      <span>{intervallo.ORA_INIZIO}</span>
-                      <span className="opacity-60">{intervallo.ORA_FINE}</span>
+                      {lezione.CLASSE}
                     </p>
-                    <p
-                      className={`text-[0.9rem] uppercase ${intervalloInCorso ? "" : "opacity-50"}`}
-                    >
-                      Intervallo
+                    {/* Materia */}
+                    <p className="text-[0.9rem] uppercase opacity-80">
+                      {lezione.MATERIA}
                     </p>
-                    {intervalloInCorso ? <BadgeOra chiaro /> : <span />}
-
-                    {/* quanto manca alla fine dell'intervallo */}
-                    {intervalloInCorso && (
-                      <div className="col-span-3">
-                        <BarraAvanzamento
-                          oraFormattata={oraFormattata}
-                          inizio={intervallo.ORA_INIZIO}
-                          fine={intervallo.ORA_FINE}
-                          tono="chiaro"
-                        />
-                      </div>
-                    )}
-                  </li>
+                  </div>
+                ) : (
+                  <p
+                    className={`text-[0.9rem] uppercase ${inCorso ? "" : "opacity-50"}`}
+                  >
+                    Nessuna lezione
+                  </p>
                 )}
-              </Fragment>
+
+                {inCorso ? <BadgeOra chiaro /> : <span />}
+
+                {/* quanto manca alla fine di quest'ora */}
+                {inCorso && (
+                  <div className="col-span-3">
+                    <BarraAvanzamento
+                      oraFormattata={oraFormattata}
+                      inizio={periodo.ORA_INIZIO}
+                      fine={periodo.ORA_FINE}
+                      tono="chiaro"
+                    />
+                  </div>
+                )}
+              </li>
             );
           })}
         </motion.ol>

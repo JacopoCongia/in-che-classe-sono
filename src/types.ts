@@ -51,6 +51,31 @@ export interface SlotOrario {
   ORA_FINE: string;
 }
 
+// una voce dell'orario della giornata: un'ora di lezione o un intervallo.
+// L'intervallo è una voce come le altre (non un buco tra due ore), così i
+// componenti lo leggono dalla configurazione invece di dedurlo.
+export interface Periodo extends SlotOrario {
+  tipo: "lezione" | "intervallo";
+}
+
+// tutto ciò che è specifico di una scuola. Le classi non ci sono: si ricavano
+// dai dati (getClassi). I colori del tema nemmeno: sono ancora scritti nelle
+// classi Tailwind dei componenti.
+export interface ConfigScuola {
+  nome: string;
+  // fuso orario IANA (es. "Europe/Rome"). Per ora l'ora attuale viene
+  // dall'orologio del dispositivo.
+  fusoOrario: string;
+  // i giorni di scuola, in ordine, con i nomi di GIORNI_SETTIMANA
+  giorni: readonly string[];
+  // ore e intervalli della giornata, in ordine e senza buchi: ognuno inizia
+  // quando finisce il precedente (lo controlla npm run check-data)
+  periodi: readonly Periodo[];
+  // nomi delle materie come compaiono nell'app: check-data segnala ogni
+  // materia di data.ts che non è qui
+  materie: readonly string[];
+}
+
 export interface OrariGiornalieriProps {
   oraFormattata: string;
   lezioniDiOggi: Lesson[]; // solo le lezioni del giorno mostrato

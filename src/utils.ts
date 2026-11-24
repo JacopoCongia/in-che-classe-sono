@@ -2,6 +2,7 @@ import type {
   Lesson,
   LezioneClasse,
   TeacherSchedule,
+  Periodo,
   ProssimaLezione,
   SlotOrario,
 } from "./types";
@@ -159,32 +160,30 @@ export function getProssimaLezione(
   return undefined;
 }
 
-// solo i giorni di lezione, da Lunedì a Venerdì (posizioni 1-5).
-export const GIORNI_LAVORATIVI = GIORNI_SETTIMANA.slice(1, 6);
+// il nome del giorno di una data, come in GIORNI_SETTIMANA ("Lunedì", ...)
+export function nomeGiorno(data: Date): string {
+  return GIORNI_SETTIMANA[data.getDay()];
+}
 
-// le ore della serata, in ordine. È la fonte di verità dell'orario.
-export const SLOT_ORARI: SlotOrario[] = [
-  { ORA_INIZIO: "18:00", ORA_FINE: "18:50" },
-  { ORA_INIZIO: "18:50", ORA_FINE: "19:40" },
-  // 19:40-20:00: intervallo (nessuna lezione)
-  { ORA_INIZIO: "20:00", ORA_FINE: "20:50" },
-  // unica ora piena da 60 minuti della serata (non è un errore)
-  { ORA_INIZIO: "20:50", ORA_FINE: "21:50" },
-  { ORA_INIZIO: "21:50", ORA_FINE: "22:40" },
-];
+// solo le ore di lezione della giornata, senza gli intervalli
+export function oreDiLezione(periodi: readonly Periodo[]): Periodo[] {
+  return periodi.filter((p) => p.tipo === "lezione");
+}
 
-// giorno mostrato in "Le tue lezioni". Si parte da oggi (o da Lunedì
-// se oggi è sabato o domenica) e ci si sposta di `offset` giorni lavorativi,
-// facendo il giro: dopo Venerdì torna Lunedì e viceversa.
+// giorno mostrato in "Le tue lezioni". Si parte da oggi (o dal primo giorno
+// di scuola se oggi non lo è, es. sabato o domenica) e ci si sposta di
+// `offset` giorni di scuola, facendo il giro: dopo l'ultimo torna il primo e
+// viceversa.
 export function getGiornoVisualizzato(
+  giorni: readonly string[],
   giornoCorrente: string,
   offset: number,
 ): string {
-  const n = GIORNI_LAVORATIVI.length;
-  // indexOf dà -1 nel weekend: Math.max lo porta a 0 (= Lunedì)
-  const partenza = Math.max(0, GIORNI_LAVORATIVI.indexOf(giornoCorrente));
+  const n = giorni.length;
+  // indexOf dà -1 fuori dai giorni di scuola: Math.max lo porta a 0
+  const partenza = Math.max(0, giorni.indexOf(giornoCorrente));
   // Il doppio modulo funziona anche con offset negativi (con un solo % no)
-  return GIORNI_LAVORATIVI[(((partenza + offset) % n) + n) % n];
+  return giorni[(((partenza + offset) % n) + n) % n];
 }
 
 // le classi in cui insegna un docente, ricavate dalle sue lezioni
