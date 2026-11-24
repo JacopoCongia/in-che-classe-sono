@@ -6,6 +6,8 @@
 //   - giorno di scuola che non è in GIORNI_SETTIMANA
 //   - ora o intervallo con un orario non valido, o che non inizia quando
 //     finisce il precedente (buchi e sovrapposizioni)
+//   - classe senza codice, con un codice ripetuto, o con anno o sezione non
+//     validi
 // Errori nei dati (sicuramente sbagliati):
 //   - id docente mancante, ripetuto o non nel formato minuscolo (es.
 //     "rossi_alessandro"), nome o cognome vuoti
@@ -13,7 +15,8 @@
 //   - ORA_INIZIO / ORA_FINE che non sono l'inizio / la fine di un'ora di
 //     lezione della configurazione
 //   - lezione che copre un intervallo
-//   - lezione senza classi, o con una classe ripetuta o non valida
+//   - lezione senza classi, con una classe ripetuta, o con una classe che
+//     non è in configScuola.classi
 //   - materia mancante o non presente in configScuola.materie
 //   - docente in due posti nello stesso momento
 //   - lezione ripetuta due volte
@@ -21,6 +24,7 @@
 //   - due docenti nella stessa classe alla stessa ora con materie diverse
 //     (con la stessa materia è compresenza, ed è normale: la contiamo e basta)
 //   - MATERIA uguale al materiaDefault del docente (si può togliere)
+//   - classe di configScuola.classi senza nessuna lezione
 
 import { docenti } from "../src/data.ts";
 import { configScuola } from "../src/configScuola.ts";
@@ -33,7 +37,7 @@ const avvisi: string[] = [];
 // il tipo largo (string[]), non quello letterale di configScuola: serve per
 // .includes(l.GIORNO) con un giorno qualsiasi
 const config: ConfigScuola = configScuola;
-const { giorni, periodi } = config;
+const { giorni, periodi, classi } = config;
 
 // controlli sulla configurazione stessa
 for (const giorno of giorni) {
@@ -60,6 +64,23 @@ periodi.forEach((p, k) => {
     );
   }
 });
+
+const codiciValidi = new Set<string>();
+for (const c of classi) {
+  const chi = `configScuola: classe "${c.codice}"`;
+  if (c.codice.trim() === "") {
+    errori.push(`configScuola: c'è una classe senza codice`);
+  } else if (codiciValidi.has(c.codice)) {
+    errori.push(`${chi}: codice ripetuto`);
+  }
+  codiciValidi.add(c.codice);
+  if (!Number.isInteger(c.anno) || c.anno < 1) {
+    errori.push(`${chi}: l'anno deve essere un numero intero da 1 in su`);
+  }
+  if (c.sezione.trim() === "") {
+    errori.push(`${chi}: manca la sezione`);
+  }
+}
 
 // "rossi_alessandro Lunedì 20:00-20:50 4AIS"
 function descrivi(docente: string, l: LessonEntry) {
@@ -148,8 +169,8 @@ for (const teacher of docenti) {
       errori.push(`${chi}: una classe è scritta due volte`);
     }
     for (const c of l.CLASSI) {
-      if (!/^[1-5][A-Z]+$/.test(c)) {
-        errori.push(`${chi}: classe "${c}" non valida (es. "3AIS")`);
+      if (!codiciValidi.has(c)) {
+        errori.push(`${chi}: la classe "${c}" non è in configScuola.classi`);
       }
     }
 
@@ -183,6 +204,15 @@ for (const teacher of docenti) {
       tutte.push({ docente, lezione: l, materia: materia ?? "" });
     }
   });
+}
+
+// una classe senza lezioni compare nell'app con la tabella vuota: forse è
+// stata tolta dall'orario, o le sue lezioni hanno un codice scritto male
+const classiConLezioni = new Set(tutte.flatMap((t) => t.lezione.CLASSI));
+for (const c of codiciValidi) {
+  if (!classiConLezioni.has(c)) {
+    avvisi.push(`configScuola: la classe "${c}" non ha nessuna lezione`);
+  }
 }
 
 // stessa classe, stessa ora, docenti diversi

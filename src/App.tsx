@@ -9,12 +9,12 @@ import OrarioCorrente from "./components/OrarioCorrente.tsx";
 // formatTime already existed; getLezioniInsegnante/getInsegnantiVisibili are
 // helpers that resolve data.ts's compact shape (attivo / visibile /
 // materiaDefault / lezioni) back into what the components expect.
-// getClassi / getLezioniClasse alimentano la tabella delle classi.
+// codiciClassi / getLezioniClasse alimentano la tabella delle classi.
 import {
   formatTime,
   getLezioniInsegnante,
   getInsegnantiVisibili,
-  getClassi,
+  codiciClassi,
   getLezioniClasse,
   getProssimaLezione,
   getGiornoVisualizzato,
@@ -105,11 +105,11 @@ function App() {
     .sort((a, b) => a.ORA_INIZIO.localeCompare(b.ORA_INIZIO));
 
   // trova tutte le classi dell'insegnante selezionato
-  const classiDocente = getClassiDocente(lezioniInsegnante);
+  const classiDocente = getClassiDocente(lezioniInsegnante, config.classi);
   // La casella ha senso solo con un docente scelto che ha almeno una classe
   const puoFiltrare = docente !== "" && classiDocente.length > 0;
   const classiMostrate =
-    soloMieClassi && puoFiltrare ? classiDocente : getClassi(docenti);
+    soloMieClassi && puoFiltrare ? classiDocente : codiciClassi(config.classi);
   // Se la classe scelta non è nella lista (es. appena spuntata la casella),
   // si riparte dalla prima classe della lista.
   const classeSelezionata = classiMostrate.includes(classeScelta)

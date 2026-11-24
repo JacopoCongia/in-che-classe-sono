@@ -62,9 +62,21 @@ export interface Periodo extends SlotOrario {
   tipo: "lezione" | "intervallo";
 }
 
-// tutto ciò che è specifico di una scuola. Le classi non ci sono: si ricavano
-// dai dati (getClassi). I colori del tema nemmeno: sono ancora scritti nelle
-// classi Tailwind dei componenti.
+// una classe della scuola. Il codice è quello che compare nell'app e che le
+// lezioni di data.ts usano in CLASSI; anno, sezione e indirizzo sono scritti
+// a parte invece di essere ricavati dal codice, perché ogni scuola compone i
+// codici a modo suo.
+export interface Classe {
+  codice: string; // es. "3AIS"
+  anno: number; // 1-5
+  sezione: string; // es. "A"
+  // es. "Informatica e Telecomunicazioni". Omesso nelle classi senza un
+  // indirizzo (il biennio comune).
+  indirizzo?: string;
+}
+
+// tutto ciò che è specifico di una scuola. I colori del tema non ci sono
+// ancora: sono scritti nelle classi Tailwind dei componenti.
 export interface ConfigScuola {
   nome: string;
   // fuso orario IANA (es. "Europe/Rome"). Per ora l'ora attuale viene
@@ -78,6 +90,9 @@ export interface ConfigScuola {
   // nomi delle materie come compaiono nell'app: check-data segnala ogni
   // materia di data.ts che non è qui
   materie: readonly string[];
+  // le classi, nell'ordine in cui compaiono nell'app. Ogni classe di una
+  // lezione deve essere qui (lo controlla npm run check-data).
+  classi: readonly Classe[];
 }
 
 export interface OrariGiornalieriProps {

@@ -1,4 +1,5 @@
 import type {
+  Classe,
   Docente,
   Lesson,
   LezioneClasse,
@@ -78,21 +79,9 @@ export function etichettaClassi(classi: string[]): string {
   return classi.join(" + ");
 }
 
-// elenco delle classi presenti nei dati (solo docenti attivi),
-// in ordine "naturale": 1AS, 2AS, 3ACS, 3AIS, ... Una classe nuova in
-// data.ts compare da sola, senza altre modifiche.
-export function getClassi(docenti: Docente[]): string[] {
-  const classi = new Set<string>();
-  for (const docente of docenti) {
-    if (docente.attivo === false) continue;
-    for (const entry of docente.lezioni) {
-      entry.CLASSI.forEach((c) => classi.add(c));
-    }
-  }
-  // numeric: true confronta "2AS" < "10AS" come numeri, non come testo
-  return [...classi].sort((a, b) =>
-    a.localeCompare(b, undefined, { numeric: true }),
-  );
+// i codici delle classi della configurazione, nel loro ordine
+export function codiciClassi(classi: readonly Classe[]): string[] {
+  return classi.map((c) => c.codice);
 }
 
 // tutte le lezioni di una classe, raccolte da tutti i docenti
@@ -169,14 +158,12 @@ export function getGiornoVisualizzato(
 }
 
 // le classi in cui insegna un docente, ricavate dalle sue lezioni
-// (già risolte). Una lezione condivisa conta per tutte le sue classi.
-export function getClassiDocente(lezioni: Lesson[]): string[] {
-  const classi = new Set<string>();
-  for (const lezione of lezioni) {
-    lezione.CLASSI.forEach((c) => classi.add(c));
-  }
-  // numeric: true confronta "2AS" < "5AS" come numeri, non come testo
-  return [...classi].sort((a, b) =>
-    a.localeCompare(b, undefined, { numeric: true }),
-  );
+// (già risolte), nello stesso ordine della configurazione. Una lezione
+// condivisa conta per tutte le sue classi.
+export function getClassiDocente(
+  lezioni: Lesson[],
+  classi: readonly Classe[],
+): string[] {
+  const sue = new Set(lezioni.flatMap((l) => l.CLASSI));
+  return codiciClassi(classi).filter((c) => sue.has(c));
 }
