@@ -1,0 +1,6 @@
+# Netlify: header aggiunti a ogni risposta del sito.
+# X-Robots-Tag fa la stessa cosa del <meta name="robots"> in index.html,
+# ma vale anche per i file che non sono HTML (JS, JSON, immagini),
+# dove il meta tag non si può mettere.
+/*
+  X-Robots-Tag: noindex, nofollow
