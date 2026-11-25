@@ -1,7 +1,7 @@
 import { Fragment, type CSSProperties } from "react";
 import type { LezioneClasse, TabellaSettimanaleProps } from "../types";
 import { useConfigScuola } from "../configScuolaContext";
-import { cognomeDocente, oreDiLezione, slotInCorso } from "../utils";
+import { etichettaClassi, oreDiLezione, slotInCorso } from "../utils";
 
 // La griglia settimanale (ore × giorni di scuola) usata sia per l'orario di
 // una classe sia per l'orario di un docente. Cambia solo cosa c'è scritto nei
@@ -140,7 +140,7 @@ function TabellaSettimanale({
               const chiave =
                 modalita === "classe"
                   ? lez.MATERIA
-                  : `${lez.CLASSE}|${lez.MATERIA}`;
+                  : `${etichettaClassi(lez.CLASSI)}|${lez.MATERIA}`;
               gruppi.set(chiave, [...(gruppi.get(chiave) ?? []), lez]);
             }
 
@@ -158,16 +158,16 @@ function TabellaSettimanale({
                     titolo = gruppo[0].MATERIA;
                     // Docenti del riquadro: senza doppioni, in ordine alfabetico
                     sottotitolo = [...new Set(gruppo.map((l) => l.DOCENTE))]
-                      .map(cognomeDocente)
+                      .map((d) => d.cognome)
                       .sort((a, b) => a.localeCompare(b))
                       .join(", ");
                     // Il riquadro risalta se il docente scelto in alto è
                     // UNO dei docenti (anche se in compresenza)
                     evidenziata =
                       docenteSelezionato !== "" &&
-                      gruppo.some((l) => l.DOCENTE === docenteSelezionato);
+                      gruppo.some((l) => l.DOCENTE.id === docenteSelezionato);
                   } else {
-                    titolo = gruppo[0].CLASSE;
+                    titolo = etichettaClassi(gruppo[0].CLASSI);
                     sottotitolo = gruppo[0].MATERIA;
                     // Qui le lezioni sono tutte del docente: evidenziarle
                     // tutte non direbbe niente, risalta solo quella in corso.

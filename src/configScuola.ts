@@ -1,5 +1,9 @@
 import type { ConfigScuola } from "./types.ts";
 
+// gli indirizzi del triennio, scritti una volta sola per tutte le loro classi
+const CHIMICA = "Chimica, Materiali e Biotecnologie";
+const INFORMATICA = "Informatica e Telecomunicazioni";
+
 // La configurazione della nostra scuola. È letta dai componenti tramite
 // useConfigScuola() (vedi configScuolaContext.ts) e da
 // scripts/controlla-dati.ts, che la importa direttamente.
@@ -43,4 +47,18 @@ export const configScuola = {
     "Tecnologie Informatiche",
     "Telecomunicazioni",
   ] as const,
+  // Il codice si legge anno + sezione + indirizzo + "S" di serale (tutta la
+  // scuola è serale, quindi la S non è un'informazione a sé): 3AIS = terzo
+  // anno, sezione A, Informatica. Il primo e il secondo anno (biennio comune)
+  // non hanno indirizzo.
+  classi: [
+    { codice: "1AS", anno: 1, sezione: "A" },
+    { codice: "2AS", anno: 2, sezione: "A" },
+    { codice: "3ACS", anno: 3, sezione: "A", indirizzo: CHIMICA },
+    { codice: "3AIS", anno: 3, sezione: "A", indirizzo: INFORMATICA },
+    { codice: "4ACS", anno: 4, sezione: "A", indirizzo: CHIMICA },
+    { codice: "4AIS", anno: 4, sezione: "A", indirizzo: INFORMATICA },
+    { codice: "5ACS", anno: 5, sezione: "A", indirizzo: CHIMICA },
+    { codice: "5AIS", anno: 5, sezione: "A", indirizzo: INFORMATICA },
+  ],
 } satisfies ConfigScuola;

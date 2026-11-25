@@ -1,4 +1,4 @@
-import { data as dati_lezioni } from "./data.ts";
+import { docenti } from "./data.ts";
 import { useState, useEffect } from "react";
 
 import BoxOfText from "./components/BoxOfText.tsx";
@@ -9,12 +9,12 @@ import OrarioCorrente from "./components/OrarioCorrente.tsx";
 // formatTime already existed; getLezioniInsegnante/getInsegnantiVisibili are
 // helpers that resolve data.ts's compact shape (attivo / visibile /
 // materiaDefault / lezioni) back into what the components expect.
-// getClassi / getLezioniClasse alimentano la tabella delle classi.
+// codiciClassi / getLezioniClasse alimentano la tabella delle classi.
 import {
   formatTime,
   getLezioniInsegnante,
   getInsegnantiVisibili,
-  getClassi,
+  codiciClassi,
   getLezioniClasse,
   getProssimaLezione,
   getGiornoVisualizzato,
@@ -33,6 +33,7 @@ function App() {
   const config = useConfigScuola();
   // desktop e telefono mostrano le lezioni del docente in modo diverso
   const schermoGrande = useSchermoGrande();
+  // id del docente scelto ("" = nessuno)
   const [docente, setDocente] = useState("");
   const [oraCorrente, setOraCorrente] = useState(new Date());
   // const [oraCorrente, setOraCorrente] = useState(new Date("2026-10-30T20:15")); // ONLY FOR TESTING
@@ -79,7 +80,8 @@ function App() {
   // Lezioni "risolte" dell'insegnante selezionato: MATERIA è già compilata
   // (dal valore esplicito o dal materiaDefault del docente), quindi tutto il
   // resto del componente lavora esattamente come prima.
-  const lezioniInsegnante = getLezioniInsegnante(dati_lezioni, docente);
+  const docenteScelto = docenti.find((d) => d.id === docente);
+  const lezioniInsegnante = getLezioniInsegnante(docenteScelto);
 
   // La lezione in corso adesso (oggi, con l'ora attuale dentro la lezione).
   // Stessa regola dei pannelli (slotInCorso): la fine è esclusa, quindi alle
@@ -103,17 +105,17 @@ function App() {
     .sort((a, b) => a.ORA_INIZIO.localeCompare(b.ORA_INIZIO));
 
   // trova tutte le classi dell'insegnante selezionato
-  const classiDocente = getClassiDocente(lezioniInsegnante);
+  const classiDocente = getClassiDocente(lezioniInsegnante, config.classi);
   // La casella ha senso solo con un docente scelto che ha almeno una classe
   const puoFiltrare = docente !== "" && classiDocente.length > 0;
   const classiMostrate =
-    soloMieClassi && puoFiltrare ? classiDocente : getClassi(dati_lezioni);
+    soloMieClassi && puoFiltrare ? classiDocente : codiciClassi(config.classi);
   // Se la classe scelta non è nella lista (es. appena spuntata la casella),
   // si riparte dalla prima classe della lista.
   const classeSelezionata = classiMostrate.includes(classeScelta)
     ? classeScelta
     : (classiMostrate[0] ?? "");
-  const lezioniClasse = getLezioniClasse(dati_lezioni, classeSelezionata);
+  const lezioniClasse = getLezioniClasse(docenti, classeSelezionata);
   // "Il mio orario" ha senso solo con un docente scelto: senza, si torna
   // alla vista classe (come puoFiltrare per la casella). Da desktop lo switch
   // non c'è: la settimana del docente ha già la sua sezione (SettimanaDocente),
@@ -121,10 +123,12 @@ function App() {
   const puoCambiareVista = docente !== "" && !schermoGrande;
   const vista: VistaTabella = puoCambiareVista ? vistaScelta : "classe";
   // la tabella lavora con LezioneClasse: aggiungo il DOCENTE alle sue lezioni
-  const lezioniDocenteTabella = lezioniInsegnante.map((lezione) => ({
-    ...lezione,
-    DOCENTE: docente,
-  }));
+  const lezioniDocenteTabella = docenteScelto
+    ? lezioniInsegnante.map((lezione) => ({
+        ...lezione,
+        DOCENTE: docenteScelto,
+      }))
+    : [];
 
   // Frecce: passo = -1 (indietro) o +1 (avanti), con giro completo
   const vaiAClasse = (passo: number) => {
@@ -163,11 +167,11 @@ function App() {
               data.ts (vedi getInsegnantiVisibili). Aggiungere un docente a
               data.ts basta perché compaia; `visibile: false` lo nasconde. */}
           <div className="flex w-full flex-col gap-[1em]">
-            {getInsegnantiVisibili(dati_lezioni).map((nome) => (
+            {getInsegnantiVisibili(docenti).map((d) => (
               <SelezionaInsegnante
-                key={nome}
+                key={d.id}
                 onClick={setDocente}
-                docente={nome}
+                docente={d}
               />
             ))}
           </div>
@@ -177,11 +181,11 @@ function App() {
             sarebbe solo "Scegli un docente" e l'altra una colonna di
             "Nessuna lezione". Così le schermate restano sempre alternate
             chiaro/scuro (lista docenti chiara -> orario delle classi scuro). */}
-        {docente !== "" && (
+        {docenteScelto && (
           <>
             {/* Schermata Orario Corrente */}
             <OrarioCorrente
-              docente={docente}
+              docente={docenteScelto}
               oraFormattata={oraFormattata}
               giornoCorrente={giornoCorrente}
               lezioneCorrente={lezioneCorrente}

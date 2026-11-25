@@ -3,6 +3,7 @@ import type { OrarioCorrenteProps } from "../types";
 import { useConfigScuola } from "../configScuolaContext";
 import BoxOfText from "./BoxOfText";
 import BarraAvanzamento from "./BarraAvanzamento";
+import { etichettaClassi } from "../utils";
 
 function OrarioCorrente({
   docente,
@@ -11,12 +12,6 @@ function OrarioCorrente({
   lezioneCorrente,
   prossimaLezione,
 }: OrarioCorrenteProps) {
-  // App mostra questa schermata solo con un docente scelto
-  const nomeECognome = docente.split("_");
-  const nomeGrezzo =
-    nomeECognome.length > 1 ? nomeECognome[1] : nomeECognome[0];
-  const nomeDocente = nomeGrezzo.charAt(0).toUpperCase() + nomeGrezzo.slice(1);
-
   // la condizione "fuori orario di lezione" era scritta due volte nel
   // JSX; ora è calcolata una volta sola e riusata per "a/in" e "Casa/Pausa".
   // La giornata va dall'inizio della prima voce dell'orario alla fine
@@ -31,8 +26,11 @@ function OrarioCorrente({
     !giorni.includes(giornoCorrente);
 
   // testo del riquadro grande ("3AIS", "3ACS + 3AIS", "Casa", "Pausa")
-  const testoClasse =
-    lezioneCorrente?.CLASSE || (fuoriOrario ? "Casa" : "Pausa");
+  const testoClasse = lezioneCorrente
+    ? etichettaClassi(lezioneCorrente.CLASSI)
+    : fuoriOrario
+      ? "Casa"
+      : "Pausa";
 
   // "Oggi" / "Domani" / nome del giorno (da 7 giorni: "Lunedì prossimo")
   let quando = "";
@@ -59,7 +57,7 @@ function OrarioCorrente({
         <BoxOfText
           texts={[
             { line: "ciao", color: "#FDF8E1" },
-            { line: nomeDocente, color: "#C65D1E" },
+            { line: docente.nome, color: "#C65D1E" },
           ]}
           boxWidth={250}
         />
@@ -115,7 +113,7 @@ function OrarioCorrente({
                   minFontSizePx={14}
                   maxFontSizePx={32}
                 >
-                  {prossimaLezione.lezione.CLASSE}
+                  {etichettaClassi(prossimaLezione.lezione.CLASSI)}
                 </AutoTextSize>
               </div>
             </div>
