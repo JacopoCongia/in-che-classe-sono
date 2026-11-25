@@ -1,0 +1,7 @@
+# Il sito non deve comparire nei motori di ricerca, ma qui NON c'è
+# "Disallow" di proposito: un crawler bloccato da robots.txt non legge la
+# pagina, quindi non vede il "noindex" (meta tag in index.html e header
+# X-Robots-Tag in public/_headers) e può comunque elencare l'indirizzo.
+# Lasciandolo entrare, legge il noindex e toglie il sito dai risultati.
+User-agent: *
+Allow: /
