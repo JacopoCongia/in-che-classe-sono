@@ -1,8 +1,7 @@
 {
   "docenti": [
     {
-      "id": "chiocchetti_gudrun",
-      "nome": "Gudrun",
+      "id": "chiocchetti",
       "cognome": "Chiocchetti",
       "materiaDefault": "Inglese",
       "lezioni": [
@@ -93,8 +92,7 @@
       ]
     },
     {
-      "id": "canino_massimo",
-      "nome": "Massimo",
+      "id": "canino",
       "cognome": "Canino",
       "materiaDefault": "Matematica",
       "lezioni": [
@@ -191,8 +189,7 @@
       ]
     },
     {
-      "id": "fezza_antonio",
-      "nome": "Antonio",
+      "id": "fezza",
       "cognome": "Fezza",
       "materiaDefault": "Informatica",
       "lezioni": [
@@ -293,8 +290,7 @@
       ]
     },
     {
-      "id": "mazzei_luca",
-      "nome": "Luca",
+      "id": "mazzei",
       "cognome": "Mazzei",
       "lezioni": [
         {
@@ -412,8 +408,7 @@
       ]
     },
     {
-      "id": "rossi_alessandro",
-      "nome": "Alessandro",
+      "id": "rossi",
       "cognome": "Rossi",
       "lezioni": [
         {
@@ -545,8 +540,7 @@
       ]
     },
     {
-      "id": "bonato_paolo",
-      "nome": "Paolo",
+      "id": "bonato",
       "cognome": "Bonato",
       "visibile": true,
       "lezioni": [
@@ -651,8 +645,7 @@
       ]
     },
     {
-      "id": "brualdi_b",
-      "nome": "B",
+      "id": "brualdi",
       "cognome": "Brualdi",
       "visibile": false,
       "materiaDefault": "Diritto ed Economia",
@@ -666,8 +659,7 @@
       ]
     },
     {
-      "id": "cammarota_a",
-      "nome": "A",
+      "id": "cammarota",
       "cognome": "Cammarota",
       "visibile": false,
       "materiaDefault": "Biologia",
@@ -681,8 +673,7 @@
       ]
     },
     {
-      "id": "cimini_p",
-      "nome": "P",
+      "id": "cimini",
       "cognome": "Cimini",
       "visibile": false,
       "materiaDefault": "Telecomunicazioni",
@@ -696,8 +687,7 @@
       ]
     },
     {
-      "id": "dipace_f",
-      "nome": "F",
+      "id": "dipace",
       "cognome": "Dipace",
       "visibile": false,
       "materiaDefault": "Scienze Integrate - Fisica",
@@ -717,8 +707,7 @@
       ]
     },
     {
-      "id": "giannini_s",
-      "nome": "S",
+      "id": "giannini",
       "cognome": "Giannini",
       "visibile": false,
       "materiaDefault": "Telecomunicazioni",
@@ -732,8 +721,7 @@
       ]
     },
     {
-      "id": "luciano_a",
-      "nome": "A",
+      "id": "luciano",
       "cognome": "Luciano",
       "visibile": false,
       "materiaDefault": "Matematica",
@@ -753,8 +741,7 @@
       ]
     },
     {
-      "id": "malberti_v",
-      "nome": "V",
+      "id": "malberti",
       "cognome": "Malberti",
       "visibile": false,
       "materiaDefault": "Scienze Integrate - Fisica",
@@ -774,8 +761,7 @@
       ]
     },
     {
-      "id": "martino_tonino",
-      "nome": "Tonino",
+      "id": "martino",
       "cognome": "Martino",
       "visibile": true,
       "lezioni": [
@@ -894,8 +880,7 @@
       ]
     },
     {
-      "id": "morossi_paola",
-      "nome": "Paola",
+      "id": "morossi",
       "cognome": "Morossi",
       "visibile": false,
       "lezioni": [
@@ -965,8 +950,7 @@
       ]
     },
     {
-      "id": "saracino_luigi",
-      "nome": "Luigi",
+      "id": "saracino",
       "cognome": "Saracino",
       "lezioni": [
         {
@@ -1063,8 +1047,7 @@
       ]
     },
     {
-      "id": "sorrentino_m",
-      "nome": "M",
+      "id": "sorrentino",
       "cognome": "Sorrentino",
       "visibile": false,
       "materiaDefault": "Telecomunicazioni",
@@ -1084,8 +1067,7 @@
       ]
     },
     {
-      "id": "terenzi_m",
-      "nome": "M",
+      "id": "terenzi",
       "cognome": "Terenzi",
       "visibile": false,
       "materiaDefault": "Disegno Tecnico",
@@ -1105,8 +1087,7 @@
       ]
     },
     {
-      "id": "vitali_g",
-      "nome": "G",
+      "id": "vitali",
       "cognome": "Vitali",
       "visibile": false,
       "materiaDefault": "Disegno Tecnico",
@@ -1120,8 +1101,7 @@
       ]
     },
     {
-      "id": "zocche_p",
-      "nome": "P",
+      "id": "zocche",
       "cognome": "Zocche",
       "visibile": false,
       "materiaDefault": "Italiano",

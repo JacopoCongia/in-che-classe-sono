@@ -52,15 +52,15 @@ export const LezioneSchema = z.strictObject({
 });
 
 export const DocenteSchema = z.strictObject({
-  // identificativo unico (es. "rossi_alessandro"). Serve solo a riconoscere
-  // il docente: nome e cognome mostrati nell'app sono i campi qui sotto.
+  // identificativo unico: il cognome in minuscolo (es. "rossi"). Serve solo a
+  // riconoscere il docente: il cognome mostrato nell'app è il campo qui sotto.
+  // Il nome di battesimo non c'è di proposito (meno dati personali nel sito).
   id: z
     .string()
     .regex(
       /^[a-z0-9]+(_[a-z0-9]+)*$/,
-      'va scritto minuscolo, con parole separate da _ (es. "rossi_alessandro")',
+      'va scritto minuscolo, con parole separate da _ (es. "rossi" o "rossi_m")',
     ),
-  nome: TestoSchema,
   cognome: TestoSchema,
   // false = docente escluso ovunque (bottone e tabelle). Omesso = attivo.
   attivo: z.boolean().optional(),

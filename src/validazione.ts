@@ -2,7 +2,7 @@ import * as z from "zod";
 // solo l'italiano: z.locales.it() porterebbe con sé tutte le lingue di zod
 import { it } from "zod/locales";
 import { ConfigScuolaSchema, FileDocentiSchema } from "./schema.ts";
-import { etichettaClassi } from "./utils.ts";
+import { etichettaClassi, getInsegnantiVisibili } from "./utils.ts";
 import type { ConfigScuola, FileDocenti, LessonEntry } from "./types.ts";
 
 // Il validatore dei dati, in due passi:
@@ -21,6 +21,8 @@ import type { ConfigScuola, FileDocenti, LessonEntry } from "./types.ts";
 //     che non iniziano quando finisce il precedente (buchi e
 //     sovrapposizioni); codice di una classe ripetuto
 //   - id docente ripetuto
+//   - due docenti con un bottone (attivi e visibili) con lo stesso cognome:
+//     i bottoni sarebbero uguali e non si saprebbe quale scegliere
 //   - giorno che non è un giorno di scuola
 //   - ORA_INIZIO / ORA_FINE che non sono l'inizio / la fine di un'ora di
 //     lezione della configurazione
@@ -143,6 +145,21 @@ function controllaDocenti(
     lezione: LessonEntry;
     materia: string;
   }[] = [];
+
+  // stesso filtro dei bottoni (getInsegnantiVisibili): un docente nascosto
+  // non ha bottone, quindi può avere lo stesso cognome di un altro. Il
+  // confronto ignora maiuscole e spazi ai lati ("Rossi" = "rossi ").
+  const cognomiVisti = new Map<string, string>(); // cognome -> id
+  for (const { id, cognome } of getInsegnantiVisibili(docenti)) {
+    const chiave = cognome.trim().toLocaleLowerCase("it");
+    const altro = cognomiVisti.get(chiave);
+    if (altro !== undefined) {
+      r.errori.push(
+        `${id}: ha lo stesso cognome di ${altro} ("${cognome}"): i bottoni sarebbero uguali, aggiungi un'iniziale (es. "${cognome.trim()} M.")`,
+      );
+    }
+    cognomiVisti.set(chiave, id);
+  }
 
   const idVisti = new Set<string>();
   for (const docente of docenti) {
@@ -285,7 +302,7 @@ function siSovrappongono(a: LessonEntry, b: LessonEntry) {
   );
 }
 
-// "rossi_alessandro, lezione 3 (Lunedì 20:00-20:50 4AIS)". Il numero aiuta
+// "rossi, lezione 3 (Lunedì 20:00-20:50 4AIS)". Il numero aiuta
 // a trovarla nel JSON, che non ha numeri di riga da citare.
 function descriviLezione(id: string, indice: number, l: LessonEntry) {
   return `${id}, lezione ${indice + 1} (${l.GIORNO} ${l.ORA_INIZIO}-${l.ORA_FINE} ${etichettaClassi(l.CLASSI)})`;

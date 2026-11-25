@@ -56,8 +56,8 @@ function OrarioCorrente({
       <div className="flex flex-col items-center gap-[3.5em]">
         <BoxOfText
           texts={[
-            { line: "ciao", color: "#FDF8E1" },
-            { line: docente.nome, color: "#C65D1E" },
+            { line: "ciao prof", color: "#FDF8E1" },
+            { line: docente.cognome, color: "#C65D1E" },
           ]}
           boxWidth={250}
         />
