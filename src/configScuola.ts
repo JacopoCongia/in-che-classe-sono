@@ -21,9 +21,9 @@ export const configScuola = {
     { tipo: "lezione", ORA_INIZIO: "20:50", ORA_FINE: "21:50" },
     { tipo: "lezione", ORA_INIZIO: "21:50", ORA_FINE: "22:40" },
   ],
-  // È l'elenco "ufficiale": controlla-dati.ts segnala come errore ogni
-  // MATERIA (o materiaDefault) di data.ts che non è qui, così un nome copiato
-  // dal PDF non passa inosservato. Per aggiungere una materia nuova,
+  // È l'elenco "ufficiale": npm run check-data segnala come errore ogni
+  // MATERIA (o materiaDefault) di docenti.json che non è qui, così un nome
+  // copiato dal PDF non passa inosservato. Per aggiungere una materia nuova,
   // aggiungila qui (e, se viene da un PDF, in MATERIE_DA_PDF di
   // scripts/materie.ts).
   materie: [

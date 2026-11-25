@@ -1,41 +1,32 @@
+import type * as z from "zod";
+import type {
+  ClasseSchema,
+  ConfigScuolaSchema,
+  DocenteSchema,
+  FileDocentiSchema,
+  LezioneSchema,
+  PeriodoSchema,
+  SlotOrarioSchema,
+} from "./schema.ts";
+
+// I tipi dei dati e della configurazione sono ricavati dagli schemi zod di
+// schema.ts (dove sono spiegati i campi): z.infer legge lo schema e ne
+// produce il tipo TypeScript, così forma e tipo non possono divergere.
+
+// una lezione come è scritta nel JSON: MATERIA si può omettere quando è il
+// materiaDefault del docente
+export type LessonEntry = z.infer<typeof LezioneSchema>;
+export type Docente = z.infer<typeof DocenteSchema>;
+export type FileDocenti = z.infer<typeof FileDocentiSchema>;
+export type SlotOrario = z.infer<typeof SlotOrarioSchema>;
+export type Periodo = z.infer<typeof PeriodoSchema>;
+export type Classe = z.infer<typeof ClasseSchema>;
+export type ConfigScuola = z.infer<typeof ConfigScuolaSchema>;
+
 // una lezione "risolta", come la usano i componenti: MATERIA è sempre
 // valorizzata (vedi utils.ts -> getLezioniInsegnante).
-export interface Lesson {
+export interface Lesson extends LessonEntry {
   MATERIA: string;
-  // codici delle classi: più di uno per una lezione condivisa
-  // (es. ["3ACS", "3AIS"])
-  CLASSI: string[];
-  GIORNO: string;
-  ORA_INIZIO: string;
-  ORA_FINE: string;
-}
-
-// una lezione come è scritta in data.ts: MATERIA si può omettere quando è
-// il materiaDefault del docente (vedi Docente qui sotto).
-export interface LessonEntry {
-  MATERIA?: string;
-  CLASSI: string[];
-  GIORNO: string;
-  ORA_INIZIO: string;
-  ORA_FINE: string;
-}
-
-export interface Docente {
-  // identificativo unico (es. "rossi_alessandro"). Serve solo a riconoscere
-  // il docente: nome e cognome mostrati nell'app sono i campi qui sotto.
-  id: string;
-  nome: string;
-  cognome: string;
-  // Omit entirely (or set true) for a teacher who should appear in the app.
-  // Set to false to keep a teacher's schedule in the file without showing
-  // them in the selection list (replaces the old "comment it out" approach).
-  attivo?: boolean;
-  // false = niente bottone per questo docente nella prima sezione, ma le sue
-  // lezioni restano nelle tabelle delle classi. Omesso = visibile.
-  visibile?: boolean;
-  // Used for entries in `lezioni` that don't specify their own MATERIA.
-  materiaDefault?: string;
-  lezioni: LessonEntry[];
 }
 
 export interface BoxTextItem {
@@ -48,51 +39,6 @@ export interface BoxOfTextProps {
   texts: BoxTextItem[];
   boxWidth: number;
   bold?: boolean;
-}
-
-export interface SlotOrario {
-  ORA_INIZIO: string;
-  ORA_FINE: string;
-}
-
-// una voce dell'orario della giornata: un'ora di lezione o un intervallo.
-// L'intervallo è una voce come le altre (non un buco tra due ore), così i
-// componenti lo leggono dalla configurazione invece di dedurlo.
-export interface Periodo extends SlotOrario {
-  tipo: "lezione" | "intervallo";
-}
-
-// una classe della scuola. Il codice è quello che compare nell'app e che le
-// lezioni di data.ts usano in CLASSI; anno, sezione e indirizzo sono scritti
-// a parte invece di essere ricavati dal codice, perché ogni scuola compone i
-// codici a modo suo.
-export interface Classe {
-  codice: string; // es. "3AIS"
-  anno: number; // 1-5
-  sezione: string; // es. "A"
-  // es. "Informatica e Telecomunicazioni". Omesso nelle classi senza un
-  // indirizzo (il biennio comune).
-  indirizzo?: string;
-}
-
-// tutto ciò che è specifico di una scuola. I colori del tema non ci sono
-// ancora: sono scritti nelle classi Tailwind dei componenti.
-export interface ConfigScuola {
-  nome: string;
-  // fuso orario IANA (es. "Europe/Rome"). Per ora l'ora attuale viene
-  // dall'orologio del dispositivo.
-  fusoOrario: string;
-  // i giorni di scuola, in ordine, con i nomi di GIORNI_SETTIMANA
-  giorni: readonly string[];
-  // ore e intervalli della giornata, in ordine e senza buchi: ognuno inizia
-  // quando finisce il precedente (lo controlla npm run check-data)
-  periodi: readonly Periodo[];
-  // nomi delle materie come compaiono nell'app: check-data segnala ogni
-  // materia di data.ts che non è qui
-  materie: readonly string[];
-  // le classi, nell'ordine in cui compaiono nell'app. Ogni classe di una
-  // lezione deve essere qui (lo controlla npm run check-data).
-  classi: readonly Classe[];
 }
 
 export interface OrariGiornalieriProps {

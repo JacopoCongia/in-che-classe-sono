@@ -1,0 +1,1138 @@
+{
+  "docenti": [
+    {
+      "id": "chiocchetti_gudrun",
+      "nome": "Gudrun",
+      "cognome": "Chiocchetti",
+      "materiaDefault": "Inglese",
+      "lezioni": [
+        {
+          "CLASSI": ["1AS"],
+          "GIORNO": "Mercoledì",
+          "ORA_INIZIO": "20:00",
+          "ORA_FINE": "20:50"
+        },
+        {
+          "CLASSI": ["1AS"],
+          "GIORNO": "Giovedì",
+          "ORA_INIZIO": "20:50",
+          "ORA_FINE": "21:50"
+        },
+        {
+          "CLASSI": ["2AS"],
+          "GIORNO": "Giovedì",
+          "ORA_INIZIO": "20:00",
+          "ORA_FINE": "20:50"
+        },
+        {
+          "CLASSI": ["2AS"],
+          "GIORNO": "Venerdì",
+          "ORA_INIZIO": "20:00",
+          "ORA_FINE": "20:50"
+        },
+        {
+          "CLASSI": ["3ACS", "3AIS"],
+          "GIORNO": "Martedì",
+          "ORA_INIZIO": "18:00",
+          "ORA_FINE": "18:50"
+        },
+        {
+          "CLASSI": ["3ACS", "3AIS"],
+          "GIORNO": "Mercoledì",
+          "ORA_INIZIO": "20:50",
+          "ORA_FINE": "21:50"
+        },
+        {
+          "CLASSI": ["4ACS"],
+          "GIORNO": "Martedì",
+          "ORA_INIZIO": "18:50",
+          "ORA_FINE": "19:40"
+        },
+        {
+          "CLASSI": ["4ACS"],
+          "GIORNO": "Mercoledì",
+          "ORA_INIZIO": "18:00",
+          "ORA_FINE": "18:50"
+        },
+        {
+          "CLASSI": ["4AIS"],
+          "GIORNO": "Giovedì",
+          "ORA_INIZIO": "21:50",
+          "ORA_FINE": "22:40"
+        },
+        {
+          "CLASSI": ["4AIS"],
+          "GIORNO": "Venerdì",
+          "ORA_INIZIO": "20:50",
+          "ORA_FINE": "21:50"
+        },
+        {
+          "CLASSI": ["5ACS"],
+          "GIORNO": "Mercoledì",
+          "ORA_INIZIO": "18:50",
+          "ORA_FINE": "19:40"
+        },
+        {
+          "CLASSI": ["5ACS"],
+          "GIORNO": "Giovedì",
+          "ORA_INIZIO": "18:50",
+          "ORA_FINE": "19:40"
+        },
+        {
+          "CLASSI": ["5AIS"],
+          "GIORNO": "Giovedì",
+          "ORA_INIZIO": "18:00",
+          "ORA_FINE": "18:50"
+        },
+        {
+          "CLASSI": ["5AIS"],
+          "GIORNO": "Venerdì",
+          "ORA_INIZIO": "18:00",
+          "ORA_FINE": "18:50"
+        }
+      ]
+    },
+    {
+      "id": "canino_massimo",
+      "nome": "Massimo",
+      "cognome": "Canino",
+      "materiaDefault": "Matematica",
+      "lezioni": [
+        {
+          "CLASSI": ["2AS"],
+          "GIORNO": "Mercoledì",
+          "ORA_INIZIO": "18:00",
+          "ORA_FINE": "18:50"
+        },
+        {
+          "CLASSI": ["2AS"],
+          "GIORNO": "Giovedì",
+          "ORA_INIZIO": "20:50",
+          "ORA_FINE": "21:50"
+        },
+        {
+          "CLASSI": ["2AS"],
+          "GIORNO": "Venerdì",
+          "ORA_INIZIO": "18:50",
+          "ORA_FINE": "19:40"
+        },
+        {
+          "CLASSI": ["3ACS", "3AIS"],
+          "GIORNO": "Lunedì",
+          "ORA_INIZIO": "20:00",
+          "ORA_FINE": "21:50"
+        },
+        {
+          "CLASSI": ["3ACS", "3AIS"],
+          "GIORNO": "Venerdì",
+          "ORA_INIZIO": "18:00",
+          "ORA_FINE": "18:50"
+        },
+        {
+          "CLASSI": ["4ACS"],
+          "GIORNO": "Lunedì",
+          "ORA_INIZIO": "18:50",
+          "ORA_FINE": "19:40"
+        },
+        {
+          "CLASSI": ["4ACS"],
+          "GIORNO": "Martedì",
+          "ORA_INIZIO": "20:00",
+          "ORA_FINE": "20:50"
+        },
+        {
+          "CLASSI": ["4ACS"],
+          "GIORNO": "Giovedì",
+          "ORA_INIZIO": "20:00",
+          "ORA_FINE": "20:50"
+        },
+        {
+          "CLASSI": ["4AIS"],
+          "GIORNO": "Martedì",
+          "ORA_INIZIO": "20:50",
+          "ORA_FINE": "22:40"
+        },
+        {
+          "CLASSI": ["4AIS"],
+          "GIORNO": "Giovedì",
+          "ORA_INIZIO": "18:50",
+          "ORA_FINE": "19:40"
+        },
+        {
+          "CLASSI": ["5ACS"],
+          "GIORNO": "Mercoledì",
+          "ORA_INIZIO": "20:00",
+          "ORA_FINE": "20:50"
+        },
+        {
+          "CLASSI": ["5ACS"],
+          "GIORNO": "Giovedì",
+          "ORA_INIZIO": "18:00",
+          "ORA_FINE": "18:50"
+        },
+        {
+          "CLASSI": ["5ACS"],
+          "GIORNO": "Giovedì",
+          "ORA_INIZIO": "21:50",
+          "ORA_FINE": "22:40"
+        },
+        {
+          "CLASSI": ["5AIS"],
+          "GIORNO": "Mercoledì",
+          "ORA_INIZIO": "18:50",
+          "ORA_FINE": "19:40"
+        },
+        {
+          "CLASSI": ["5AIS"],
+          "GIORNO": "Venerdì",
+          "ORA_INIZIO": "20:00",
+          "ORA_FINE": "21:50"
+        }
+      ]
+    },
+    {
+      "id": "fezza_antonio",
+      "nome": "Antonio",
+      "cognome": "Fezza",
+      "materiaDefault": "Informatica",
+      "lezioni": [
+        {
+          "CLASSI": ["1AS"],
+          "GIORNO": "Giovedì",
+          "ORA_INIZIO": "18:50",
+          "ORA_FINE": "19:40",
+          "MATERIA": "Tecnologie Informatiche"
+        },
+        {
+          "CLASSI": ["1AS"],
+          "GIORNO": "Venerdì",
+          "ORA_INIZIO": "20:00",
+          "ORA_FINE": "20:50",
+          "MATERIA": "Tecnologie Informatiche"
+        },
+        {
+          "CLASSI": ["3AIS"],
+          "GIORNO": "Martedì",
+          "ORA_INIZIO": "21:50",
+          "ORA_FINE": "22:40"
+        },
+        {
+          "CLASSI": ["3AIS"],
+          "GIORNO": "Mercoledì",
+          "ORA_INIZIO": "18:00",
+          "ORA_FINE": "19:40"
+        },
+        {
+          "CLASSI": ["3AIS"],
+          "GIORNO": "Mercoledì",
+          "ORA_INIZIO": "20:00",
+          "ORA_FINE": "20:50"
+        },
+        {
+          "CLASSI": ["3AIS"],
+          "GIORNO": "Giovedì",
+          "ORA_INIZIO": "20:50",
+          "ORA_FINE": "21:50"
+        },
+        {
+          "CLASSI": ["4AIS"],
+          "GIORNO": "Lunedì",
+          "ORA_INIZIO": "20:00",
+          "ORA_FINE": "20:50"
+        },
+        {
+          "CLASSI": ["4AIS"],
+          "GIORNO": "Martedì",
+          "ORA_INIZIO": "18:00",
+          "ORA_FINE": "19:40"
+        },
+        {
+          "CLASSI": ["4AIS"],
+          "GIORNO": "Mercoledì",
+          "ORA_INIZIO": "20:50",
+          "ORA_FINE": "22:40"
+        },
+        {
+          "CLASSI": ["4AIS"],
+          "GIORNO": "Giovedì",
+          "ORA_INIZIO": "18:00",
+          "ORA_FINE": "18:50"
+        },
+        {
+          "CLASSI": ["5AIS"],
+          "GIORNO": "Lunedì",
+          "ORA_INIZIO": "18:00",
+          "ORA_FINE": "19:40"
+        },
+        {
+          "CLASSI": ["5AIS"],
+          "GIORNO": "Martedì",
+          "ORA_INIZIO": "20:00",
+          "ORA_FINE": "20:50",
+          "MATERIA": "GPOI"
+        },
+        {
+          "CLASSI": ["5AIS"],
+          "GIORNO": "Martedì",
+          "ORA_INIZIO": "20:50",
+          "ORA_FINE": "21:50"
+        },
+        {
+          "CLASSI": ["5AIS"],
+          "GIORNO": "Giovedì",
+          "ORA_INIZIO": "20:00",
+          "ORA_FINE": "20:50"
+        },
+        {
+          "CLASSI": ["5AIS"],
+          "GIORNO": "Venerdì",
+          "ORA_INIZIO": "18:50",
+          "ORA_FINE": "19:40",
+          "MATERIA": "GPOI"
+        }
+      ]
+    },
+    {
+      "id": "mazzei_luca",
+      "nome": "Luca",
+      "cognome": "Mazzei",
+      "lezioni": [
+        {
+          "CLASSI": ["2AS"],
+          "GIORNO": "Mercoledì",
+          "ORA_INIZIO": "18:50",
+          "ORA_FINE": "19:40",
+          "MATERIA": "Scienze e Tecnologie Applicate"
+        },
+        {
+          "CLASSI": ["2AS"],
+          "GIORNO": "Venerdì",
+          "ORA_INIZIO": "18:00",
+          "ORA_FINE": "18:50",
+          "MATERIA": "Scienze e Tecnologie Applicate"
+        },
+        {
+          "CLASSI": ["3AIS"],
+          "GIORNO": "Lunedì",
+          "ORA_INIZIO": "18:50",
+          "ORA_FINE": "19:40",
+          "MATERIA": "TPSIT"
+        },
+        {
+          "CLASSI": ["3AIS"],
+          "GIORNO": "Martedì",
+          "ORA_INIZIO": "20:50",
+          "ORA_FINE": "21:50",
+          "MATERIA": "Sistemi e Reti"
+        },
+        {
+          "CLASSI": ["3AIS"],
+          "GIORNO": "Giovedì",
+          "ORA_INIZIO": "20:00",
+          "ORA_FINE": "20:50",
+          "MATERIA": "Sistemi e Reti"
+        },
+        {
+          "CLASSI": ["3AIS"],
+          "GIORNO": "Venerdì",
+          "ORA_INIZIO": "18:50",
+          "ORA_FINE": "19:40",
+          "MATERIA": "TPSIT"
+        },
+        {
+          "CLASSI": ["3AIS"],
+          "GIORNO": "Venerdì",
+          "ORA_INIZIO": "20:50",
+          "ORA_FINE": "21:50",
+          "MATERIA": "Sistemi e Reti"
+        },
+        {
+          "CLASSI": ["4AIS"],
+          "GIORNO": "Martedì",
+          "ORA_INIZIO": "20:00",
+          "ORA_FINE": "20:50",
+          "MATERIA": "TPSIT"
+        },
+        {
+          "CLASSI": ["4AIS"],
+          "GIORNO": "Mercoledì",
+          "ORA_INIZIO": "18:00",
+          "ORA_FINE": "18:50",
+          "MATERIA": "Sistemi e Reti"
+        },
+        {
+          "CLASSI": ["4AIS"],
+          "GIORNO": "Mercoledì",
+          "ORA_INIZIO": "20:00",
+          "ORA_FINE": "20:50",
+          "MATERIA": "Sistemi e Reti"
+        },
+        {
+          "CLASSI": ["4AIS"],
+          "GIORNO": "Giovedì",
+          "ORA_INIZIO": "20:50",
+          "ORA_FINE": "21:50",
+          "MATERIA": "Sistemi e Reti"
+        },
+        {
+          "CLASSI": ["4AIS"],
+          "GIORNO": "Venerdì",
+          "ORA_INIZIO": "20:00",
+          "ORA_FINE": "20:50",
+          "MATERIA": "TPSIT"
+        },
+        {
+          "CLASSI": ["5AIS"],
+          "GIORNO": "Lunedì",
+          "ORA_INIZIO": "20:00",
+          "ORA_FINE": "21:50",
+          "MATERIA": "Sistemi e Reti"
+        },
+        {
+          "CLASSI": ["5AIS"],
+          "GIORNO": "Martedì",
+          "ORA_INIZIO": "18:50",
+          "ORA_FINE": "19:40",
+          "MATERIA": "TPSIT"
+        },
+        {
+          "CLASSI": ["5AIS"],
+          "GIORNO": "Martedì",
+          "ORA_INIZIO": "21:50",
+          "ORA_FINE": "22:40",
+          "MATERIA": "Sistemi e Reti"
+        },
+        {
+          "CLASSI": ["5AIS"],
+          "GIORNO": "Mercoledì",
+          "ORA_INIZIO": "20:50",
+          "ORA_FINE": "22:40",
+          "MATERIA": "TPSIT"
+        }
+      ]
+    },
+    {
+      "id": "rossi_alessandro",
+      "nome": "Alessandro",
+      "cognome": "Rossi",
+      "lezioni": [
+        {
+          "CLASSI": ["2AS"],
+          "GIORNO": "Lunedì",
+          "ORA_INIZIO": "18:50",
+          "ORA_FINE": "19:40",
+          "MATERIA": "Storia"
+        },
+        {
+          "CLASSI": ["2AS"],
+          "GIORNO": "Lunedì",
+          "ORA_INIZIO": "20:00",
+          "ORA_FINE": "20:50",
+          "MATERIA": "Storia"
+        },
+        {
+          "CLASSI": ["2AS"],
+          "GIORNO": "Venerdì",
+          "ORA_INIZIO": "20:50",
+          "ORA_FINE": "21:50",
+          "MATERIA": "Storia"
+        },
+        {
+          "CLASSI": ["3ACS", "3AIS"],
+          "GIORNO": "Lunedì",
+          "ORA_INIZIO": "18:00",
+          "ORA_FINE": "18:50",
+          "MATERIA": "Italiano"
+        },
+        {
+          "CLASSI": ["3ACS", "3AIS"],
+          "GIORNO": "Martedì",
+          "ORA_INIZIO": "18:50",
+          "ORA_FINE": "19:40",
+          "MATERIA": "Italiano"
+        },
+        {
+          "CLASSI": ["3ACS", "3AIS"],
+          "GIORNO": "Martedì",
+          "ORA_INIZIO": "20:00",
+          "ORA_FINE": "20:50",
+          "MATERIA": "Italiano"
+        },
+        {
+          "CLASSI": ["3ACS", "3AIS"],
+          "GIORNO": "Mercoledì",
+          "ORA_INIZIO": "21:50",
+          "ORA_FINE": "22:40",
+          "MATERIA": "Storia"
+        },
+        {
+          "CLASSI": ["3ACS", "3AIS"],
+          "GIORNO": "Venerdì",
+          "ORA_INIZIO": "20:00",
+          "ORA_FINE": "20:50",
+          "MATERIA": "Storia"
+        },
+        {
+          "CLASSI": ["4AIS"],
+          "GIORNO": "Lunedì",
+          "ORA_INIZIO": "20:50",
+          "ORA_FINE": "21:50",
+          "MATERIA": "Italiano"
+        },
+        {
+          "CLASSI": ["4AIS"],
+          "GIORNO": "Mercoledì",
+          "ORA_INIZIO": "18:50",
+          "ORA_FINE": "19:40",
+          "MATERIA": "Italiano"
+        },
+        {
+          "CLASSI": ["4AIS"],
+          "GIORNO": "Giovedì",
+          "ORA_INIZIO": "20:00",
+          "ORA_FINE": "20:50",
+          "MATERIA": "Storia"
+        },
+        {
+          "CLASSI": ["4AIS"],
+          "GIORNO": "Venerdì",
+          "ORA_INIZIO": "18:00",
+          "ORA_FINE": "18:50",
+          "MATERIA": "Storia"
+        },
+        {
+          "CLASSI": ["4AIS"],
+          "GIORNO": "Venerdì",
+          "ORA_INIZIO": "18:50",
+          "ORA_FINE": "19:40",
+          "MATERIA": "Italiano"
+        },
+        {
+          "CLASSI": ["5AIS"],
+          "GIORNO": "Martedì",
+          "ORA_INIZIO": "18:00",
+          "ORA_FINE": "18:50",
+          "MATERIA": "Storia"
+        },
+        {
+          "CLASSI": ["5AIS"],
+          "GIORNO": "Mercoledì",
+          "ORA_INIZIO": "18:00",
+          "ORA_FINE": "18:50",
+          "MATERIA": "Italiano"
+        },
+        {
+          "CLASSI": ["5AIS"],
+          "GIORNO": "Mercoledì",
+          "ORA_INIZIO": "20:00",
+          "ORA_FINE": "20:50",
+          "MATERIA": "Italiano"
+        },
+        {
+          "CLASSI": ["5AIS"],
+          "GIORNO": "Giovedì",
+          "ORA_INIZIO": "18:50",
+          "ORA_FINE": "19:40",
+          "MATERIA": "Storia"
+        },
+        {
+          "CLASSI": ["5AIS"],
+          "GIORNO": "Giovedì",
+          "ORA_INIZIO": "20:50",
+          "ORA_FINE": "21:50",
+          "MATERIA": "Italiano"
+        }
+      ]
+    },
+    {
+      "id": "bonato_paolo",
+      "nome": "Paolo",
+      "cognome": "Bonato",
+      "visibile": true,
+      "lezioni": [
+        {
+          "CLASSI": ["1AS"],
+          "GIORNO": "Giovedì",
+          "ORA_INIZIO": "18:50",
+          "ORA_FINE": "19:40",
+          "MATERIA": "Tecnologie Informatiche"
+        },
+        {
+          "CLASSI": ["1AS"],
+          "GIORNO": "Venerdì",
+          "ORA_INIZIO": "20:00",
+          "ORA_FINE": "20:50",
+          "MATERIA": "Tecnologie Informatiche"
+        },
+        {
+          "CLASSI": ["3AIS"],
+          "GIORNO": "Mercoledì",
+          "ORA_INIZIO": "18:00",
+          "ORA_FINE": "19:40",
+          "MATERIA": "Informatica"
+        },
+        {
+          "CLASSI": ["3AIS"],
+          "GIORNO": "Mercoledì",
+          "ORA_INIZIO": "20:00",
+          "ORA_FINE": "20:50",
+          "MATERIA": "Informatica"
+        },
+        {
+          "CLASSI": ["3AIS"],
+          "GIORNO": "Giovedì",
+          "ORA_INIZIO": "20:00",
+          "ORA_FINE": "20:50",
+          "MATERIA": "Sistemi e Reti"
+        },
+        {
+          "CLASSI": ["3AIS"],
+          "GIORNO": "Venerdì",
+          "ORA_INIZIO": "18:50",
+          "ORA_FINE": "19:40",
+          "MATERIA": "TPSIT"
+        },
+        {
+          "CLASSI": ["4AIS"],
+          "GIORNO": "Martedì",
+          "ORA_INIZIO": "18:00",
+          "ORA_FINE": "19:40",
+          "MATERIA": "Informatica"
+        },
+        {
+          "CLASSI": ["4AIS"],
+          "GIORNO": "Martedì",
+          "ORA_INIZIO": "20:00",
+          "ORA_FINE": "20:50",
+          "MATERIA": "TPSIT"
+        },
+        {
+          "CLASSI": ["4AIS"],
+          "GIORNO": "Giovedì",
+          "ORA_INIZIO": "18:00",
+          "ORA_FINE": "18:50",
+          "MATERIA": "Informatica"
+        },
+        {
+          "CLASSI": ["4AIS"],
+          "GIORNO": "Giovedì",
+          "ORA_INIZIO": "20:50",
+          "ORA_FINE": "21:50",
+          "MATERIA": "Sistemi e Reti"
+        },
+        {
+          "CLASSI": ["5AIS"],
+          "GIORNO": "Lunedì",
+          "ORA_INIZIO": "18:00",
+          "ORA_FINE": "19:40",
+          "MATERIA": "Informatica"
+        },
+        {
+          "CLASSI": ["5AIS"],
+          "GIORNO": "Lunedì",
+          "ORA_INIZIO": "20:00",
+          "ORA_FINE": "21:50",
+          "MATERIA": "Sistemi e Reti"
+        },
+        {
+          "CLASSI": ["5AIS"],
+          "GIORNO": "Martedì",
+          "ORA_INIZIO": "20:50",
+          "ORA_FINE": "21:50",
+          "MATERIA": "Informatica"
+        },
+        {
+          "CLASSI": ["5AIS"],
+          "GIORNO": "Mercoledì",
+          "ORA_INIZIO": "20:50",
+          "ORA_FINE": "22:40",
+          "MATERIA": "TPSIT"
+        }
+      ]
+    },
+    {
+      "id": "brualdi_b",
+      "nome": "B",
+      "cognome": "Brualdi",
+      "visibile": false,
+      "materiaDefault": "Diritto ed Economia",
+      "lezioni": [
+        {
+          "CLASSI": ["2AS"],
+          "GIORNO": "Martedì",
+          "ORA_INIZIO": "18:00",
+          "ORA_FINE": "19:40"
+        }
+      ]
+    },
+    {
+      "id": "cammarota_a",
+      "nome": "A",
+      "cognome": "Cammarota",
+      "visibile": false,
+      "materiaDefault": "Biologia",
+      "lezioni": [
+        {
+          "CLASSI": ["1AS"],
+          "GIORNO": "Martedì",
+          "ORA_INIZIO": "20:00",
+          "ORA_FINE": "21:50"
+        }
+      ]
+    },
+    {
+      "id": "cimini_p",
+      "nome": "P",
+      "cognome": "Cimini",
+      "visibile": false,
+      "materiaDefault": "Telecomunicazioni",
+      "lezioni": [
+        {
+          "CLASSI": ["4AIS"],
+          "GIORNO": "Lunedì",
+          "ORA_INIZIO": "18:00",
+          "ORA_FINE": "19:40"
+        }
+      ]
+    },
+    {
+      "id": "dipace_f",
+      "nome": "F",
+      "cognome": "Dipace",
+      "visibile": false,
+      "materiaDefault": "Scienze Integrate - Fisica",
+      "lezioni": [
+        {
+          "CLASSI": ["1AS"],
+          "GIORNO": "Mercoledì",
+          "ORA_INIZIO": "18:00",
+          "ORA_FINE": "19:40"
+        },
+        {
+          "CLASSI": ["2AS"],
+          "GIORNO": "Mercoledì",
+          "ORA_INIZIO": "20:00",
+          "ORA_FINE": "21:50"
+        }
+      ]
+    },
+    {
+      "id": "giannini_s",
+      "nome": "S",
+      "cognome": "Giannini",
+      "visibile": false,
+      "materiaDefault": "Telecomunicazioni",
+      "lezioni": [
+        {
+          "CLASSI": ["3AIS"],
+          "GIORNO": "Giovedì",
+          "ORA_INIZIO": "18:00",
+          "ORA_FINE": "19:40"
+        }
+      ]
+    },
+    {
+      "id": "luciano_a",
+      "nome": "A",
+      "cognome": "Luciano",
+      "visibile": false,
+      "materiaDefault": "Matematica",
+      "lezioni": [
+        {
+          "CLASSI": ["1AS"],
+          "GIORNO": "Lunedì",
+          "ORA_INIZIO": "18:00",
+          "ORA_FINE": "19:40"
+        },
+        {
+          "CLASSI": ["1AS"],
+          "GIORNO": "Giovedì",
+          "ORA_INIZIO": "18:00",
+          "ORA_FINE": "18:50"
+        }
+      ]
+    },
+    {
+      "id": "malberti_v",
+      "nome": "V",
+      "cognome": "Malberti",
+      "visibile": false,
+      "materiaDefault": "Scienze Integrate - Fisica",
+      "lezioni": [
+        {
+          "CLASSI": ["1AS"],
+          "GIORNO": "Mercoledì",
+          "ORA_INIZIO": "18:00",
+          "ORA_FINE": "19:40"
+        },
+        {
+          "CLASSI": ["2AS"],
+          "GIORNO": "Mercoledì",
+          "ORA_INIZIO": "20:00",
+          "ORA_FINE": "21:50"
+        }
+      ]
+    },
+    {
+      "id": "martino_tonino",
+      "nome": "Tonino",
+      "cognome": "Martino",
+      "visibile": true,
+      "lezioni": [
+        {
+          "CLASSI": ["1AS"],
+          "GIORNO": "Lunedì",
+          "ORA_INIZIO": "20:00",
+          "ORA_FINE": "20:50",
+          "MATERIA": "Scienze Integrate - Chimica"
+        },
+        {
+          "CLASSI": ["1AS"],
+          "GIORNO": "Giovedì",
+          "ORA_INIZIO": "20:00",
+          "ORA_FINE": "20:50",
+          "MATERIA": "Scienze Integrate - Chimica"
+        },
+        {
+          "CLASSI": ["2AS"],
+          "GIORNO": "Lunedì",
+          "ORA_INIZIO": "20:50",
+          "ORA_FINE": "21:50",
+          "MATERIA": "Scienze Integrate - Chimica"
+        },
+        {
+          "CLASSI": ["2AS"],
+          "GIORNO": "Martedì",
+          "ORA_INIZIO": "20:00",
+          "ORA_FINE": "20:50",
+          "MATERIA": "Scienze Integrate - Chimica"
+        },
+        {
+          "CLASSI": ["2AS"],
+          "GIORNO": "Mercoledì",
+          "ORA_INIZIO": "18:50",
+          "ORA_FINE": "19:40",
+          "MATERIA": "Scienze e Tecnologie Applicate"
+        },
+        {
+          "CLASSI": ["2AS"],
+          "GIORNO": "Mercoledì",
+          "ORA_INIZIO": "21:50",
+          "ORA_FINE": "22:40",
+          "MATERIA": "Scienze Integrate - Chimica"
+        },
+        {
+          "CLASSI": ["2AS"],
+          "GIORNO": "Venerdì",
+          "ORA_INIZIO": "18:00",
+          "ORA_FINE": "18:50",
+          "MATERIA": "Scienze e Tecnologie Applicate"
+        },
+        {
+          "CLASSI": ["3ACS"],
+          "GIORNO": "Lunedì",
+          "ORA_INIZIO": "18:50",
+          "ORA_FINE": "19:40",
+          "MATERIA": "Chimica Organica e Biochimica"
+        },
+        {
+          "CLASSI": ["3ACS"],
+          "GIORNO": "Mercoledì",
+          "ORA_INIZIO": "20:00",
+          "ORA_FINE": "20:50",
+          "MATERIA": "Chimica Organica e Biochimica"
+        },
+        {
+          "CLASSI": ["3ACS"],
+          "GIORNO": "Giovedì",
+          "ORA_INIZIO": "20:50",
+          "ORA_FINE": "22:40",
+          "MATERIA": "Chimica Organica e Biochimica"
+        },
+        {
+          "CLASSI": ["4ACS"],
+          "GIORNO": "Lunedì",
+          "ORA_INIZIO": "18:00",
+          "ORA_FINE": "18:50",
+          "MATERIA": "Chimica Organica e Biochimica"
+        },
+        {
+          "CLASSI": ["4ACS"],
+          "GIORNO": "Martedì",
+          "ORA_INIZIO": "21:50",
+          "ORA_FINE": "22:40",
+          "MATERIA": "Chimica Organica e Biochimica"
+        },
+        {
+          "CLASSI": ["4ACS"],
+          "GIORNO": "Venerdì",
+          "ORA_INIZIO": "20:00",
+          "ORA_FINE": "21:50",
+          "MATERIA": "Chimica Organica e Biochimica"
+        },
+        {
+          "CLASSI": ["5ACS"],
+          "GIORNO": "Martedì",
+          "ORA_INIZIO": "20:50",
+          "ORA_FINE": "21:50",
+          "MATERIA": "Chimica Organica e Biochimica"
+        },
+        {
+          "CLASSI": ["5ACS"],
+          "GIORNO": "Mercoledì",
+          "ORA_INIZIO": "20:50",
+          "ORA_FINE": "21:50",
+          "MATERIA": "Chimica Organica e Biochimica"
+        },
+        {
+          "CLASSI": ["5ACS"],
+          "GIORNO": "Venerdì",
+          "ORA_INIZIO": "18:50",
+          "ORA_FINE": "19:40",
+          "MATERIA": "Chimica Organica e Biochimica"
+        }
+      ]
+    },
+    {
+      "id": "morossi_paola",
+      "nome": "Paola",
+      "cognome": "Morossi",
+      "visibile": false,
+      "lezioni": [
+        {
+          "CLASSI": ["2AS"],
+          "GIORNO": "Martedì",
+          "ORA_INIZIO": "20:50",
+          "ORA_FINE": "22:40",
+          "MATERIA": "Italiano"
+        },
+        {
+          "CLASSI": ["2AS"],
+          "GIORNO": "Giovedì",
+          "ORA_INIZIO": "21:50",
+          "ORA_FINE": "22:40",
+          "MATERIA": "Italiano"
+        },
+        {
+          "CLASSI": ["4ACS"],
+          "GIORNO": "Martedì",
+          "ORA_INIZIO": "18:00",
+          "ORA_FINE": "18:50",
+          "MATERIA": "Italiano"
+        },
+        {
+          "CLASSI": ["4ACS"],
+          "GIORNO": "Giovedì",
+          "ORA_INIZIO": "18:00",
+          "ORA_FINE": "19:40",
+          "MATERIA": "Storia"
+        },
+        {
+          "CLASSI": ["4ACS"],
+          "GIORNO": "Venerdì",
+          "ORA_INIZIO": "18:00",
+          "ORA_FINE": "19:40",
+          "MATERIA": "Italiano"
+        },
+        {
+          "CLASSI": ["5ACS"],
+          "GIORNO": "Martedì",
+          "ORA_INIZIO": "20:00",
+          "ORA_FINE": "20:50",
+          "MATERIA": "Storia"
+        },
+        {
+          "CLASSI": ["5ACS"],
+          "GIORNO": "Giovedì",
+          "ORA_INIZIO": "20:00",
+          "ORA_FINE": "20:50",
+          "MATERIA": "Italiano"
+        },
+        {
+          "CLASSI": ["5ACS"],
+          "GIORNO": "Giovedì",
+          "ORA_INIZIO": "20:50",
+          "ORA_FINE": "21:50",
+          "MATERIA": "Storia"
+        },
+        {
+          "CLASSI": ["5ACS"],
+          "GIORNO": "Venerdì",
+          "ORA_INIZIO": "20:00",
+          "ORA_FINE": "21:50",
+          "MATERIA": "Italiano"
+        }
+      ]
+    },
+    {
+      "id": "saracino_luigi",
+      "nome": "Luigi",
+      "cognome": "Saracino",
+      "lezioni": [
+        {
+          "CLASSI": ["3ACS"],
+          "GIORNO": "Mercoledì",
+          "ORA_INIZIO": "18:00",
+          "ORA_FINE": "18:50",
+          "MATERIA": "Chimica Analitica e Strumentale"
+        },
+        {
+          "CLASSI": ["3ACS"],
+          "GIORNO": "Giovedì",
+          "ORA_INIZIO": "18:00",
+          "ORA_FINE": "19:40",
+          "MATERIA": "Chimica Analitica e Strumentale"
+        },
+        {
+          "CLASSI": ["3ACS"],
+          "GIORNO": "Giovedì",
+          "ORA_INIZIO": "20:00",
+          "ORA_FINE": "20:50",
+          "MATERIA": "Chimica Analitica e Strumentale"
+        },
+        {
+          "CLASSI": ["3ACS"],
+          "GIORNO": "Venerdì",
+          "ORA_INIZIO": "18:50",
+          "ORA_FINE": "19:40",
+          "MATERIA": "Chimica Analitica e Strumentale"
+        },
+        {
+          "CLASSI": ["4ACS"],
+          "GIORNO": "Lunedì",
+          "ORA_INIZIO": "20:00",
+          "ORA_FINE": "21:50",
+          "MATERIA": "Tecnologie Chimiche Industriali"
+        },
+        {
+          "CLASSI": ["4ACS"],
+          "GIORNO": "Martedì",
+          "ORA_INIZIO": "20:50",
+          "ORA_FINE": "21:50",
+          "MATERIA": "Chimica Analitica e Strumentale"
+        },
+        {
+          "CLASSI": ["4ACS"],
+          "GIORNO": "Mercoledì",
+          "ORA_INIZIO": "18:50",
+          "ORA_FINE": "19:40",
+          "MATERIA": "Tecnologie Chimiche Industriali"
+        },
+        {
+          "CLASSI": ["4ACS"],
+          "GIORNO": "Mercoledì",
+          "ORA_INIZIO": "20:00",
+          "ORA_FINE": "22:40",
+          "MATERIA": "Chimica Analitica e Strumentale"
+        },
+        {
+          "CLASSI": ["4ACS"],
+          "GIORNO": "Giovedì",
+          "ORA_INIZIO": "20:50",
+          "ORA_FINE": "21:50",
+          "MATERIA": "Chimica Analitica e Strumentale"
+        },
+        {
+          "CLASSI": ["4ACS"],
+          "GIORNO": "Giovedì",
+          "ORA_INIZIO": "21:50",
+          "ORA_FINE": "22:40",
+          "MATERIA": "Tecnologie Chimiche Industriali"
+        },
+        {
+          "CLASSI": ["5ACS"],
+          "GIORNO": "Lunedì",
+          "ORA_INIZIO": "18:00",
+          "ORA_FINE": "19:40",
+          "MATERIA": "Tecnologie Chimiche Industriali"
+        },
+        {
+          "CLASSI": ["5ACS"],
+          "GIORNO": "Martedì",
+          "ORA_INIZIO": "21:50",
+          "ORA_FINE": "22:40",
+          "MATERIA": "Tecnologie Chimiche Industriali"
+        },
+        {
+          "CLASSI": ["5ACS"],
+          "GIORNO": "Venerdì",
+          "ORA_INIZIO": "18:00",
+          "ORA_FINE": "18:50",
+          "MATERIA": "Tecnologie Chimiche Industriali"
+        }
+      ]
+    },
+    {
+      "id": "sorrentino_m",
+      "nome": "M",
+      "cognome": "Sorrentino",
+      "visibile": false,
+      "materiaDefault": "Telecomunicazioni",
+      "lezioni": [
+        {
+          "CLASSI": ["3AIS"],
+          "GIORNO": "Giovedì",
+          "ORA_INIZIO": "18:00",
+          "ORA_FINE": "19:40"
+        },
+        {
+          "CLASSI": ["4AIS"],
+          "GIORNO": "Lunedì",
+          "ORA_INIZIO": "18:00",
+          "ORA_FINE": "19:40"
+        }
+      ]
+    },
+    {
+      "id": "terenzi_m",
+      "nome": "M",
+      "cognome": "Terenzi",
+      "visibile": false,
+      "materiaDefault": "Disegno Tecnico",
+      "lezioni": [
+        {
+          "CLASSI": ["2AS"],
+          "GIORNO": "Lunedì",
+          "ORA_INIZIO": "18:00",
+          "ORA_FINE": "18:50"
+        },
+        {
+          "CLASSI": ["2AS"],
+          "GIORNO": "Giovedì",
+          "ORA_INIZIO": "18:00",
+          "ORA_FINE": "19:40"
+        }
+      ]
+    },
+    {
+      "id": "vitali_g",
+      "nome": "G",
+      "cognome": "Vitali",
+      "visibile": false,
+      "materiaDefault": "Disegno Tecnico",
+      "lezioni": [
+        {
+          "CLASSI": ["1AS"],
+          "GIORNO": "Martedì",
+          "ORA_INIZIO": "18:00",
+          "ORA_FINE": "19:40"
+        }
+      ]
+    },
+    {
+      "id": "zocche_p",
+      "nome": "P",
+      "cognome": "Zocche",
+      "visibile": false,
+      "materiaDefault": "Italiano",
+      "lezioni": [
+        {
+          "CLASSI": ["1AS"],
+          "GIORNO": "Venerdì",
+          "ORA_INIZIO": "18:00",
+          "ORA_FINE": "19:40"
+        }
+      ]
+    }
+  ]
+}

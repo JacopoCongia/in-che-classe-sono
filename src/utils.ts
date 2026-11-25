@@ -46,7 +46,7 @@ export function formatTime(date: Date) {
   );
 }
 
-// risolve le lezioni "compatte" di data.ts di un docente nella forma
+// risolve le lezioni "compatte" di docenti.json di un docente nella forma
 // Lesson[] usata dai componenti (MATERIA sempre valorizzata, presa
 // dall'entry o, se assente, dal materiaDefault del docente). Senza docente
 // (nessuno scelto) non ci sono lezioni.
