@@ -2,27 +2,32 @@
 
 A web app for the teachers of an **evening school**: pick your name and it tells you which class you should be in right now, your lessons for the day, and the weekly timetable of each class. Deployed on Netlify (https://incheclassesono.netlify.app/).
 
-Stack: React 19 + TypeScript, Vite, Tailwind CSS v4 (via `@tailwindcss/vite`, no config file), `motion` for animations. No backend, no tests: all data lives in `src/data.ts`.
+Stack: React 19 + TypeScript, Vite, Tailwind CSS v4 (via `@tailwindcss/vite`, no config file), `motion` for animations. No backend, no tests: the teachers and their lessons live in `src/dati/docenti.json`, checked by a zod schema.
 
 ## Commands
 
 - `npm run dev`: dev server
 - `npm run build`: `tsc -b` + Vite build (use it as the typecheck)
 - `npm run lint`: ESLint (flat config in `eslint.config.js`)
-- `npm run check-data`: validates `src/data.ts` (`scripts/controlla-dati.ts`, run directly by Node's type stripping). Run it after every data change.
+- `npm run check-data`: validates `src/dati/docenti.json` and the school config (`scripts/controlla-dati.ts`, run directly by Node's type stripping; the checks themselves are in `src/validazione.ts`). Exits 1 on errors; warnings alone don't fail it. Run it after every data change. In `npm run dev` the same checks run in the browser and print to the console.
 
 ## School timetable
 
-Everything specific to the school lives in `configScuola` (`src/configScuola.ts`, type `ConfigScuola` in `src/types.ts`): name, timezone, school days (`giorni`), periods (`periodi`), subject names (`materie`) and classes (`classi`). It is the source of truth.
+Everything specific to the school lives in `configScuola` (`src/configScuola.ts`, shape in `ConfigScuolaSchema` in `src/schema.ts`): name, timezone, school days (`giorni`), periods (`periodi`), subject names (`materie`) and classes (`classi`). It is the source of truth. It stays TypeScript (not JSON): `materie` is `as const`, so `scripts/materie.ts` can type `MATERIE_DA_PDF` against it.
 
-- Components read it with `useConfigScuola()` (`src/configScuolaContext.ts`); `main.tsx` provides it. Never import `configScuola` in a component. Helpers in `src/utils.ts` take the piece they need as a parameter. `scripts/controlla-dati.ts` runs outside React, so it imports `configScuola` directly.
+- Components read it with `useConfigScuola()` (`src/configScuolaContext.ts`); `main.tsx` provides it. Never import `configScuola` in a component. Helpers in `src/utils.ts` take the piece they need as a parameter. `scripts/controlla-dati.ts` and `src/docenti.ts` run outside React, so they import `configScuola` directly.
 - `periodi` is a contiguous list: each entry starts when the previous one ends. A break is an explicit entry with `tipo: "intervallo"` (today 19:40–20:00); a lesson never covers one, and `check-data` enforces both. Components render breaks from the list, never by looking for gaps. The weekly tables show only the `tipo: "lezione"` rows (`oreDiLezione`).
 - Periods are **not full hours**: most are 50 minutes, and 20:50–21:50 is intentionally 60 minutes (not a typo).
 - Days are written in Italian with accents (`"Lunedì"`, `"Mercoledì"`, ...), as in `GIORNI_SETTIMANA` (the `Date.getDay()` mapping in `src/utils.ts`, not school-specific). Use `nomeGiorno(date)` rather than indexing it.
 - The timezone is not used yet: "now" comes from the device clock.
 
-## Data (`src/data.ts`)
+## Data (`src/dati/docenti.json`)
 
+- The file is `{ "docenti": [...] }`. JSON has no comments: field meanings are documented in `src/schema.ts`. Keep it formatted with Prettier.
+- Two layers of validation, both run by `check-data`: the **shape** (fields, types, `HH:MM` times, day names, id format, no unknown fields) is the zod schema in `src/schema.ts`; the **cross-references** (school days, period boundaries, breaks, class codes, subjects, overlaps, warnings) are plain TypeScript in `src/validazione.ts`, entry point `valida(dati, config)`. Cross-checks run only when the shape is valid. A new rule goes in the schema if it looks at one value alone, in `validazione.ts` if it compares values with each other or with the config. Error messages are Italian and name the teacher and lesson (`chiocchetti_gudrun, lezione 3 (Lunedì 20:00-20:50 1AS)`).
+- Types (`Docente`, `LessonEntry`, `ConfigScuola`, ...) are derived from the schemas with `z.infer` in `src/types.ts`. Change a field in the schema, never by hand-writing the type.
+- The app imports the JSON statically through `src/docenti.ts` (Vite bundles it). Production doesn't run zod: it relies on `check-data`, and `tsc` checks the JSON against `Docente[]`. In dev, `src/docenti.ts` loads `validazione.ts` with a dynamic `import()` behind `import.meta.env.DEV`, so zod stays out of the production bundle.
+- JSON imports need the import attribute `with { type: "json" }` (Node requires it; `resolveJsonModule` is on in both tsconfigs).
 - `docenti` is a list of teachers. Each has an `id` (lowercase, words joined by `_`, e.g. `chiocchetti_gudrun`), plus `nome` and `cognome` as shown in the app (the button shows `cognome`, the "ciao" screen shows `nome`). The `id` only identifies the teacher: never parse names out of it. App state holds the selected teacher's `id`.
 - A lesson is one continuous block and can span several periods (e.g. `ORA_INIZIO: "20:00", ORA_FINE: "21:50"`). Components match a period to a lesson with a range check, not an exact match.
 - `CLASSI` lists a lesson's class codes: `["3AIS"]`, or `["3ACS", "3AIS"]` for a lesson shared by several classes. Show it with `etichettaClassi` (`"3ACS + 3AIS"`); never store that text.
@@ -31,14 +36,17 @@ Everything specific to the school lives in `configScuola` (`src/configScuola.ts`
 - `attivo: false` hides a teacher everywhere; `visibile: false` hides only their button but keeps their lessons in the class timetables.
 - Subject names are fixed by `configScuola.materie`. The timetable PDF uses different names: when updating from a PDF, translate each subject with `MATERIE_DA_PDF` in `scripts/materie.ts`, and add any new PDF name to it (ask the user which app name it maps to).
 - Updating from a timetable PDF: each PDF row becomes a lesson in its teacher's `lezioni`. Merge consecutive periods with the same class and subject into one block (never across the break), write a shared lesson once with all its classes in `CLASSI`, and drop `MATERIA` when it equals the teacher's `materiaDefault` (`check-data` warns about it). A new teacher gets a new `id`, `nome` and `cognome` (if the PDF gives only an initial, `nome` is that initial). A new class goes in `configScuola.classi` first: ask the user for its year, section and track. Run `npm run check-data` at the end.
-- `data.ts.old` (repo root) is the previous data format, kept for reference only. Don't edit or import it.
+- `data.ts.old` (repo root) is an older data format, kept for reference only. Don't edit or import it.
 
 ## Code layout
 
 - `src/App.tsx`: all state and derived data (selected teacher, current time, day offset, selected class), passed down as props.
 - `src/utils.ts`: pure helpers over the data and the config, plus `GIORNI_SETTIMANA`.
 - `src/configScuola.ts` / `src/configScuolaContext.ts`: the school config and the context + `useConfigScuola()` hook that delivers it.
-- `src/types.ts`: shared types.
+- `src/types.ts`: shared types (the data and config ones via `z.infer`).
+- `src/schema.ts`: zod schemas for `docenti.json` and `configScuola` (shape only).
+- `src/validazione.ts`: `valida()`, schema + cross-reference checks. No React or Node APIs, so the script, the app and a future admin UI can share it.
+- `src/docenti.ts`: imports `src/dati/docenti.json` and exports `docenti`.
 - `src/components/`: one file per section (`SelezionaInsegnante`, `OrarioCorrente`, `OrariGiornalieri`, `OrariClassi`, `TornaSu`, `BoxOfText`).
 - Times are `"HH:MM"` strings and are compared as strings (this works because they're zero-padded).
 - `App.tsx` has a commented-out `useState(new Date("..."))` line for testing a fixed time. Keep it commented out in commits.

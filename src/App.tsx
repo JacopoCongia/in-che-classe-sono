@@ -1,4 +1,4 @@
-import { docenti } from "./data.ts";
+import { docenti } from "./docenti.ts";
 import { useState, useEffect } from "react";
 
 import BoxOfText from "./components/BoxOfText.tsx";
@@ -7,7 +7,7 @@ import SelezionaInsegnante from "./components/SelezionaInsegnante"; // di nuovo 
 import OrarioCorrente from "./components/OrarioCorrente.tsx";
 
 // formatTime already existed; getLezioniInsegnante/getInsegnantiVisibili are
-// helpers that resolve data.ts's compact shape (attivo / visibile /
+// helpers that resolve docenti.json's compact shape (attivo / visibile /
 // materiaDefault / lezioni) back into what the components expect.
 // codiciClassi / getLezioniClasse alimentano la tabella delle classi.
 import {
@@ -164,8 +164,9 @@ function App() {
             />
           </div>
           {/* Seleziona Insegnante: un bottone per ogni docente visibile in
-              data.ts (vedi getInsegnantiVisibili). Aggiungere un docente a
-              data.ts basta perché compaia; `visibile: false` lo nasconde. */}
+              docenti.json (vedi getInsegnantiVisibili). Aggiungere un docente
+              a docenti.json basta perché compaia; `visibile: false` lo
+              nasconde. */}
           <div className="flex w-full flex-col gap-[1em]">
             {getInsegnantiVisibili(docenti).map((d) => (
               <SelezionaInsegnante
