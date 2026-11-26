@@ -60,17 +60,14 @@ export function getLezioniInsegnante(docente: Docente | undefined): Lesson[] {
 }
 
 // i docenti che devono avere un bottone nella prima sezione, in ordine
-// alfabetico per cognome (e nome). Serve attivo !== false (docente ancora in
+// alfabetico per cognome. Serve attivo !== false (docente ancora in
 // uso) E visibile !== false (non nascosto dalla lista). Le tabelle delle
 // classi non usano `visibile`: le lezioni dei docenti nascosti si vedono lo
 // stesso.
 export function getInsegnantiVisibili(docenti: Docente[]): Docente[] {
   return docenti
     .filter((d) => d.attivo !== false && d.visibile !== false)
-    .sort(
-      (a, b) =>
-        a.cognome.localeCompare(b.cognome) || a.nome.localeCompare(b.nome),
-    );
+    .sort((a, b) => a.cognome.localeCompare(b.cognome));
 }
 
 // le classi di una lezione come testo: "3AIS", o "3ACS + 3AIS" per una
